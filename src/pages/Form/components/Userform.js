@@ -14,7 +14,7 @@ import Confirm from "./Confirm";
 import Success from "./Success";
 
 function Userform(step) {
-  switch (step) {
+  switch (e => step) {
     default:
       return <SellerDetails />;
     case 2:
@@ -39,5 +39,5 @@ function Userform(step) {
 }
 
 export default connect(state => ({
-  step: state.step
+  step: state.pedidoInfos.step
 }))(Userform);

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
 import TextField from "material-ui/TextField";
@@ -15,7 +17,6 @@ export default class FormPersonalDetails extends Component {
     this.props.prevStep();
   };
   render() {
-    const { values, handleChange } = this.props;
     return (
       <MuiThemeProvider>
         <React.Fragment>
@@ -23,113 +24,97 @@ export default class FormPersonalDetails extends Component {
           <TextField
             hintText="Insira o código do cliente"
             floatingLabelText="Código do cliente"
-            onChange={handleChange("codigoCliente")}
-            defaultValue={values.codigoCliente}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira a razão social"
             floatingLabelText="Razão social"
-            onChange={handleChange("razaoSocial")}
-            defaultValue={values.razaoSocial}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o CNPJ"
             floatingLabelText="CNPJ"
-            onChange={handleChange("cnpj")}
-            defaultValue={values.cnpj}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira a inscrição estadual"
             floatingLabelText="Inscrição estadual"
-            onChange={handleChange("inscricaoEstadual")}
-            defaultValue={values.inscricaoEstadual}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o endereço"
             floatingLabelText="Endereço"
-            onChange={handleChange("endereco")}
-            defaultValue={values.endereco}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o bairro"
             floatingLabelText="Bairro"
-            onChange={handleChange("bairro")}
-            defaultValue={values.bairro}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o município"
             floatingLabelText="Município"
-            onChange={handleChange("municipio")}
-            defaultValue={values.municipio}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o UF"
             floatingLabelText="UF"
-            onChange={handleChange("uf")}
-            defaultValue={values.uf}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o CEP"
             floatingLabelText="CEP"
-            onChange={handleChange("cep")}
-            defaultValue={values.cep}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o telefone"
             floatingLabelText="Telefone"
-            onChange={handleChange("telefone")}
-            defaultValue={values.telefone}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o celular"
             floatingLabelText="Celular"
-            onChange={handleChange("celular")}
-            defaultValue={values.celular}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o nome do contato"
             floatingLabelText="Nome do contato"
-            onChange={handleChange("nomeContato")}
-            defaultValue={values.nomeContato}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o cargo do contato"
             floatingLabelText="Cargo do contato"
-            onChange={handleChange("cargoContato")}
-            defaultValue={values.cargoContato}
+            onChange={() => null}
           />
           <br />
           <TextField
             hintText="Insira o email do contato"
             floatingLabelText="Email do contato"
-            onChange={handleChange("emailContato")}
-            defaultValue={values.emailContato}
+            onChange={() => null}
           />
           <br />
-          <RaisedButton
-            label="Continue"
-            primary={true}
-            style={styles.button}
-            onClick={this.continue}
-          />
-          <RaisedButton
-            label="Back"
-            primary={false}
-            style={styles.button}
-            onClick={this.back}
-          />
+          <Link to="/freightdetails">
+            <RaisedButton
+              label="Continue"
+              primary={true}
+              style={styles.button}
+            />
+          </Link>
+          <Link to="/sellerdetails">
+            <RaisedButton label="Back" primary={false} style={styles.button} />
+          </Link>
         </React.Fragment>
       </MuiThemeProvider>
     );

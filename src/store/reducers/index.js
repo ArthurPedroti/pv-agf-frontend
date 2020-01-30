@@ -1,7 +1,9 @@
 import { combineReducers } from "redux";
 
-import pv from "./pv";
+import pedidoInfos from "./pedidoInfos";
+import sellers from "./sellers";
 
 export default combineReducers({
-  pv
+  pedidoInfos,
+  sellers
 });

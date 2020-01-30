@@ -1,5 +1,4 @@
 const INITIAL_STATE = {
-  step: 1,
   vendedor: "",
   naturezaOperacao: "",
   codigoCliente: "",
@@ -68,18 +67,34 @@ const INITIAL_STATE = {
   nsPV: ""
 };
 
-export default function pv(state = INITIAL_STATE, action) {
-  if (action.type === "TOGGLE_SELLER") {
-    return {
-      ...state,
-      step: action.step,
-      vendedor: action.vendedor,
-      naturezaOperacao: action.naturezaOperacao
-    };
-  }
+export default function pedidoInfos(state = INITIAL_STATE, action) {
+  switch (action.type) {
+    case "TOGGLE_SELLER":
+      return {
+        ...state,
+        vendedor: action.vendedor,
+        naturezaOperacao: action.naturezaOperacao
+      };
 
-  return {
-    ...state,
-    step: state.step
-  };
+    case "TOGGLE_CLIENT":
+      return {
+        ...state,
+        codigoCliente: action.codigoCliente,
+        razaoSocial: action.razaoSocial,
+        cnpj: action.cnpj,
+        inscricaoEstadual: action.inscricaoEstadual,
+        endereco: action.endereco,
+        bairro: action.bairro,
+        municipio: action.municipio,
+        uf: action.uf,
+        cep: action.cep,
+        telefone: action.telefone,
+        celular: action.celular,
+        nomeContato: action.nomeContato,
+        cargoContato: action.cargoContato,
+        emailContato: action.emailContato
+      };
+    default:
+      return state;
+  }
 }
