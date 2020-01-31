@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  vendedor: "",
+  vendedor: "teste",
   naturezaOperacao: "",
   codigoCliente: "",
   razaoSocial: "",

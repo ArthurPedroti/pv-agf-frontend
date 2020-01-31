@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import importedComponent from "react-imported-component";
 
-import SellerDetails from "./pages/SellerDetails/index";
-import ClientDetails from "./pages/ClientDetails/index";
+//import SellerDetails from "./pages/SellerDetails/index";
+//import ClientDetails from "./pages/ClientDetails/index";
 // import ProductDetails from "./pages/ProductDetails/index";
 // import ContractOptions from "./pages/ContractOptions/index";
 // import HidraulicDetails from "./pages/HidraulicDetails/index";
@@ -13,6 +13,9 @@ import ClientDetails from "./pages/ClientDetails/index";
 // import Confirm from "./pages/Confirm/index";
 // import Success from "./pages/Success/index";
 
+import SellerDetails from "./pages/DemoForm/index";
+import FreightDetails from "./pages/DemoForm/index23";
+
 const AsyncNoMatch = importedComponent(() => import("./pages/NoMatch/index"));
 
 export default function App() {
@@ -21,10 +24,12 @@ export default function App() {
       <div>
         <Switch>
           <Route exact path="/" component={SellerDetails} />
-          <Route exact path="/clientdetails" component={ClientDetails} />
+          <Route exact path="/freightdetails" component={FreightDetails} />
           <Route component={AsyncNoMatch} />
         </Switch>
       </div>
     </BrowserRouter>
   );
 }
+
+//<Route exact path="/clientdetails" component={ClientDetails} />
