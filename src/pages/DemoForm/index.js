@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-import showResults from "./showResults";
 
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
@@ -41,7 +39,13 @@ const RenderInput = ({ input, meta, hintText, floatingLabelText }) => (
   </Container>
 );
 
-function SellerDetails({ handleSubmit, submitting }) {
+function SellerDetails({ history, handleSubmit, submitting }) {
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  async function showResults() {
+    await sleep(500); // simulate server latency
+    history.push(`/freightdetails`);
+  }
   return (
     <Container maxWidth="md" component="main" align="center">
       <MuiThemeProvider>
@@ -60,29 +64,19 @@ function SellerDetails({ handleSubmit, submitting }) {
               hintText="Insira a natureza da operação"
               floatingLabelText="Natureza da operação"
             />
-            <Link to="/freightdetails">
-              <RaisedButton
-                label="Continue"
-                primary={true}
-                style={styles.button}
-                type="submit"
-                disabled={submitting}
-              />
-            </Link>
+            <RaisedButton
+              label="Continue"
+              primary={true}
+              style={styles.button}
+              type="submit"
+              disabled={submitting}
+            />
           </form>
         </React.Fragment>
       </MuiThemeProvider>
     </Container>
   );
 }
-
-const mapStateToProps = state => ({
-  step: state.pedidoInfos.step,
-  vendedor: state.pedidoInfos.vendedor,
-  naturezaOperacao: state.pedidoInfos.naturezaOperacao
-});
-
-SellerDetails = connect(mapStateToProps)(SellerDetails);
 
 export default reduxForm({
   form: "demo",
