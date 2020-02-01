@@ -44,12 +44,12 @@ const RenderInput = ({ input, meta, hintText, floatingLabelText }) => (
   </Container>
 );
 
-function FreightDetails({ vendedor, prevEntrega, frete, formaPagEntrada }) {
+function FreightDetails({ prevEntrega, frete, formaPagEntrada }) {
   return (
     <Container maxWidth="md" component="main" align="center">
       <MuiThemeProvider>
         <React.Fragment>
-          <AppBar title={vendedor} />
+          <AppBar title="Frete" />
           <h1></h1>
           <form>
             <Field
