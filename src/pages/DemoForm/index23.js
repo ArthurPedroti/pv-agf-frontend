@@ -49,7 +49,8 @@ function FreightDetails({ vendedor, prevEntrega, frete, formaPagEntrada }) {
     <Container maxWidth="md" component="main" align="center">
       <MuiThemeProvider>
         <React.Fragment>
-          <AppBar title="Frete" />
+          <AppBar title={vendedor} />
+          <h1></h1>
           <form>
             <Field
               name="prevEntrega"
@@ -89,12 +90,6 @@ function FreightDetails({ vendedor, prevEntrega, frete, formaPagEntrada }) {
     </Container>
   );
 }
-
-const mapStateToProps = state => ({
-  vendedor: state.vendedor
-});
-
-FreightDetails = connect(mapStateToProps)(FreightDetails);
 
 export default reduxForm({
   form: "demo",
