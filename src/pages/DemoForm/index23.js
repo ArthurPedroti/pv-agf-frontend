@@ -50,25 +50,23 @@ function FreightDetails({ prevEntrega, frete, formaPagEntrada }) {
       <MuiThemeProvider>
         <React.Fragment>
           <AppBar title="Frete" />
+          <h1></h1>
           <form>
             <Field
               name="prevEntrega"
               component={RenderInput}
-              defaultvalue={prevEntrega}
               hintText="Insira a previsão de entrega"
               floatingLabelText="Previsão de entrega"
             />
             <Field
               name="frete"
               component={RenderInput}
-              defaultvalue={frete}
               hintText="Insira o responsável pelo frete"
               floatingLabelText="Responsável pelo frete"
             />
             <Field
               name="formaPagEntrada"
               component={RenderInput}
-              defaultvalue={formaPagEntrada}
               hintText="Insira a previsão de instalação"
               floatingLabelText="Previsão de instalação"
             />
@@ -92,14 +90,6 @@ function FreightDetails({ prevEntrega, frete, formaPagEntrada }) {
     </Container>
   );
 }
-
-const mapStateToProps = state => ({
-  step: state.pedidoInfos.step,
-  vendedor: state.pedidoInfos.vendedor,
-  naturezaOperacao: state.pedidoInfos.naturezaOperacao
-});
-
-FreightDetails = connect(mapStateToProps)(FreightDetails);
 
 export default reduxForm({
   form: "demo",
