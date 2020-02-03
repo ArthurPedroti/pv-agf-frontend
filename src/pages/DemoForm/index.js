@@ -1,6 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { reduxForm, Field } from "redux-form";
+import { bindActionCreators } from "redux";
+
+// import { Container } from './styles';
+
+import * as CourseActions from "../../store/actions/fetchSellers";
 
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
@@ -39,13 +45,20 @@ const RenderInput = ({ input, meta, hintText, floatingLabelText }) => (
   </Container>
 );
 
-function SellerDetails({ history, handleSubmit, submitting }) {
+function SellerDetails({
+  loadSellers,
+  sellers,
+  history,
+  handleSubmit,
+  submitting
+}) {
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   async function showResults() {
     await sleep(500); // simulate server latency
     history.push(`/freightdetails`);
   }
+
   return (
     <Container maxWidth="md" component="main" align="center">
       <MuiThemeProvider>
@@ -71,12 +84,27 @@ function SellerDetails({ history, handleSubmit, submitting }) {
               type="submit"
               disabled={submitting}
             />
+            {sellers.map(seller => (
+              <div key={seller.id}>
+                <h1>{seller.name}</h1>
+              </div>
+            ))}
+            <button onClick={() => loadSellers()}>Teste</button>
           </form>
         </React.Fragment>
       </MuiThemeProvider>
     </Container>
   );
 }
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CourseActions, dispatch);
+
+const mapStateToProps = state => ({
+  sellers: state.sellers.sellers
+});
+
+SellerDetails = connect(mapStateToProps, mapDispatchToProps)(SellerDetails);
 
 export default reduxForm({
   form: "demo",

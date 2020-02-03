@@ -25,6 +25,14 @@ export default function App() {
         <Switch>
           <Route exact path="/" component={SellerDetails} />
           <Route exact path="/freightdetails" component={FreightDetails} />
+          <Route exact path="/clientdetails" component={null} />
+          <Route exact path="/productdetails" component={null} />
+          <Route exact path="/contractdetails" component={null} />
+          <Route exact path="/hidraulicdetails" component={null} />
+          <Route exact path="/paymentdetails" component={null} />
+          <Route exact path="/otherdetails" component={null} />
+          <Route exact path="/confirm" component={null} />
+          <Route exact path="/success" component={null} />
           <Route component={AsyncNoMatch} />
         </Switch>
       </div>
