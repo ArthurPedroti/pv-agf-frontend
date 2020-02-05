@@ -1,15 +1,15 @@
-import { FETCH_SELLERS } from "../actions/types";
+import { FETCH_OPERATION_NATURES } from "../actions/types";
 
 const initialState = {
-  sellers: []
+  operation_natures: []
 };
 
-export default function sellers(state = initialState, action) {
+export default function operation_natures(state = initialState, action) {
   switch (action.type) {
-    case FETCH_SELLERS:
+    case FETCH_OPERATION_NATURES:
       return {
         ...state,
-        sellers: action.sellers
+        operation_natures: action.operation_natures
       };
     default:
       return state;

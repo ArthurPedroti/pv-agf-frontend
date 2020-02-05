@@ -3,7 +3,7 @@ import { FETCH_OPERATION_NATURES } from "./types";
 
 export function loadOperatioNatures() {
   return dispatch => {
-    return api.get("/opnatures").then(response => {
+    return api.get("/ons").then(response => {
       dispatch(fetchOperatioNatures(response.data));
     });
   };

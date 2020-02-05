@@ -1,16 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm } from "redux-form";
 import { bindActionCreators } from "redux";
 
 // import { Container } from './styles';
 
-import * as CourseActions from "../../store/actions/fetchSellers";
+import * as CourseActions from "../../store/actions/fetchBD";
 
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
-import Alert from "@material-ui/lab/Alert";
 import { Autocomplete } from "@material-ui/lab";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -25,23 +23,9 @@ const styles = {
   }
 };
 
-const RenderInput = ({ input, meta, hintText, floatingLabelText }) => (
-  <div>
-    <TextField
-      {...input}
-      fullWidth={true}
-      required
-      id="standard-required"
-      label={floatingLabelText}
-      className={meta.error && meta.touched ? "error" : ""}
-    />
-    {meta.error && meta.touched && <Alert severity="error">{meta.error}</Alert>}
-  </div>
-);
-
 function SellerDetails({
-  loadSellers,
   sellers,
+  operation_natures,
   history,
   handleSubmit,
   submitting
@@ -60,36 +44,40 @@ function SellerDetails({
           <IconButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">News</Typography>
+          <Typography variant="h6">Vendedor</Typography>
         </Toolbar>
       </AppBar>
       <form onSubmit={handleSubmit(showResults)}>
         <Container maxWidth="sm">
-          <Field
-            name="vendedor"
-            component={RenderInput}
-            hintText="Nome do vendedor"
-            floatingLabelText="Nome do vendedor"
-          />
           <Autocomplete
-            id="combo-box-demo"
             options={sellers}
-            getOptionLabel={seller => seller.name}
+            getOptionLabel={options => options.name}
             style={{ marginTop: 25 }}
+            onChange={e => console.log(e.target.innerHTML)}
             renderInput={params => (
               <TextField
                 {...params}
                 label="Vendedor"
                 variant="outlined"
                 fullWidth
+                required
               />
             )}
           />
-          <Field
-            name="naturezaOperacao"
-            component={RenderInput}
-            hintText="Insira a natureza da operação"
-            floatingLabelText="Natureza da operação"
+          <Autocomplete
+            options={operation_natures}
+            getOptionLabel={options => options.name}
+            onChange={e => console.log(e.target.innerHTML)}
+            style={{ marginTop: 25 }}
+            renderInput={params => (
+              <TextField
+                {...params}
+                label="Natureza da operação"
+                variant="outlined"
+                fullWidth
+                required
+              />
+            )}
           />
         </Container>
 
@@ -102,8 +90,6 @@ function SellerDetails({
         >
           Continue
         </Button>
-
-        <button onClick={() => loadSellers()}>Teste</button>
       </form>
     </Container>
   );
@@ -113,7 +99,8 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(CourseActions, dispatch);
 
 const mapStateToProps = state => ({
-  sellers: state.sellers.sellers
+  sellers: state.sellers.sellers,
+  operation_natures: state.operation_natures.operation_natures
 });
 
 SellerDetails = connect(mapStateToProps, mapDispatchToProps)(SellerDetails);

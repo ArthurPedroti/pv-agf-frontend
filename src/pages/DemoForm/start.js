@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { reduxForm, Field } from "redux-form";
@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 
 // import { Container } from './styles';
 
-import * as CourseActions from "../../store/actions/fetchSellers";
+import * as bdActions from "../../store/actions/fetchBD";
 
 import Container from "@material-ui/core/Container";
 import AppBar from "@material-ui/core/AppBar";
@@ -22,14 +22,16 @@ const styles = {
   }
 };
 
-function SellerDetails({ loadSellers, history }) {
+function SellerDetails({ loadSellers, loadOperation_natures, history }) {
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   async function handleSubmit() {
     await sleep(500); // simulate server latency
     loadSellers();
+    loadOperation_natures();
     history.push(`/sellerdetails`);
   }
+
   return (
     <Container maxWidth="md" component="main" align="center">
       <AppBar position="static">
@@ -55,8 +57,7 @@ function SellerDetails({ loadSellers, history }) {
   );
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CourseActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(bdActions, dispatch);
 
 const mapStateToProps = state => ({
   sellers: state.sellers.sellers
