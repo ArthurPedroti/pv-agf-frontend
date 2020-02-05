@@ -70,14 +70,14 @@ function FreightDetails({ prevEntrega, frete, formaPagEntrada }) {
               hintText="Insira a previsão de instalação"
               floatingLabelText="Previsão de instalação"
             />
-            <Link to="/">
+            <Link to="/sellerdetails">
               <RaisedButton
                 label="Back"
                 primary={false}
                 style={styles.button}
               />
             </Link>
-            <Link to="/">
+            <Link to="/sellerdetails">
               <RaisedButton
                 label="Continue"
                 primary={true}
