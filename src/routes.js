@@ -13,9 +13,8 @@ import importedComponent from "react-imported-component";
 // import Confirm from "./pages/Confirm/index";
 // import Success from "./pages/Success/index";
 
-import Start from "./pages/DemoForm/start";
-import SellerDetails from "./pages/DemoForm/index";
-import FreightDetails from "./pages/DemoForm/index23";
+import Start from "./pages/Home/index";
+import SellerDetails from "./pages/SellerDetails/index";
 
 const AsyncNoMatch = importedComponent(() => import("./pages/NoMatch/index"));
 
@@ -26,7 +25,7 @@ export default function App() {
         <Switch>
           <Route exact path="/" component={Start} />
           <Route exact path="/sellerdetails" component={SellerDetails} />
-          <Route exact path="/freightdetails" component={FreightDetails} />
+          <Route exact path="/freightdetails" component={null} />
           <Route exact path="/clientdetails" component={null} />
           <Route exact path="/productdetails" component={null} />
           <Route exact path="/contractdetails" component={null} />

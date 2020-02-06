@@ -1,64 +1,106 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import AppBar from "material-ui/AppBar";
-import TextField from "material-ui/TextField";
-import RaisedButton from "material-ui/RaisedButton";
-import Container from "@material-ui/core/Container";
-
 import { connect } from "react-redux";
+import { reduxForm } from "redux-form";
 import { bindActionCreators } from "redux";
-import * as SellerActions from "../../store/actions/toggleSeller";
-
-const styles = {
-  button: {
-    margin: 15
-  }
-};
 
 // import { Container } from './styles';
 
-function SellerDetails({ vendedor, naturezaOperacao, toggleSeller }) {
+import * as SelectActions from "../../store/actions/SelectActions";
+
+import TextField from "@material-ui/core/TextField";
+import Container from "@material-ui/core/Container";
+import { Autocomplete } from "@material-ui/lab";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+
+function SellerDetails({
+  sellers,
+  operation_natures,
+  toggleSeller,
+  toggleON,
+  history,
+  handleSubmit,
+  submitting
+}) {
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  async function showResults() {
+    await sleep(500); // simulate server latency
+    history.push(`/freightdetails`);
+  }
   return (
     <Container maxWidth="md" component="main" align="center">
-      <MuiThemeProvider>
-        <React.Fragment>
-          <AppBar title="Vendedor" />
-          <TextField
-            hintText="Insira o nome do vendedor"
-            floatingLabelText="Nome do vendedor"
-            onChange={e => toggleSeller(e.target.value, naturezaOperacao)}
-            defaultValue={vendedor}
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6">Vendedor</Typography>
+        </Toolbar>
+      </AppBar>
+      <form onSubmit={handleSubmit(showResults)}>
+        <Container maxWidth="sm">
+          <Autocomplete
+            options={sellers}
+            disableClearable
+            getOptionLabel={options => options.name}
+            onChange={e => toggleSeller(e.target.innerHTML)}
+            renderInput={params => (
+              <TextField
+                {...params}
+                label="Vendedor"
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                required
+              />
+            )}
           />
-          <br />
-          <TextField
-            hintText="Insira a natureza da operação"
-            floatingLabelText="Natureza da operação"
-            onChange={e => toggleSeller(vendedor, e.target.value)}
-            defaultValue={naturezaOperacao}
+          <Autocomplete
+            options={operation_natures}
+            getOptionLabel={options => options.name}
+            onChange={e => toggleON(e.target.innerHTML)}
+            renderInput={params => (
+              <TextField
+                {...params}
+                label="Natureza da operação"
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                required
+              />
+            )}
           />
-          <br />
-          <Link to="/clientdetails">
-            <RaisedButton
-              label="Continue"
-              primary={true}
-              style={styles.button}
-            />
-          </Link>
-        </React.Fragment>
-      </MuiThemeProvider>
+        </Container>
+
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={submitting}
+        >
+          Continue
+        </Button>
+      </form>
     </Container>
   );
 }
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(SelectActions, dispatch);
+
 const mapStateToProps = state => ({
-  step: state.pedidoInfos.step,
-  vendedor: state.pedidoInfos.vendedor,
-  naturezaOperacao: state.pedidoInfos.naturezaOperacao
+  sellers: state.sellers.sellers,
+  operation_natures: state.operation_natures.operation_natures
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(SellerActions, dispatch);
+SellerDetails = connect(mapStateToProps, mapDispatchToProps)(SellerDetails);
 
-export default connect(mapStateToProps, mapDispatchToProps)(SellerDetails);
+export default reduxForm({
+  form: "infoReduxForm",
+  destroyOnUnmount: false
+})(SellerDetails);

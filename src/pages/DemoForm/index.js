@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 
 // import { Container } from './styles';
 
-import * as CourseActions from "../../store/actions/fetchBD";
+import * as SellerActions from "../../store/actions/SellerActions";
 
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
@@ -24,8 +24,11 @@ const styles = {
 };
 
 function SellerDetails({
+  vendedor,
   sellers,
   operation_natures,
+  toggleSeller,
+  toggleON,
   history,
   handleSubmit,
   submitting
@@ -51,14 +54,16 @@ function SellerDetails({
         <Container maxWidth="sm">
           <Autocomplete
             options={sellers}
+            disableClearable
             getOptionLabel={options => options.name}
-            style={{ marginTop: 25 }}
-            onChange={e => console.log(e.target.innerHTML)}
+            onChange={e => toggleSeller(e.target.innerHTML)}
             renderInput={params => (
               <TextField
                 {...params}
-                label="Vendedor"
+                label={vendedor}
+                placeholder="Selecione um vendedor"
                 variant="outlined"
+                margin="normal"
                 fullWidth
                 required
               />
@@ -67,13 +72,13 @@ function SellerDetails({
           <Autocomplete
             options={operation_natures}
             getOptionLabel={options => options.name}
-            onChange={e => console.log(e.target.innerHTML)}
-            style={{ marginTop: 25 }}
+            onChange={e => toggleON(e.target.innerHTML)}
             renderInput={params => (
               <TextField
                 {...params}
                 label="Natureza da operação"
                 variant="outlined"
+                margin="normal"
                 fullWidth
                 required
               />
@@ -96,11 +101,12 @@ function SellerDetails({
 }
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(CourseActions, dispatch);
+  bindActionCreators(SellerActions, dispatch);
 
 const mapStateToProps = state => ({
   sellers: state.sellers.sellers,
-  operation_natures: state.operation_natures.operation_natures
+  operation_natures: state.operation_natures.operation_natures,
+  vendedor: state.pedidoInfos.vendedor
 });
 
 SellerDetails = connect(mapStateToProps, mapDispatchToProps)(SellerDetails);

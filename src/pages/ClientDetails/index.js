@@ -1,195 +1,94 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import AppBar from "material-ui/AppBar";
-import TextField from "material-ui/TextField";
-import RaisedButton from "material-ui/RaisedButton";
-import Container from "@material-ui/core/Container";
-
+import React from "react";
+import Link from "react-router-dom";
 import { connect } from "react-redux";
+import { reduxForm } from "redux-form";
 import { bindActionCreators } from "redux";
-import * as ClientActions from "../../store/actions/toggleClient";
 
-const styles = {
-  button: {
-    margin: 15
+// import { Container } from './styles';
+
+import * as SelectActions from "../../store/actions/SelectActions";
+
+import TextField from "@material-ui/core/TextField";
+import Container from "@material-ui/core/Container";
+import { Autocomplete } from "@material-ui/lab";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+
+function ClientDetails({
+  clients,
+  toggleClient,
+  history,
+  handleSubmit,
+  submitting
+}) {
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  async function showResults() {
+    await sleep(500); // simulate server latency
+    history.push(`/freightdetails`);
   }
-};
-
-function ClientDetails(
-  codigoCliente,
-  razaoSocial,
-  cnpj,
-  inscricaoEstadual,
-  endereco,
-  bairro,
-  municipio,
-  uf,
-  cep,
-  telefone,
-  celular,
-  nomeContato,
-  cargoContato,
-  emailContato,
-  toggleClient
-) {
-  // const [codigoCliente, setcodigoCliente] = useState("");
-  // const [razaoSocial, setrazaoSocial] = useState("");
-  // const [cnpj, setcnpj] = useState("");
-  // const [inscricaoEstadual, setinscricaoEstadual] = useState("");
-  // const [endereco, setendereco] = useState("");
-  // const [bairro, setbairro] = useState("");
-  // const [municipio, setmunicipio] = useState("");
-  // const [uf, setuf] = useState("");
-  // const [cep, setcep] = useState("");
-  // const [telefone, settelefone] = useState("");
-  // const [celular, setcelular] = useState("");
-  // const [nomeContato, setnomeContato] = useState("");
-  // const [cargoContato, setcargoContato] = useState("");
-  // const [emailContato, setemailContato] = useState("");
 
   return (
     <Container maxWidth="md" component="main" align="center">
-      <MuiThemeProvider>
-        <React.Fragment>
-          <AppBar title="Cliente" />
-          <TextField
-            hintText="Insira o código do cliente"
-            floatingLabelText="Código do cliente"
-            onChange={e => setcodigoCliente(e.target.value)}
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6">Vendedor</Typography>
+        </Toolbar>
+      </AppBar>
+      <form onSubmit={handleSubmit(showResults)}>
+        <Container maxWidth="sm">
+          <Autocomplete
+            options={clients}
+            disableClearable
+            getOptionLabel={options => options.name}
+            onChange={e => toggleClient(e.target.innerHTML)}
+            renderInput={params => (
+              <TextField
+                {...params}
+                label="Cliente"
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                required
+              />
+            )}
           />
-          <br />
-          <TextField
-            hintText="Insira a razão social"
-            floatingLabelText="Razão social"
-            onChange={e => setrazaoSocial(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o CNPJ"
-            floatingLabelText="CNPJ"
-            onChange={e => setcnpj(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira a inscrição estadual"
-            floatingLabelText="Inscrição estadual"
-            onChange={e => setinscricaoEstadual(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o endereço"
-            floatingLabelText="Endereço"
-            onChange={e => setendereco(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o bairro"
-            floatingLabelText="Bairro"
-            onChange={e => setbairro(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o município"
-            floatingLabelText="Município"
-            onChange={e => setmunicipio(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o UF"
-            floatingLabelText="UF"
-            onChange={e => setuf(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o CEP"
-            floatingLabelText="CEP"
-            onChange={e => setcep(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o telefone"
-            floatingLabelText="Telefone"
-            onChange={e => settelefone(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o celular"
-            floatingLabelText="Celular"
-            onChange={e => setcelular(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o nome do contato"
-            floatingLabelText="Nome do contato"
-            onChange={e => setnomeContato(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o cargo do contato"
-            floatingLabelText="Cargo do contato"
-            onChange={e => setcargoContato(e.target.value)}
-          />
-          <br />
-          <TextField
-            hintText="Insira o email do contato"
-            floatingLabelText="Email do contato"
-            onChange={e => setemailContato(e.target.value)}
-          />
-          <br />
-          <Link to="/productdetails">
-            <RaisedButton
-              label="Continue"
-              primary={true}
-              style={styles.button}
-              onClick={() =>
-                toggleClient(
-                  codigoCliente,
-                  razaoSocial,
-                  cnpj,
-                  inscricaoEstadual,
-                  endereco,
-                  bairro,
-                  municipio,
-                  uf,
-                  cep,
-                  telefone,
-                  celular,
-                  nomeContato,
-                  cargoContato,
-                  emailContato
-                )
-              }
-            />
-          </Link>
-          <Link to="/">
-            <RaisedButton label="Back" primary={false} style={styles.button} />
-          </Link>
-        </React.Fragment>
-      </MuiThemeProvider>
+        </Container>
+        <Link to="/sellerdetails">
+          <Button variant="contained" color="secundary">
+            Voltar
+          </Button>
+        </Link>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={submitting}
+        >
+          Continue
+        </Button>
+      </form>
     </Container>
   );
 }
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(SelectActions, dispatch);
+
 const mapStateToProps = state => ({
-  codigoCliente: state.pedidoInfos.codigoCliente,
-  razaoSocial: state.pedidoInfos.razaoSocial,
-  cnpj: state.pedidoInfos.cnpj,
-  inscricaoEstadual: state.pedidoInfos.inscricaoEstadual,
-  endereco: state.pedidoInfos.endereco,
-  bairro: state.pedidoInfos.bairro,
-  municipio: state.pedidoInfos.municipio,
-  uf: state.pedidoInfos.uf,
-  cep: state.pedidoInfos.cep,
-  telefone: state.pedidoInfos.telefone,
-  celular: state.pedidoInfos.celular,
-  nomeContato: state.pedidoInfos.nomeContato,
-  cargoContato: state.pedidoInfos.cargoContato,
-  emailContato: state.pedidoInfos.emailContato
+  clients: state.clients.clients
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(ClientActions, dispatch);
+ClientDetails = connect(mapStateToProps, mapDispatchToProps)(ClientDetails);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClientDetails);
+export default reduxForm({
+  form: "infoReduxForm",
+  destroyOnUnmount: false
+})(ClientDetails);

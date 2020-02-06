@@ -1,8 +1,6 @@
 import { FETCH_SELLERS } from "../actions/types";
 
-const initialState = {
-  sellers: []
-};
+const initialState = {};
 
 export default function sellers(state = initialState, action) {
   switch (action.type) {
