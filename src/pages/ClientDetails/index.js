@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import { bindActionCreators } from "redux";
@@ -17,6 +17,12 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+
+const styles = {
+  button: {
+    margin: 15
+  }
+};
 
 function ClientDetails({
   clients,
@@ -47,7 +53,7 @@ function ClientDetails({
           <Autocomplete
             options={clients}
             disableClearable
-            getOptionLabel={options => options.name}
+            getOptionLabel={options => options.razao_social}
             onChange={e => toggleClient(e.target.innerHTML)}
             renderInput={params => (
               <TextField
@@ -62,7 +68,7 @@ function ClientDetails({
           />
         </Container>
         <Link to="/sellerdetails">
-          <Button variant="contained" color="secundary">
+          <Button variant="contained" style={styles.button}>
             Voltar
           </Button>
         </Link>
@@ -70,6 +76,7 @@ function ClientDetails({
           type="submit"
           variant="contained"
           color="primary"
+          style={styles.button}
           disabled={submitting}
         >
           Continue
@@ -83,7 +90,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
-  clients: state.clients.clients
+  clients: state.bd_select.clients
 });
 
 ClientDetails = connect(mapStateToProps, mapDispatchToProps)(ClientDetails);

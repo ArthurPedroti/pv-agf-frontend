@@ -14,14 +14,21 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
+const styles = {
+  button: {
+    margin: 15
+  }
+};
+
 function Home({ loadSellers, loadOperation_natures, loadClients, history }) {
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   async function handleSubmit() {
-    await sleep(500); // simulate server latency
     loadSellers();
     loadOperation_natures();
     loadClients();
+    await sleep(500); // simulate server latency
+
     history.push(`/sellerdetails`);
   }
 
@@ -41,6 +48,7 @@ function Home({ loadSellers, loadOperation_natures, loadClients, history }) {
         onSubmit={handleSubmit()}
         variant="contained"
         color="primary"
+        style={styles.button}
         onClick={handleSubmit()}
       >
         Carregar

@@ -15,6 +15,7 @@ import importedComponent from "react-imported-component";
 
 import Start from "./pages/Home/index";
 import SellerDetails from "./pages/SellerDetails/index";
+import ClientDetails from "./pages/ClientDetails/index";
 
 const AsyncNoMatch = importedComponent(() => import("./pages/NoMatch/index"));
 
@@ -26,7 +27,7 @@ export default function App() {
           <Route exact path="/" component={Start} />
           <Route exact path="/sellerdetails" component={SellerDetails} />
           <Route exact path="/freightdetails" component={null} />
-          <Route exact path="/clientdetails" component={null} />
+          <Route exact path="/clientdetails" component={ClientDetails} />
           <Route exact path="/productdetails" component={null} />
           <Route exact path="/contractdetails" component={null} />
           <Route exact path="/hidraulicdetails" component={null} />

@@ -1,4 +1,4 @@
-import { TOGGLE_SELLER, TOGGLE_ON } from "./types";
+import { TOGGLE_SELLER, TOGGLE_ON, TOGGLE_CLIENTS } from "./types";
 
 export function toggleSeller(seller) {
   return {
@@ -11,5 +11,12 @@ export function toggleON(on) {
   return {
     type: TOGGLE_ON,
     on: on
+  };
+}
+
+export function toggleClient(client) {
+  return {
+    type: TOGGLE_CLIENTS,
+    client: client
   };
 }

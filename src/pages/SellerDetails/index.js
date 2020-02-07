@@ -17,7 +17,14 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
+const styles = {
+  button: {
+    margin: 15
+  }
+};
+
 function SellerDetails({
+  vendedor,
   sellers,
   operation_natures,
   toggleSeller,
@@ -30,7 +37,7 @@ function SellerDetails({
 
   async function showResults() {
     await sleep(500); // simulate server latency
-    history.push(`/freightdetails`);
+    history.push(`/clientdetails`);
   }
   return (
     <Container maxWidth="md" component="main" align="center">
@@ -81,6 +88,7 @@ function SellerDetails({
           type="submit"
           variant="contained"
           color="primary"
+          style={styles.button}
           disabled={submitting}
         >
           Continue
@@ -94,8 +102,9 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
-  sellers: state.sellers.sellers,
-  operation_natures: state.operation_natures.operation_natures
+  sellers: state.bd_select.sellers,
+  operation_natures: state.bd_select.operation_natures,
+  vendedor: state.select_infos.vendedor
 });
 
 SellerDetails = connect(mapStateToProps, mapDispatchToProps)(SellerDetails);

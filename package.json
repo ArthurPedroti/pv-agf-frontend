@@ -13,6 +13,7 @@
     "dotenv": "^8.2.0",
     "material-ui": "^0.20.2",
     "react": "^16.12.0",
+    "react-autocomplete": "^1.8.1",
     "react-delay-render": "^0.1.2",
     "react-dom": "^16.12.0",
     "react-imported-component": "^6.2.1",
