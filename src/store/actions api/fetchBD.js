@@ -1,5 +1,4 @@
 import api from "../../services/api";
-import { FETCH_SELLERS, FETCH_OPERATION_NATURES, FETCH_CLIENTS } from "./types";
 
 export function loadSellers() {
   return dispatch => {
@@ -11,7 +10,7 @@ export function loadSellers() {
 
 export function fetchSellers(sellers) {
   return {
-    type: FETCH_SELLERS,
+    type: "FETCH_SELLERS",
     sellers: sellers
   };
 }
@@ -26,7 +25,7 @@ export function loadOperation_natures() {
 
 export function fetchOperation_natures(operation_natures) {
   return {
-    type: FETCH_OPERATION_NATURES,
+    type: "FETCH_OPERATION_NATURES",
     operation_natures: operation_natures
   };
 }
@@ -41,7 +40,7 @@ export function loadClients() {
 
 export function fetchClients(clients) {
   return {
-    type: FETCH_CLIENTS,
+    type: "FETCH_CLIENTS",
     clients: clients
   };
 }

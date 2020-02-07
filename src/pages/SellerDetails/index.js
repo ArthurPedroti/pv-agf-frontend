@@ -5,17 +5,14 @@ import { bindActionCreators } from "redux";
 
 // import { Container } from './styles';
 
-import * as SelectActions from "../../store/actions/SelectActions";
+import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
-import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
-import { Autocomplete } from "@material-ui/lab";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+
+import Menu from "../../components/Menu";
+
+import { Autocomplete, TextInputField } from "evergreen-ui";
 
 const styles = {
   button: {
@@ -25,6 +22,7 @@ const styles = {
 
 function SellerDetails({
   vendedor,
+  naturezaOperacao,
   sellers,
   operation_natures,
   toggleSeller,
@@ -33,68 +31,82 @@ function SellerDetails({
   handleSubmit,
   submitting
 }) {
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
   async function showResults() {
-    await sleep(500); // simulate server latency
     history.push(`/clientdetails`);
   }
-  return (
-    <Container maxWidth="md" component="main" align="center">
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6">Vendedor</Typography>
-        </Toolbar>
-      </AppBar>
-      <form onSubmit={handleSubmit(showResults)}>
-        <Container maxWidth="sm">
-          <Autocomplete
-            options={sellers}
-            disableClearable
-            getOptionLabel={options => options.name}
-            onChange={e => toggleSeller(e.target.innerHTML)}
-            renderInput={params => (
-              <TextField
-                {...params}
-                label="Vendedor"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                required
-              />
-            )}
-          />
-          <Autocomplete
-            options={operation_natures}
-            getOptionLabel={options => options.name}
-            onChange={e => toggleON(e.target.innerHTML)}
-            renderInput={params => (
-              <TextField
-                {...params}
-                label="Natureza da operação"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                required
-              />
-            )}
-          />
-        </Container>
 
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          style={styles.button}
-          disabled={submitting}
-        >
-          Continue
-        </Button>
-      </form>
-    </Container>
+  const sellers_map = sellers.map(x => x.name);
+  const operation_natures_map = operation_natures.map(x => x.name);
+
+  return (
+    <div>
+      <Menu title="Detalhes do Vendedor" />
+
+      <Container maxWidth="md" component="main" align="center">
+        <form onSubmit={handleSubmit(showResults)}>
+          <Container maxWidth="sm" align="left">
+            <Autocomplete
+              onChange={changedItem => toggleSeller(changedItem)}
+              selectedItem={vendedor}
+              items={sellers_map}
+            >
+              {props => {
+                const { getInputProps, getRef, inputValue, openMenu } = props;
+                return (
+                  <TextInputField
+                    label="Vendedor"
+                    placeholder="Selecione o vendedor"
+                    value={inputValue}
+                    innerRef={getRef}
+                    size={300}
+                    required={true}
+                    {...getInputProps({
+                      onFocus: () => {
+                        openMenu();
+                      }
+                    })}
+                  />
+                );
+              }}
+            </Autocomplete>
+            <Autocomplete
+              onChange={changedItem => toggleON(changedItem)}
+              selectedItem={naturezaOperacao}
+              items={operation_natures_map}
+            >
+              {props => {
+                const { getInputProps, getRef, inputValue, openMenu } = props;
+                return (
+                  <TextInputField
+                    label="Natureza da operação"
+                    placeholder="Selecione a natureza da operação"
+                    value={inputValue}
+                    innerRef={getRef}
+                    size={300}
+                    required={true}
+                    {...getInputProps({
+                      onFocus: () => {
+                        openMenu();
+                      }
+                    })}
+                  />
+                );
+              }}
+            </Autocomplete>
+          </Container>
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            style={styles.button}
+            disabled={submitting}
+          >
+            Continue
+          </Button>
+        </form>
+      </Container>
+    </div>
   );
 }
 
@@ -102,9 +114,10 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
-  sellers: state.bd_select.sellers,
-  operation_natures: state.bd_select.operation_natures,
-  vendedor: state.select_infos.vendedor
+  sellers: state.bd_selects.sellers,
+  operation_natures: state.bd_selects.operation_natures,
+  vendedor: state.select_infos.vendedor,
+  naturezaOperacao: state.select_infos.naturezaOperacao
 });
 
 SellerDetails = connect(mapStateToProps, mapDispatchToProps)(SellerDetails);

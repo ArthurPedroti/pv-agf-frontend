@@ -19,7 +19,7 @@ import ClientDetails from "./pages/ClientDetails/index";
 
 const AsyncNoMatch = importedComponent(() => import("./pages/NoMatch/index"));
 
-export default function App() {
+function App() {
   return (
     <BrowserRouter>
       <div>
@@ -42,4 +42,4 @@ export default function App() {
   );
 }
 
-//<Route exact path="/clientdetails" component={ClientDetails} />
+export default App;

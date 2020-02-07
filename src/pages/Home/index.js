@@ -4,15 +4,15 @@ import { bindActionCreators } from "redux";
 
 // import { Container } from './styles';
 
-import * as bdActions from "../../store/actions/fetchBD";
+import * as apiActions from "../../store/actions api/fetchBD";
 
 import Container from "@material-ui/core/Container";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import Menu from "../../components/Menu";
 
 const styles = {
   button: {
@@ -21,42 +21,34 @@ const styles = {
 };
 
 function Home({ loadSellers, loadOperation_natures, loadClients, history }) {
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
   async function handleSubmit() {
-    loadSellers();
-    loadOperation_natures();
-    loadClients();
-    await sleep(500); // simulate server latency
+    await loadSellers();
+    await loadOperation_natures();
+    await loadClients();
 
     history.push(`/sellerdetails`);
   }
 
   return (
-    <Container maxWidth="md" component="main" align="center">
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6">Início</Typography>
-        </Toolbar>
-      </AppBar>
-      <AppBar title="Cadastro" />
-      <Button
-        type="submit"
-        onSubmit={handleSubmit()}
-        variant="contained"
-        color="primary"
-        style={styles.button}
-        onClick={handleSubmit()}
-      >
-        Carregar
-      </Button>
-    </Container>
+    <div>
+      <Menu title="Teste" />
+      <Container maxWidth="md" component="main" align="center">
+        <Button
+          type="submit"
+          onSubmit={handleSubmit()}
+          variant="contained"
+          color="primary"
+          style={styles.button}
+          onClick={handleSubmit()}
+        >
+          Carregando
+        </Button>
+        <CircularProgress size={20} />
+      </Container>
+    </div>
   );
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators(bdActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(apiActions, dispatch);
 
 export default connect(null, mapDispatchToProps)(Home);
