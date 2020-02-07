@@ -81,6 +81,15 @@ function ClientDetails({
           >
             Continue
           </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            style={styles.button}
+            disabled={submitting}
+          >
+            Cadastrar Cliente
+          </Button>
         </form>
       </Container>
     </div>
