@@ -91,7 +91,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
-  clients: state.bd_select.clients,
+  clients: state.bd_selects.clients,
   cliente: state.select_infos.cliente
 });
 
