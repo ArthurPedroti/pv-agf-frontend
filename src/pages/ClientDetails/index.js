@@ -30,7 +30,7 @@ function ClientDetails({
   submitting
 }) {
   async function showResults() {
-    history.push(`/`);
+    history.push(`/productdetails`);
   }
 
   const clients_map = clients.map(x => x.razao_social);
