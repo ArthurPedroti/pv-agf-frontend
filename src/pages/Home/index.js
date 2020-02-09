@@ -24,14 +24,14 @@ function Home({ loadSellers, loadOperation_natures, loadClients, history }) {
   async function handleSubmit() {
     await loadSellers();
     await loadOperation_natures();
-    await loadClients();
+    //await loadClients();
 
     history.push(`/sellerdetails`);
   }
 
   return (
     <div>
-      <Menu title="Teste" />
+      <Menu title="Início" />
       <Container maxWidth="md" component="main" align="center">
         <Button
           type="submit"

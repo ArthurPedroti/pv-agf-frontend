@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 //import { reduxForm } from "redux-form";
@@ -15,6 +15,8 @@ import Button from "@material-ui/core/Button";
 import Menu from "../../components/Menu";
 
 import { Autocomplete, TextInputField } from "evergreen-ui";
+import { AutoComplete } from "antd";
+import "antd/dist/antd.css";
 
 const styles = {
   button: {
@@ -32,67 +34,55 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
   </div>
 );
 
-const renderHobbies = ({ fields, meta: { error } }) => (
-  <ul>
-    <li>
-      <button type="button" onClick={() => fields.push()}>
-        Add Hobby
-      </button>
-    </li>
-    {fields.map((hobby, index) => (
-      <li key={index}>
-        <button
-          type="button"
-          title="Remove Hobby"
-          onClick={() => fields.remove(index)}
-        />
-        <Field
-          name={hobby}
-          type="text"
-          component={renderField}
-          label={`Hobby #${index + 1}`}
-        />
-      </li>
-    ))}
-    {error && <li className="error">{error}</li>}
-  </ul>
-);
-
-const renderMembers = ({ fields, meta: { error, submitFailed } }) => (
+const renderProdutos = ({ fields, meta: { error, submitFailed } }) => (
   <ul>
     <li>
       <button type="button" onClick={() => fields.push({})}>
-        Add Member
+        Adicionar Produto
       </button>
       {submitFailed && error && <span>{error}</span>}
     </li>
-    {fields.map((member, index) => (
+    {fields.map((produto, index) => (
       <li key={index}>
+        <h4>Produto #{index + 1}</h4>
+        <Field
+          name={`${produto}.descricaoProduto`}
+          type="text"
+          component={renderField}
+          label="Descrição do Produto"
+        />
         <button
           type="button"
-          title="Remove Member"
+          title="Remover Produto"
           onClick={() => fields.remove(index)}
-        />
-        <h4>Member #{index + 1}</h4>
-        <Field
-          name={`${member}.firstName`}
-          type="text"
-          component={renderField}
-          label="First Name"
-        />
-        <Field
-          name={`${member}.lastName`}
-          type="text"
-          component={renderField}
-          label="Last Name"
-        />
-        <FieldArray name={`${member}.hobbies`} component={renderHobbies} />
+        >
+          Remover
+        </button>
       </li>
     ))}
   </ul>
 );
 
+const renderAuto = ({ input, dataSource }) => (
+  <div>
+    <AutoComplete
+      {...input}
+      style={{ width: 200 }}
+      dataSource={dataSource}
+      placeholder="try to type `b`"
+      filterOption={(inputValue, option) =>
+        option.props.children
+          .toUpperCase()
+          .indexOf(inputValue.toUpperCase()) !== -1
+      }
+    />
+  </div>
+);
+
 function ProductDetails({
+  onSelect,
+  onSearch,
+  sellers,
   handleSubmit,
   pristine,
   reset,
@@ -104,6 +94,7 @@ function ProductDetails({
   }
 
   //const clients_map = clients.map(x => x.razao_social);
+  const sellers_map = sellers.map(x => x.name);
 
   return (
     <div>
@@ -112,7 +103,7 @@ function ProductDetails({
       <Container maxWidth="md" component="main" align="center">
         <Container maxWidth="sm" align="left">
           <form onSubmit={handleSubmit}>
-            <FieldArray name="members" component={renderMembers} />
+            <FieldArray name="produtos" component={renderProdutos} />
             <div>
               <button type="submit" disabled={submitting}>
                 Submit
@@ -125,7 +116,24 @@ function ProductDetails({
                 Clear Values
               </button>
             </div>
+            <Field
+              name="autocomplete"
+              type="text"
+              component={renderAuto}
+              dataSource={sellers_map}
+              label="autocomplete"
+            />
           </form>
+          <AutoComplete
+            style={{ width: 200 }}
+            dataSource={sellers_map}
+            placeholder="try to type `b`"
+            filterOption={(inputValue, option) =>
+              option.props.children
+                .toUpperCase()
+                .indexOf(inputValue.toUpperCase()) !== -1
+            }
+          />
         </Container>
         <Link to="/clientdetails">
           <Button variant="contained" style={styles.button}>
@@ -141,15 +149,6 @@ function ProductDetails({
         >
           Continue
         </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
-          style={styles.button}
-          disabled={submitting}
-        >
-          Cadastrar Cliente
-        </Button>
       </Container>
     </div>
   );
@@ -160,6 +159,7 @@ const mapDispatchToProps = dispatch =>
 
 const mapStateToProps = state => ({
   clients: state.bd_selects.clients,
+  sellers: state.bd_selects.sellers,
   cliente: state.select_infos.cliente
 });
 
