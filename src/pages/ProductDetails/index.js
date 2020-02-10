@@ -2,26 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { reduxForm, Field, FieldArray } from "redux-form";
+import Select from "react-select";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+
 import Menu from "../../components/Menu";
 
 import { Alert, Form, Icon, Input, AutoComplete, Typography } from "antd";
 const { Title } = Typography;
-
-const validate = values => {
-  const errors = {};
-  const produtosArrayErrors = [];
-  values.produtos.forEach((produto, produtoIndex) => {
-    const produtoErrors = {};
-    if (!produto || !produto.descricaoProduto) {
-      produtoErrors.descricaoProduto = "Obrigatório!";
-      produtosArrayErrors[produtoIndex] = produtoErrors;
-    }
-  });
-  return errors;
-};
 
 const renderAuto = ({ input, meta, label, dataSource, defaultValue }) => (
   <div>
@@ -91,13 +80,21 @@ const renderProdutos = ({
   </div>
 );
 
-function produtoDetails({ sellers, handleSubmit, submitting, history }) {
+function produtoDetails({ products, handleSubmit, submitting, history }) {
   async function showResults() {
     history.push(`/`);
   }
 
   //const clients_map = clients.map(x => x.razao_social);
-  const sellers_map = sellers.map(x => x.name);
+  const products_map = products.map(x => x.descricao);
+  console.log(products);
+
+  const sampleData = [
+    { id: 1, first_name: "Aron", last_name: "Paisley", gender: "male" },
+    { id: 2, first_name: "Nerissa", last_name: "Millhouse", gender: "female" },
+    { id: 3, first_name: "Michael", last_name: "Schank", gender: "male" },
+    { id: 4, first_name: "Velma", last_name: "Laiche", gender: "female" }
+  ];
 
   return (
     <div>
@@ -106,10 +103,14 @@ function produtoDetails({ sellers, handleSubmit, submitting, history }) {
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
+            <Select
+              options={products}
+              getOptionLabel={option => option.descricao}
+            />
             <FieldArray
               name="produtos"
               component={renderProdutos}
-              dataSource={sellers_map}
+              dataSource={products_map}
             />
           </Container>
 
@@ -134,14 +135,12 @@ function produtoDetails({ sellers, handleSubmit, submitting, history }) {
 }
 
 const mapStateToProps = state => ({
-  clients: state.bd_selects.clients,
-  sellers: state.bd_selects.sellers
+  products: state.bd_selects.products
 });
 
 produtoDetails = connect(mapStateToProps)(produtoDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false,
-  validate
+  destroyOnUnmount: false
 })(produtoDetails);

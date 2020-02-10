@@ -15,7 +15,7 @@ const validate = values => {
     errors.vendedor = "Obrigatório!";
   }
   if (!values.natureza_operacao) {
-    errors.natureza_operacao = "Obrigatório";
+    errors.natureza_operacao = "Obrigatório!";
   }
   return errors;
 };
@@ -56,6 +56,11 @@ function SellerDetails({
     history.push(`/clientdetails`);
   }
 
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" }
+  ];
   const sellers_map = sellers.map(x => x.name);
   const operation_natures_map = operation_natures.map(x => x.name);
 
@@ -82,7 +87,6 @@ function SellerDetails({
               dataSource={operation_natures_map}
             />
           </Container>
-
           <Button
             type="submit"
             variant="contained"

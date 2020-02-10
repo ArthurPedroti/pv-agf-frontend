@@ -3,7 +3,8 @@ import { createActions, createReducer } from "reduxsauce";
 export const { Types, Creators } = createActions({
   fetchSellers: ["sellers"],
   fetchOperation_natures: ["operation_natures"],
-  fetchClients: ["clients"]
+  fetchClients: ["clients"],
+  fetchProducts: ["products"]
 });
 
 const INITIAL_STATE = {};
@@ -29,8 +30,16 @@ const clients = (state = INITIAL_STATE, action) => {
   };
 };
 
+const products = (state = INITIAL_STATE, action) => {
+  return {
+    ...state,
+    products: action.products
+  };
+};
+
 export default createReducer(INITIAL_STATE, {
   [Types.FETCH_SELLERS]: sellers,
   [Types.FETCH_OPERATION_NATURES]: operation_natures,
-  [Types.FETCH_CLIENTS]: clients
+  [Types.FETCH_CLIENTS]: clients,
+  [Types.FETCH_PRODUCTS]: products
 });

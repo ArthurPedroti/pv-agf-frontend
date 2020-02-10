@@ -20,11 +20,18 @@ const styles = {
   }
 };
 
-function Home({ loadSellers, loadOperation_natures, loadClients, history }) {
+function Home({
+  loadSellers,
+  loadOperation_natures,
+  loadClients,
+  loadProducts,
+  history
+}) {
   async function handleSubmit() {
     await loadSellers();
     await loadOperation_natures();
     await loadClients();
+    await loadProducts();
 
     history.push(`/sellerdetails`);
   }

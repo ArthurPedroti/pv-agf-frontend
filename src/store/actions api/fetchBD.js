@@ -44,3 +44,18 @@ export function fetchClients(clients) {
     clients: clients
   };
 }
+
+export function loadProducts() {
+  return dispatch => {
+    return api.get("/products").then(response => {
+      dispatch(fetchProducts(response.data));
+    });
+  };
+}
+
+export function fetchProducts(products) {
+  return {
+    type: "FETCH_PRODUCTS",
+    products: products
+  };
+}
