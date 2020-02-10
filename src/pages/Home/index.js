@@ -24,7 +24,7 @@ function Home({ loadSellers, loadOperation_natures, loadClients, history }) {
   async function handleSubmit() {
     await loadSellers();
     await loadOperation_natures();
-    //await loadClients();
+    await loadClients();
 
     history.push(`/sellerdetails`);
   }

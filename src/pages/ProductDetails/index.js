@@ -1,94 +1,97 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-//import { reduxForm } from "redux-form";
-import { bindActionCreators } from "redux";
-import { Field, FieldArray, reduxForm } from "redux-form";
-
-// import { Container } from './styles';
-
-import { Creators as SelectActions } from "../../store/ducks/select_infos";
+import { reduxForm, Field, FieldArray } from "redux-form";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
-
 import Menu from "../../components/Menu";
 
-import { Autocomplete, TextInputField } from "evergreen-ui";
-import { AutoComplete } from "antd";
-import "antd/dist/antd.css";
+import { Alert, Form, Icon, Input, AutoComplete, Typography } from "antd";
+const { Title } = Typography;
 
-const styles = {
-  button: {
-    margin: 15
-  }
+const validate = values => {
+  const errors = {};
+  const produtosArrayErrors = [];
+  values.produtos.forEach((produto, produtoIndex) => {
+    const produtoErrors = {};
+    if (!produto || !produto.descricaoProduto) {
+      produtoErrors.descricaoProduto = "Obrigatório!";
+      produtosArrayErrors[produtoIndex] = produtoErrors;
+    }
+  });
+  return errors;
 };
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
+const renderAuto = ({ input, meta, label, dataSource, defaultValue }) => (
   <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} type={type} placeholder={label} />
-      {touched && error && <span>{error}</span>}
-    </div>
+    <Form.Item label={label} style={{ fontWeight: 500, marginBottom: 10 }}>
+      <AutoComplete
+        {...input}
+        dataSource={dataSource}
+        style={{ width: "100%" }}
+        defaultValue={defaultValue}
+        filterOption={(inputValue, option) =>
+          option.props.children
+            .toUpperCase()
+            .indexOf(inputValue.toUpperCase()) !== -1
+        }
+      >
+        <Input
+          suffix={<Icon type="search" className="certain-category-icon" />}
+        />
+      </AutoComplete>
+      {meta.error && meta.touched && (
+        <Alert message={meta.error} type="error" showIcon />
+      )}
+    </Form.Item>
   </div>
 );
 
-const renderProdutos = ({ fields, meta: { error, submitFailed } }) => (
-  <ul>
-    <li>
-      <button type="button" onClick={() => fields.push({})}>
+const renderProdutos = ({
+  fields,
+  dataSource,
+  meta: { error, submitFailed }
+}) => (
+  <div>
+    <Container align="center">
+      <Button
+        variant="contained"
+        style={{ marginBottom: 20, marginTop: 20 }}
+        color="primary"
+        onClick={() => fields.push({})}
+      >
         Adicionar Produto
-      </button>
-      {submitFailed && error && <span>{error}</span>}
-    </li>
+      </Button>
+    </Container>
+    {submitFailed && error && <span>{error}</span>}
     {fields.map((produto, index) => (
-      <li key={index}>
-        <h4>Produto #{index + 1}</h4>
+      <div>
+        <Title level={4} style={{ margin: 0 }}>
+          Produto #{index + 1}
+        </Title>
+
         <Field
           name={`${produto}.descricaoProduto`}
+          label="Descrição do Produto *"
           type="text"
-          component={renderField}
-          label="Descrição do Produto"
+          component={renderAuto}
+          dataSource={dataSource}
         />
-        <button
-          type="button"
+        <Button
+          variant="contained"
+          style={{ marginBottom: 30 }}
           title="Remover Produto"
           onClick={() => fields.remove(index)}
         >
           Remover
-        </button>
-      </li>
+        </Button>
+      </div>
     ))}
-  </ul>
-);
-
-const renderAuto = ({ input, dataSource }) => (
-  <div>
-    <AutoComplete
-      {...input}
-      style={{ width: 200 }}
-      dataSource={dataSource}
-      placeholder="try to type `b`"
-      filterOption={(inputValue, option) =>
-        option.props.children
-          .toUpperCase()
-          .indexOf(inputValue.toUpperCase()) !== -1
-      }
-    />
   </div>
 );
 
-function ProductDetails({
-  onSelect,
-  onSearch,
-  sellers,
-  handleSubmit,
-  pristine,
-  reset,
-  submitting,
-  history
-}) {
+function produtoDetails({ sellers, handleSubmit, submitting, history }) {
   async function showResults() {
     history.push(`/`);
   }
@@ -101,71 +104,44 @@ function ProductDetails({
       <Menu title="Detalhes dos Produtos" />
 
       <Container maxWidth="md" component="main" align="center">
-        <Container maxWidth="sm" align="left">
-          <form onSubmit={handleSubmit}>
-            <FieldArray name="produtos" component={renderProdutos} />
-            <div>
-              <button type="submit" disabled={submitting}>
-                Submit
-              </button>
-              <button
-                type="button"
-                disabled={pristine || submitting}
-                onClick={reset}
-              >
-                Clear Values
-              </button>
-            </div>
-            <Field
-              name="autocomplete"
-              type="text"
-              component={renderAuto}
+        <form onSubmit={handleSubmit(showResults)}>
+          <Container maxWidth="sm" align="left">
+            <FieldArray
+              name="produtos"
+              component={renderProdutos}
               dataSource={sellers_map}
-              label="autocomplete"
             />
-          </form>
-          <AutoComplete
-            style={{ width: 200 }}
-            dataSource={sellers_map}
-            placeholder="try to type `b`"
-            filterOption={(inputValue, option) =>
-              option.props.children
-                .toUpperCase()
-                .indexOf(inputValue.toUpperCase()) !== -1
-            }
-          />
-        </Container>
-        <Link to="/clientdetails">
-          <Button variant="contained" style={styles.button}>
-            Voltar
+          </Container>
+
+          <Link to="/clientdetails">
+            <Button variant="contained" style={{ margin: 15 }}>
+              Voltar
+            </Button>
+          </Link>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            style={{ margin: 15 }}
+            disabled={submitting}
+          >
+            Continuar
           </Button>
-        </Link>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          style={styles.button}
-          disabled={submitting}
-        >
-          Continue
-        </Button>
+        </form>
       </Container>
     </div>
   );
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(SelectActions, dispatch);
-
 const mapStateToProps = state => ({
   clients: state.bd_selects.clients,
-  sellers: state.bd_selects.sellers,
-  cliente: state.select_infos.cliente
+  sellers: state.bd_selects.sellers
 });
 
-ProductDetails = connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
+produtoDetails = connect(mapStateToProps)(produtoDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false
-})(ProductDetails);
+  destroyOnUnmount: false,
+  validate
+})(produtoDetails);

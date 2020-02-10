@@ -1,32 +1,53 @@
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
-import { bindActionCreators } from "redux";
-
-// import { Container } from './styles';
-
-import { Creators as SelectActions } from "../../store/ducks/select_infos";
+import { reduxForm, Field } from "redux-form";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 
+import { Alert, Form, Icon, Input, AutoComplete } from "antd";
+
 import Menu from "../../components/Menu";
 
-import { Autocomplete, TextInputField } from "evergreen-ui";
-
-const styles = {
-  button: {
-    margin: 15
+const validate = values => {
+  const errors = {};
+  if (!values.vendedor) {
+    errors.vendedor = "Obrigatório!";
   }
+  if (!values.natureza_operacao) {
+    errors.natureza_operacao = "Obrigatório";
+  }
+  return errors;
 };
 
+const renderAuto = ({ input, meta, label, dataSource, defaultValue }) => (
+  <div>
+    <Form.Item label={label} style={{ fontWeight: 500 }}>
+      <AutoComplete
+        {...input}
+        dataSource={dataSource}
+        style={{ width: "100%" }}
+        defaultValue={defaultValue}
+        filterOption={(inputValue, option) =>
+          option.props.children
+            .toUpperCase()
+            .indexOf(inputValue.toUpperCase()) !== -1
+        }
+      >
+        <Input
+          suffix={<Icon type="search" className="certain-category-icon" />}
+        />
+      </AutoComplete>
+      {meta.error && meta.touched && (
+        <Alert message={meta.error} type="error" showIcon />
+      )}
+    </Form.Item>
+  </div>
+);
+
 function SellerDetails({
-  vendedor,
-  naturezaOperacao,
   sellers,
   operation_natures,
-  toggleSeller,
-  toggleON,
   history,
   handleSubmit,
   submitting
@@ -45,64 +66,31 @@ function SellerDetails({
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
-            <Autocomplete
-              onChange={changedItem => toggleSeller(changedItem)}
-              selectedItem={vendedor}
-              items={sellers_map}
-            >
-              {props => {
-                const { getInputProps, getRef, inputValue, openMenu } = props;
-                return (
-                  <TextInputField
-                    label="Vendedor"
-                    placeholder="Selecione o vendedor"
-                    value={inputValue}
-                    innerRef={getRef}
-                    size={300}
-                    required={true}
-                    {...getInputProps({
-                      onFocus: () => {
-                        openMenu();
-                      }
-                    })}
-                  />
-                );
-              }}
-            </Autocomplete>
-            <Autocomplete
-              onChange={changedItem => toggleON(changedItem)}
-              selectedItem={naturezaOperacao}
-              items={operation_natures_map}
-            >
-              {props => {
-                const { getInputProps, getRef, inputValue, openMenu } = props;
-                return (
-                  <TextInputField
-                    label="Natureza da operação"
-                    placeholder="Selecione a natureza da operação"
-                    value={inputValue}
-                    innerRef={getRef}
-                    size={300}
-                    required={true}
-                    {...getInputProps({
-                      onFocus: () => {
-                        openMenu();
-                      }
-                    })}
-                  />
-                );
-              }}
-            </Autocomplete>
+            <Field
+              name="vendedor"
+              label="Vendedor *"
+              type="text"
+              component={renderAuto}
+              dataSource={sellers_map}
+            />
+
+            <Field
+              name="natureza_operacao"
+              label="Natureza da operação *"
+              type="text"
+              component={renderAuto}
+              dataSource={operation_natures_map}
+            />
           </Container>
 
           <Button
             type="submit"
             variant="contained"
             color="primary"
-            style={styles.button}
+            style={{ margin: 15 }}
             disabled={submitting}
           >
-            Continue
+            Continuar
           </Button>
         </form>
       </Container>
@@ -110,19 +98,15 @@ function SellerDetails({
   );
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(SelectActions, dispatch);
-
 const mapStateToProps = state => ({
   sellers: state.bd_selects.sellers,
-  operation_natures: state.bd_selects.operation_natures,
-  vendedor: state.select_infos.vendedor,
-  naturezaOperacao: state.select_infos.naturezaOperacao
+  operation_natures: state.bd_selects.operation_natures
 });
 
-SellerDetails = connect(mapStateToProps, mapDispatchToProps)(SellerDetails);
+SellerDetails = connect(mapStateToProps)(SellerDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  validate
 })(SellerDetails);
