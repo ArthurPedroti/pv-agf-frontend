@@ -6,36 +6,34 @@ import { reduxForm, Field } from "redux-form";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 
-import { Alert, Form, Icon, Input, AutoComplete } from "antd";
+import { bindActionCreators } from "redux";
+import { Creators as SelectActions } from "../../store/ducks/select_infos";
+
+import WindowedSelect from "react-windowed-select";
+import { Alert, Form, Input } from "antd";
+import { message } from "antd";
 
 import Menu from "../../components/Menu";
 
 const validate = values => {
   const errors = {};
-  if (!values.cliente) {
-    errors.cliente = "Obrigatório!";
+  if (!values.nome_contato) {
+    errors.nome_contato = "Obrigatório!";
   }
+  if (!values.cargo_contato) {
+    errors.cargo_contato = "Obrigatório!";
+  }
+  if (!values.email_contato) {
+    errors.email_contato = "Obrigatório!";
+  }
+
   return errors;
 };
 
-const renderAuto = ({ input, meta, label, dataSource, defaultValue }) => (
+const renderInput = ({ input, meta, label, dataSource, defaultValue }) => (
   <div>
     <Form.Item label={label} style={{ fontWeight: 500 }}>
-      <AutoComplete
-        {...input}
-        dataSource={dataSource}
-        style={{ width: "100%" }}
-        defaultValue={defaultValue}
-        filterOption={(inputValue, option) =>
-          option.props.children
-            .toUpperCase()
-            .indexOf(inputValue.toUpperCase()) !== -1
-        }
-      >
-        <Input
-          suffix={<Icon type="search" className="certain-category-icon" />}
-        />
-      </AutoComplete>
+      <Input {...input} />
       {meta.error && meta.touched && (
         <Alert message={meta.error} type="error" showIcon />
       )}
@@ -43,12 +41,21 @@ const renderAuto = ({ input, meta, label, dataSource, defaultValue }) => (
   </div>
 );
 
-function ClientDetails({ clients, history, handleSubmit, submitting }) {
+function ClientDetails({
+  cliente,
+  clients,
+  toggleClient,
+  history,
+  handleSubmit,
+  submitting
+}) {
   async function showResults() {
-    history.push(`/productdetails`);
+    if (!cliente) {
+      message.error("Preencha todos os campos obrigatórios");
+    } else {
+      history.push(`/productdetails`);
+    }
   }
-
-  const clients_map = clients.map(x => x.razao_social);
 
   return (
     <div>
@@ -57,12 +64,36 @@ function ClientDetails({ clients, history, handleSubmit, submitting }) {
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
-            <Field
-              name="cliente"
+            <Form.Item
               label="Cliente *"
+              style={{ fontWeight: 500, marginBottom: 0 }}
+            />
+            <WindowedSelect
+              options={clients}
+              value={cliente}
+              isClearable={true}
+              placeholder={"Selecione um cliente"}
+              onChange={changedItem => toggleClient(changedItem)}
+              getOptionLabel={option => option.razao_social}
+              getOptionValue={option => option.razao_social}
+            />
+            <Field
+              name="nome_contato"
+              label="Nome do contato *"
               type="text"
-              component={renderAuto}
-              dataSource={clients_map}
+              component={renderInput}
+            />
+            <Field
+              name="cargo_contato"
+              label="Cargo do contato *"
+              type="text"
+              component={renderInput}
+            />
+            <Field
+              name="email_contato"
+              label="Email do contato *"
+              type="text"
+              component={renderInput}
             />
           </Container>
           <Link to="/sellerdetails">
@@ -94,11 +125,15 @@ function ClientDetails({ clients, history, handleSubmit, submitting }) {
   );
 }
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(SelectActions, dispatch);
+
 const mapStateToProps = state => ({
-  clients: state.bd_selects.clients
+  clients: state.bd_selects.clients,
+  cliente: state.select_infos.cliente
 });
 
-ClientDetails = connect(mapStateToProps)(ClientDetails);
+ClientDetails = connect(mapStateToProps, mapDispatchToProps)(ClientDetails);
 
 export default reduxForm({
   form: "infoReduxForm",

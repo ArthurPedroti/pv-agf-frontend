@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { reduxForm, Field, FieldArray } from "redux-form";
-import Select from "react-select";
+import WindowedSelect from "react-windowed-select";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -12,11 +12,17 @@ import Menu from "../../components/Menu";
 import { Alert, Form, Icon, Input, AutoComplete, Typography } from "antd";
 const { Title } = Typography;
 
-const renderAuto = ({ input, meta, label, dataSource, defaultValue }) => (
+const renderAuto = ({
+  input,
+  meta,
+  options,
+  label,
+  dataSource,
+  defaultValue
+}) => (
   <div>
     <Form.Item label={label} style={{ fontWeight: 500, marginBottom: 10 }}>
       <AutoComplete
-        {...input}
         dataSource={dataSource}
         style={{ width: "100%" }}
         defaultValue={defaultValue}
@@ -30,6 +36,12 @@ const renderAuto = ({ input, meta, label, dataSource, defaultValue }) => (
           suffix={<Icon type="search" className="certain-category-icon" />}
         />
       </AutoComplete>
+      <WindowedSelect
+        {...input}
+        options={options}
+        getOptionLabel={option => option.descricao}
+        getOptionValue={option => option.descricao}
+      />
       {meta.error && meta.touched && (
         <Alert message={meta.error} type="error" showIcon />
       )}
@@ -40,6 +52,7 @@ const renderAuto = ({ input, meta, label, dataSource, defaultValue }) => (
 const renderProdutos = ({
   fields,
   dataSource,
+  options,
   meta: { error, submitFailed }
 }) => (
   <div>
@@ -66,6 +79,7 @@ const renderProdutos = ({
           type="text"
           component={renderAuto}
           dataSource={dataSource}
+          options={options}
         />
         <Button
           variant="contained"
@@ -103,12 +117,13 @@ function produtoDetails({ products, handleSubmit, submitting, history }) {
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
-            <Select
+            <WindowedSelect
               options={products}
               getOptionLabel={option => option.descricao}
             />
             <FieldArray
               name="produtos"
+              options={products}
               component={renderProdutos}
               dataSource={products_map}
             />

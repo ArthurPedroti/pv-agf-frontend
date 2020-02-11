@@ -26,6 +26,7 @@
     "react-select": "^3.0.8",
     "react-typeahead": "^2.0.0-alpha.8",
     "react-window": "^1.8.5",
+    "react-windowed-select": "^2.0.2",
     "redux": "^4.0.5",
     "redux-form": "^8.2.6",
     "redux-form-material-ui": "^4.3.4",

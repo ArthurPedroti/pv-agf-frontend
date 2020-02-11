@@ -4,6 +4,8 @@ import { reduxForm, Field } from "redux-form";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import WindowedSelect from "react-windowed-select";
+import Select from "react-select";
 
 import { Alert, Form, Icon, Input, AutoComplete } from "antd";
 
@@ -20,28 +22,27 @@ const validate = values => {
   return errors;
 };
 
-const renderAuto = ({ input, meta, label, dataSource, defaultValue }) => (
+const renderAuto = ({
+  input,
+  meta,
+  options,
+  label,
+  dataSource,
+  defaultValue
+}) => (
   <div>
-    <Form.Item label={label} style={{ fontWeight: 500 }}>
-      <AutoComplete
-        {...input}
-        dataSource={dataSource}
-        style={{ width: "100%" }}
-        defaultValue={defaultValue}
-        filterOption={(inputValue, option) =>
-          option.props.children
-            .toUpperCase()
-            .indexOf(inputValue.toUpperCase()) !== -1
-        }
-      >
-        <Input
-          suffix={<Icon type="search" className="certain-category-icon" />}
-        />
-      </AutoComplete>
-      {meta.error && meta.touched && (
-        <Alert message={meta.error} type="error" showIcon />
-      )}
-    </Form.Item>
+    <Form.Item label={label} style={{ fontWeight: 500 }}></Form.Item>
+    <WindowedSelect
+      {...input}
+      onChange={value => input.onChange(value)}
+      onBlur={() => input.onBlur(input.value)}
+      options={options}
+      isClearable={true}
+      getOptionLabel={option => option.name}
+    />
+    {meta.error && meta.touched && (
+      <Alert message={meta.error} type="error" showIcon />
+    )}
   </div>
 );
 
@@ -75,6 +76,7 @@ function SellerDetails({
               name="vendedor"
               label="Vendedor *"
               type="text"
+              options={sellers}
               component={renderAuto}
               dataSource={sellers_map}
             />
@@ -83,6 +85,7 @@ function SellerDetails({
               name="natureza_operacao"
               label="Natureza da operação *"
               type="text"
+              options={operation_natures}
               component={renderAuto}
               dataSource={operation_natures_map}
             />
