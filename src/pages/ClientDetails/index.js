@@ -12,8 +12,17 @@ import { Creators as SelectActions } from "../../store/ducks/select_infos";
 import WindowedSelect from "react-windowed-select";
 import { Alert, Form, Input } from "antd";
 import { message } from "antd";
+import TextField from "@material-ui/core/TextField";
 
 import Menu from "../../components/Menu";
+
+const customStyles = {
+  menu: styles => ({ ...styles, zIndex: 999 }),
+  container: provided => ({
+    ...provided,
+    marginBottom: 10
+  })
+};
 
 const validate = values => {
   const errors = {};
@@ -30,14 +39,17 @@ const validate = values => {
   return errors;
 };
 
-const renderInput = ({ input, meta, label, dataSource, defaultValue }) => (
+const renderInput = ({ input, label, placeholder }) => (
   <div>
-    <Form.Item label={label} style={{ fontWeight: 500 }}>
-      <Input {...input} />
-      {meta.error && meta.touched && (
-        <Alert message={meta.error} type="error" showIcon />
-      )}
-    </Form.Item>
+    <TextField
+      {...input}
+      required
+      label={label}
+      placeholder={placeholder}
+      fullWidth
+      margin="normal"
+      size="small"
+    />
   </div>
 );
 
@@ -51,7 +63,7 @@ function ClientDetails({
 }) {
   async function showResults() {
     if (!cliente) {
-      message.error("Preencha todos os campos obrigatórios");
+      message.error("Selecione o cliente!");
     } else {
       history.push(`/productdetails`);
     }
@@ -71,7 +83,20 @@ function ClientDetails({
             <WindowedSelect
               options={clients}
               value={cliente}
+              styles={customStyles}
+              theme={theme => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  primary25: "ambar",
+                  primary: "black"
+                }
+              })}
+              textFieldProps={{
+                InputLabelProps: { shrink: true }
+              }}
               isClearable={true}
+              windowThreshold="10"
               placeholder={"Selecione um cliente"}
               onChange={changedItem => toggleClient(changedItem)}
               getOptionLabel={option => option.razao_social}
@@ -79,19 +104,19 @@ function ClientDetails({
             />
             <Field
               name="nome_contato"
-              label="Nome do contato *"
+              label="Nome do contato"
               type="text"
               component={renderInput}
             />
             <Field
               name="cargo_contato"
-              label="Cargo do contato *"
+              label="Cargo do contato"
               type="text"
               component={renderInput}
             />
             <Field
               name="email_contato"
-              label="Email do contato *"
+              label="Email do contato"
               type="text"
               component={renderInput}
             />

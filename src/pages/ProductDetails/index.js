@@ -37,7 +37,6 @@ const renderAuto = ({
         />
       </AutoComplete>
       <WindowedSelect
-        {...input}
         options={options}
         getOptionLabel={option => option.descricao}
         getOptionValue={option => option.descricao}

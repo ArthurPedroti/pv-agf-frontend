@@ -1,52 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm } from "redux-form";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import WindowedSelect from "react-windowed-select";
-import Select from "react-select";
 
-import { Alert, Form, Icon, Input, AutoComplete } from "antd";
+import { bindActionCreators } from "redux";
+import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
 import Menu from "../../components/Menu";
-
-const validate = values => {
-  const errors = {};
-  if (!values.vendedor) {
-    errors.vendedor = "Obrigatório!";
-  }
-  if (!values.natureza_operacao) {
-    errors.natureza_operacao = "Obrigatório!";
-  }
-  return errors;
-};
-
-const renderAuto = ({
-  input,
-  meta,
-  options,
-  label,
-  dataSource,
-  defaultValue
-}) => (
-  <div>
-    <Form.Item label={label} style={{ fontWeight: 500 }}></Form.Item>
-    <WindowedSelect
-      {...input}
-      onChange={value => input.onChange(value)}
-      onBlur={() => input.onBlur(input.value)}
-      options={options}
-      isClearable={true}
-      getOptionLabel={option => option.name}
-    />
-    {meta.error && meta.touched && (
-      <Alert message={meta.error} type="error" showIcon />
-    )}
-  </div>
-);
+import { message } from "antd";
 
 function SellerDetails({
+  vendedor,
+  naturezaOperacao,
+  toggleSeller,
+  toggleON,
   sellers,
   operation_natures,
   history,
@@ -54,16 +24,12 @@ function SellerDetails({
   submitting
 }) {
   async function showResults() {
-    history.push(`/clientdetails`);
+    if (!vendedor || !naturezaOperacao) {
+      message.error("Preencha todos os campos obrigatórios");
+    } else {
+      history.push(`/clientdetails`);
+    }
   }
-
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
-  ];
-  const sellers_map = sellers.map(x => x.name);
-  const operation_natures_map = operation_natures.map(x => x.name);
 
   return (
     <div>
@@ -72,22 +38,24 @@ function SellerDetails({
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
-            <Field
-              name="vendedor"
-              label="Vendedor *"
-              type="text"
+            <h3>Vendedor: *</h3>
+            <WindowedSelect
               options={sellers}
-              component={renderAuto}
-              dataSource={sellers_map}
+              value={vendedor}
+              placeholder="Selecione um vendedor"
+              isClearable={true}
+              getOptionLabel={option => option.name}
+              onChange={changedItem => toggleSeller(changedItem)}
             />
-
-            <Field
-              name="natureza_operacao"
-              label="Natureza da operação *"
-              type="text"
+            <br />
+            <h3>Natureza da Operação: *</h3>
+            <WindowedSelect
               options={operation_natures}
-              component={renderAuto}
-              dataSource={operation_natures_map}
+              value={naturezaOperacao}
+              placeholder="Selecione a natureza da operação"
+              isClearable={true}
+              getOptionLabel={option => option.name}
+              onChange={changedItem => toggleON(changedItem)}
             />
           </Container>
           <Button
@@ -105,15 +73,19 @@ function SellerDetails({
   );
 }
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(SelectActions, dispatch);
+
 const mapStateToProps = state => ({
   sellers: state.bd_selects.sellers,
-  operation_natures: state.bd_selects.operation_natures
+  operation_natures: state.bd_selects.operation_natures,
+  vendedor: state.select_infos.vendedor,
+  naturezaOperacao: state.select_infos.naturezaOperacao
 });
 
-SellerDetails = connect(mapStateToProps)(SellerDetails);
+SellerDetails = connect(mapStateToProps, mapDispatchToProps)(SellerDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false,
-  validate
+  destroyOnUnmount: false
 })(SellerDetails);
