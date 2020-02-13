@@ -23,15 +23,31 @@ const styles = {
 function Home({
   loadSellers,
   loadOperation_natures,
-  loadClients,
+  loadSystem_clients,
+  loadSeller_clients,
   loadProducts,
+  loadKits,
+  loadMachines,
+  loadImportant_infos,
+  loadConditions,
+  loadTool_types,
+  loadPayment_methods,
+  loadFreights,
   history
 }) {
   async function handleSubmit() {
     await loadSellers();
     await loadOperation_natures();
-    await loadClients();
+    await loadSystem_clients();
+    await loadSeller_clients();
     await loadProducts();
+    await loadKits();
+    await loadMachines();
+    await loadImportant_infos();
+    await loadConditions();
+    await loadTool_types();
+    await loadPayment_methods();
+    await loadFreights();
 
     history.push(`/sellerdetails`);
   }

@@ -10,7 +10,7 @@ import { bindActionCreators } from "redux";
 import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
 import WindowedSelect from "react-windowed-select";
-import { Alert, Form, Input } from "antd";
+import { Form } from "antd";
 import { message } from "antd";
 import TextField from "@material-ui/core/TextField";
 
@@ -55,7 +55,7 @@ const renderInput = ({ input, label, placeholder }) => (
 
 function ClientDetails({
   cliente,
-  clients,
+  system_clients,
   toggleClient,
   history,
   handleSubmit,
@@ -81,7 +81,7 @@ function ClientDetails({
               style={{ fontWeight: 500, marginBottom: 0 }}
             />
             <WindowedSelect
-              options={clients}
+              options={system_clients}
               value={cliente}
               styles={customStyles}
               theme={theme => ({
@@ -154,7 +154,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
-  clients: state.bd_selects.clients,
+  system_clients: state.bd_selects.system_clients,
   cliente: state.select_infos.cliente
 });
 
