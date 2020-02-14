@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { reduxForm, Field, getFormValues, arrayPush } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -9,20 +9,13 @@ import Button from "@material-ui/core/Button";
 import { bindActionCreators } from "redux";
 import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
-import WindowedSelect from "react-windowed-select";
-import { Form } from "antd";
-import { message } from "antd";
 import TextField from "@material-ui/core/TextField";
 
-import Menu from "../../components/Menu";
+import NativeSelect from "@material-ui/core/NativeSelect";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
 
-const customStyles = {
-  menu: styles => ({ ...styles, zIndex: 999 }),
-  container: provided => ({
-    ...provided,
-    marginBottom: 10
-  })
-};
+import Menu from "../../components/Menu";
 
 const validate = values => {
   const errors = {};
@@ -53,20 +46,56 @@ const renderInput = ({ input, label, placeholder }) => (
   </div>
 );
 
-function ClientDetails({
-  kit,
-  kits,
-  toggleKit,
-  history,
-  handleSubmit,
-  submitting
-}) {
+const renderSelect = ({ input, label, options }) => (
+  <div>
+    <FormControl required fullWidth margin="normal">
+      <InputLabel>{label}</InputLabel>
+      <NativeSelect native required {...input}>
+        <option value="" />
+        {options.map(option => (
+          <option value={option.label}>{option.label}</option>
+        ))}
+      </NativeSelect>
+    </FormControl>
+  </div>
+);
+
+const kits = [
+  { label: "Sem nenhum Kit" },
+  { label: "Kit Lubrificação" },
+  {
+    label:
+      "Uma via unidirecional (Ex: Rompedor, Compactador, Vibro Ripper, Serra Rocha, Concha Britadora e etc)"
+  },
+  {
+    label:
+      "Uma via bidirecional (Ex: Engate Rápido, Arrasador de Estacas e etc)"
+  },
+  { label: "Duas vias bidirecional (Ex: Tesoura, Pulverizador e etc)" }
+];
+
+const machines = [
+  { label: "Mini Escavadeira" },
+  { label: "Retro" },
+  { label: "Escavadeira" },
+  { label: "Outro" }
+];
+
+const yesno = [{ label: "Sim" }, { label: "Não" }];
+
+const relevant_infos = [
+  { label: "Sem nenhuma informação relevante" },
+  { label: "Sem o braço (TAB1 - Fig 1)" },
+  { label: "Braço Telescópico (TAB1- Fig 2)" },
+  { label: "Kit Original de Fábrica" },
+  { label: "Com filtro na linha de retorno" },
+  { label: "Sem predisposição no comando (TAB1- Fig 3)" },
+  { label: "Na Carregadeira (TAB1 - Fig 4)" }
+];
+
+function HidraulicDetails({ history, handleSubmit, submitting }) {
   async function showResults() {
-    if (!kit) {
-      message.error("Selecione o kit!");
-    } else {
-      history.push(`/productdetails`);
-    }
+    history.push(`/paymentdetails`);
   }
 
   return (
@@ -76,48 +105,43 @@ function ClientDetails({
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
-            <Form.Item
-              label="Cliente *"
-              style={{ fontWeight: 500, marginBottom: 0 }}
-            />
-            <WindowedSelect
+            <Field
+              name="kit"
+              label="Selecione um kit"
               options={kits}
-              value={kit}
-              styles={customStyles}
-              theme={theme => ({
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  primary25: "ambar",
-                  primary: "black"
-                }
-              })}
-              isClearable={true}
-              placeholder={"Selecione um cliente"}
-              onChange={changedItem => toggleKit(changedItem)}
-              getOptionLabel={option => option.razao_social}
-              getOptionValue={option => option.razao_social}
+              type="text"
+              component={renderSelect}
             />
             <Field
-              name="nome_contato"
-              label="Nome do contato"
+              name="maquina"
+              label="Selecione uma máquina"
+              options={machines}
+              type="text"
+              component={renderSelect}
+            />
+            <Field
+              name="modelo"
+              label="Modelo"
               type="text"
               component={renderInput}
             />
+            <Field name="ano" label="Ano" type="text" component={renderInput} />
             <Field
-              name="cargo_contato"
-              label="Cargo do contato"
+              name="engate"
+              label="Possui engate rápido:"
+              options={yesno}
               type="text"
-              component={renderInput}
+              component={renderSelect}
             />
             <Field
-              name="email_contato"
-              label="Email do contato"
+              name="informacoes_relevantes"
+              label="Informcações relevantes:"
+              options={relevant_infos}
               type="text"
-              component={renderInput}
+              component={renderSelect}
             />
           </Container>
-          <Link to="/sellerdetails">
+          <Link to="/contractoptions">
             <Button variant="contained" style={{ margin: 15 }}>
               Voltar
             </Button>
@@ -131,15 +155,6 @@ function ClientDetails({
           >
             Continuar
           </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            style={{ margin: 15 }}
-            disabled={submitting}
-          >
-            Cadastrar Cliente
-          </Button>
         </form>
       </Container>
     </div>
@@ -150,15 +165,17 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
-  kits: state.bd_selects.kits,
   kit: state.select_infos.kit,
-  formValues: getFormValues("infoReduxForm")(state)
+  maquina: state.select_infos.maquina
 });
 
-ClientDetails = connect(mapStateToProps, mapDispatchToProps)(ClientDetails);
+HidraulicDetails = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HidraulicDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
   destroyOnUnmount: false,
   validate
-})(ClientDetails);
+})(HidraulicDetails);

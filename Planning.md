@@ -4,16 +4,16 @@
 
 ## ProductDetails > Ok
 
-## ContractOptions > working
+## ContractOptions > ok
 
-## HidraulicDetails > working
+## HidraulicDetails > ok
 
-## PaymentDetails > working
+## PaymentDetails > ok
 
-## FreightDetails
+## FreightDetails > ok
 
-## OtherDetails
+## OtherDetails > ok
 
-## Confirm
+## Confirm > working
 
 ## Success

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import WindowedSelect from "react-windowed-select";
 import NumberFormat from "react-number-format";
+import Cleave from "cleave.js";
 
 import { bindActionCreators } from "redux";
 import { Creators as ProductActions } from "../../store/ducks/productList";
@@ -35,6 +36,7 @@ function NumberFormatCustom(props) {
         });
       }}
       isNumericString
+      thousandSeparator={true}
       prefix="R$"
     />
   );
@@ -122,8 +124,6 @@ function ProdutoDetails({
               />
               <Typography variant="overline" display="block" gutterBottom>
                 {errors.product}
-              </Typography>
-              <Typography variant="overline" display="block" gutterBottom>
                 {errors.value}
               </Typography>
 

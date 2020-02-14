@@ -9,6 +9,10 @@ import ProductDetails from "./pages/ProductDetails";
 import ContractOptions from "./pages/ContractOptions";
 import HidraulicDetails from "./pages/HidraulicDetails";
 import PaymentDetails from "./pages/PaymentDetails";
+import FreightDetails from "./pages/FreightDetails";
+import OtherDetails from "./pages/OtherDetails";
+import Confirm from "./pages/Confirm";
+import Success from "./pages/Success";
 
 const AsyncNoMatch = importedComponent(() => import("./pages/NoMatch"));
 
@@ -24,10 +28,10 @@ function App() {
           <Route exact path="/contractoptions" component={ContractOptions} />
           <Route exact path="/hidraulicdetails" component={HidraulicDetails} />
           <Route exact path="/paymentdetails" component={PaymentDetails} />
-          <Route exact path="/freightdetails" component={null} />
-          <Route exact path="/otherdetails" component={null} />
-          <Route exact path="/confirm" component={null} />
-          <Route exact path="/success" component={null} />
+          <Route exact path="/freightdetails" component={FreightDetails} />
+          <Route exact path="/otherdetails" component={OtherDetails} />
+          <Route exact path="/confirm" component={Confirm} />
+          <Route exact path="/success" component={Success} />
           <Route component={AsyncNoMatch} />
         </Switch>
       </div>

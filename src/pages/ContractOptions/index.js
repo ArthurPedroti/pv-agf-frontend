@@ -9,35 +9,37 @@ import Button from "@material-ui/core/Button";
 import { bindActionCreators } from "redux";
 import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
-import { message } from "antd";
-
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+import NativeSelect from "@material-ui/core/NativeSelect";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 
 import Menu from "../../components/Menu";
 
-const renderSelect = ({ input, label }) => (
+const contract_options = [
+  { label: "Equipamentos Hidráulicos" },
+  { label: "Equipamentos Gerais" }
+];
+
+const renderSelect = ({ input, label, options }) => (
   <div>
-    <FormControl variant="outlined" fullWidth>
+    <FormControl required fullWidth margin="normal">
       <InputLabel>{label}</InputLabel>
-      <Select {...input} fullWidth>
-        <MenuItem value={"hidraulic"}>Equipamentos Hidráulicos</MenuItem>
-        <MenuItem value={"others"}>Equipamentos Gerais</MenuItem>
-      </Select>
+      <NativeSelect native required {...input}>
+        <option value="" />
+        {options.map(option => (
+          <option value={option.label}>{option.label}</option>
+        ))}
+      </NativeSelect>
     </FormControl>
   </div>
 );
 
 function ClientDetails({ formValues, history, handleSubmit, submitting }) {
   async function showResults() {
-    if (formValues.tipo_contrato === "hidraulic") {
+    if (formValues.tipo_contrato === "Equipamentos Hidráulicos") {
       history.push(`/hidraulicdetails`);
-    } else if (formValues.tipo_contrato === "others") {
+    } else if (formValues.tipo_contrato === "Equipamentos Gerais") {
       history.push(`/paymentdetails`);
-    } else {
-      message.error("Selecione um tipo de contrato!");
     }
   }
 
@@ -50,7 +52,8 @@ function ClientDetails({ formValues, history, handleSubmit, submitting }) {
           <Container maxWidth="sm" align="left">
             <Field
               name="tipo_contrato"
-              label="Tipo de Contrato"
+              options={contract_options}
+              label="Selecione o tipo de contrato"
               type="text"
               component={renderSelect}
             />
