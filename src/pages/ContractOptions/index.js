@@ -58,7 +58,7 @@ function ClientDetails({ formValues, history, handleSubmit, submitting }) {
               component={renderSelect}
             />
           </Container>
-          <Link to="/sellerdetails">
+          <Link to="/productdetails">
             <Button variant="contained" style={{ margin: 15 }}>
               Voltar
             </Button>

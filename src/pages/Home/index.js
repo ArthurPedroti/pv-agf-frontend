@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -66,6 +67,12 @@ function Home({
         >
           Carregando
         </Button>
+        <Link to="/sellerdetails">
+          <Button variant="contained" style={{ margin: 15 }}>
+            Continuar sem carregar
+          </Button>
+        </Link>
+
         <CircularProgress size={20} />
       </Container>
     </div>

@@ -117,7 +117,7 @@ function OtherDetails({ history, handleSubmit, submitting }) {
               component={renderInput}
             />
           </Container>
-          <Link to="/contractoptions">
+          <Link to="/freightdetails">
             <Button variant="contained" style={{ margin: 15 }}>
               Voltar
             </Button>

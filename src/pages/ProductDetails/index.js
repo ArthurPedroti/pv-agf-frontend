@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import WindowedSelect from "react-windowed-select";
 import NumberFormat from "react-number-format";
-import Cleave from "cleave.js";
 
 import { bindActionCreators } from "redux";
 import { Creators as ProductActions } from "../../store/ducks/productList";
