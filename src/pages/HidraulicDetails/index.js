@@ -17,20 +17,18 @@ import InputLabel from "@material-ui/core/InputLabel";
 
 import Menu from "../../components/Menu";
 
-const validate = values => {
-  const errors = {};
-  if (!values.nome_contato) {
-    errors.nome_contato = "Obrigatório!";
-  }
-  if (!values.cargo_contato) {
-    errors.cargo_contato = "Obrigatório!";
-  }
-  if (!values.email_contato) {
-    errors.email_contato = "Obrigatório!";
-  }
-
-  return errors;
-};
+const renderInputNotReq = ({ input, label, placeholder }) => (
+  <div>
+    <TextField
+      {...input}
+      label={label}
+      placeholder={placeholder}
+      fullWidth
+      margin="normal"
+      size="small"
+    />
+  </div>
+);
 
 const renderInput = ({ input, label, placeholder }) => (
   <div>
@@ -43,6 +41,20 @@ const renderInput = ({ input, label, placeholder }) => (
       margin="normal"
       size="small"
     />
+  </div>
+);
+
+const renderSelectNoReq = ({ input, label, options }) => (
+  <div>
+    <FormControl fullWidth margin="normal">
+      <InputLabel>{label}</InputLabel>
+      <NativeSelect native {...input}>
+        <option value="" />
+        {options.map(option => (
+          <option value={option.label}>{option.label}</option>
+        ))}
+      </NativeSelect>
+    </FormControl>
   </div>
 );
 
@@ -93,6 +105,24 @@ const relevant_infos = [
   { label: "Na Carregadeira (TAB1 - Fig 4)" }
 ];
 
+const conditions = [
+  { label: "Sem condição" },
+  {
+    label:
+      "Condição Padrão: Uma Caixa Ferramenta Completa com Kit Nitrogênio, Um Cilindro de Gás, Um Par de Mangueiras, Um Manual de Peças, Um Manual de Operação e Uma Ponteira."
+  }
+];
+
+const tool_types = [
+  { label: "Cego" },
+  { label: "Universal" },
+  { label: "Cunha H" },
+  { label: "Cunha V" },
+  { label: "Lapis" },
+  { label: "Pata de Elefante" },
+  { label: "Ponteiro Universal Longo" }
+];
+
 function HidraulicDetails({ history, handleSubmit, submitting }) {
   async function showResults() {
     history.push(`/paymentdetails`);
@@ -140,6 +170,46 @@ function HidraulicDetails({ history, handleSubmit, submitting }) {
               type="text"
               component={renderSelect}
             />
+            <Field
+              name="condicao"
+              label="Condição:"
+              options={conditions}
+              type="text"
+              component={renderSelect}
+            />
+            <Field
+              name="tipo_ponteira"
+              label="Tipo de ponteira:"
+              options={tool_types}
+              type="text"
+              component={renderSelect}
+            />
+            <Field
+              name="pont_extra"
+              label="Ponteira extra:"
+              options={yesno}
+              type="text"
+              component={renderSelect}
+            />
+            <Field
+              name="qtd_extra"
+              label="Quantidade:"
+              type="number"
+              component={renderInputNotReq}
+            />
+            <Field
+              name="tipo_extra"
+              label="Tipo de ponteira:"
+              options={tool_types}
+              type="text"
+              component={renderSelectNoReq}
+            />
+            <Field
+              name="info_ad_hidraulico"
+              label="Informações adicionais:"
+              type="text"
+              component={renderInputNotReq}
+            />
           </Container>
           <Link to="/contractoptions">
             <Button variant="contained" style={{ margin: 15 }}>
@@ -176,6 +246,5 @@ HidraulicDetails = connect(
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false,
-  validate
+  destroyOnUnmount: false
 })(HidraulicDetails);

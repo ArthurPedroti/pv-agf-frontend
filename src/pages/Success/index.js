@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { reduxForm, getFormValues } from "redux-form";
-import { PDFViewer } from "@react-pdf/renderer";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -10,10 +9,8 @@ import Button from "@material-ui/core/Button";
 import { bindActionCreators } from "redux";
 import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
-import PdfGenerator from "../../components/pdfGenerator";
-import ReactPDF from "../../components/ReactPDF";
 import Menu from "../../components/Menu";
-import pdfMake from "../../components/PdfMake";
+import PdfMake from "../../components/PdfMake";
 
 function Confirm({
   values,
@@ -30,15 +27,10 @@ function Confirm({
     history.push(`/success`);
   }
 
-  const exportPdf = () => {
-    // change this number to generate more or less rows of data
-    pdfMake(20);
-  };
-
   return (
     <div>
       <Menu title="Confirme as informações" />
-      <PdfGenerator
+      <PdfMake
         vendedor={vendedor.name}
         naturezaOperacao={naturezaOperacao.name}
         cliente={cliente}
@@ -46,12 +38,11 @@ function Confirm({
         produtos={produtos}
         parcelas={parcelas}
       />
-      <button onClick={exportPdf}>Export PDF</button>
 
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left"></Container>
-          <Link to="/otherdetails">
+          <Link to="/confirm">
             <Button variant="contained" style={{ margin: 15 }}>
               Voltar
             </Button>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import NumberFormat from "react-number-format";
 
 import { bindActionCreators } from "redux";
@@ -21,6 +21,19 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Menu from "../../components/Menu";
 
 import { message } from "antd";
+
+const renderInput = ({ input, label, placeholder }) => (
+  <div>
+    <TextField
+      {...input}
+      label={label}
+      placeholder={placeholder}
+      fullWidth
+      margin="normal"
+      size="small"
+    />
+  </div>
+);
 
 function NumberFormatCustom(props) {
   const { inputRef, onChange, ...other } = props;
@@ -200,6 +213,12 @@ function PaymentDetails({
               </Grid>
             </Container>
           </section>
+          <Field
+            name="info_ad_pagamento"
+            label="Informações adicionais:"
+            type="text"
+            component={renderInput}
+          />
         </Container>
 
         <Link to="/contractoptions">

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import WindowedSelect from "react-windowed-select";
 import NumberFormat from "react-number-format";
 
@@ -19,6 +19,19 @@ import TextField from "@material-ui/core/TextField";
 import Menu from "../../components/Menu";
 
 import { message } from "antd";
+
+const renderInput = ({ input, label, placeholder }) => (
+  <div>
+    <TextField
+      {...input}
+      label={label}
+      placeholder={placeholder}
+      fullWidth
+      margin="normal"
+      size="small"
+    />
+  </div>
+);
 
 function NumberFormatCustom(props) {
   const { inputRef, onChange, ...other } = props;
@@ -65,6 +78,7 @@ function ProdutoDetails({
 
   const [products, setProducts] = useState("");
   const [value, setValue] = useState("");
+  const [qtd, setQtd] = useState("");
   const [errors, setErrors] = useState({});
 
   const handleAdd = e => {
@@ -84,9 +98,20 @@ function ProdutoDetails({
           value: "Insira um valor!"
         });
       }
+    } else if (!qtd) {
+      setErrors({
+        value: "Insira a quantidade!"
+      });
     } else {
       setErrors({});
-      addProduct(products, value);
+      var valueFormated = value.toLocaleString("pt-br", {
+        style: "currency",
+        currency: "BRL"
+      });
+      console.log(value);
+      console.log(valueFormated);
+
+      addProduct(products, parseFloat(value), qtd);
     }
     console.log(errors);
   };
@@ -120,12 +145,18 @@ function ProdutoDetails({
                 InputProps={{
                   inputComponent: NumberFormatCustom
                 }}
+              />{" "}
+              <TextField
+                label="Quantidade"
+                margin="normal"
+                type="number"
+                id="formatted-numberformat-input"
+                onChange={e => setQtd(e.target.value)}
               />
               <Typography variant="overline" display="block" gutterBottom>
                 {errors.product}
                 {errors.value}
               </Typography>
-
               <Button type="button" onClick={handleAdd}>
                 Adicionar Produto
               </Button>
@@ -135,7 +166,13 @@ function ProdutoDetails({
                 {productList.map(product => (
                   <Paper className={classes.paper} key={product.id}>
                     <h2>{product.product.descricao}</h2>
-                    <h3>R$ {product.value},00</h3>
+                    <h3>
+                      {product.value.toLocaleString("pt-br", {
+                        style: "currency",
+                        currency: "BRL"
+                      })}
+                    </h3>
+                    <h3>Quantidade: {product.qtd}</h3>
                     <div>
                       <Button onClick={() => removeProduct(product.id)}>
                         Remover
@@ -144,6 +181,12 @@ function ProdutoDetails({
                   </Paper>
                 ))}
               </Grid>
+              <Field
+                name="info_ad_produtos"
+                label="Informações adicionais:"
+                type="text"
+                component={renderInput}
+              />
             </Container>
           </section>
         </Container>

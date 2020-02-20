@@ -4,7 +4,7 @@ import { createActions, createReducer } from "reduxsauce";
  * Action types & creators
  */
 export const { Types, Creators } = createActions({
-  addProduct: ["text", "value"],
+  addProduct: ["text", "value", "qtd"],
   removeProduct: ["id"]
 });
 
@@ -19,6 +19,7 @@ const add = (state = INITIAL_STATE, action) => [
     id: Math.random(),
     product: action.text,
     value: action.value,
+    qtd: action.qtd,
     complete: false
   }
 ];
