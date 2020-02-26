@@ -11,17 +11,23 @@ import { styled } from "@material-ui/core/styles";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-import DataUsageIcon from "@material-ui/icons/DataUsage";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import CreditCardIcon from "@material-ui/icons/CreditCard";
+import CommuteIcon from "@material-ui/icons/Commute";
+import ContactsIcon from "@material-ui/icons/Contacts";
+import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
+import BookmarksIcon from "@material-ui/icons/Bookmarks";
+import CardTravelIcon from "@material-ui/icons/CardTravel";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import DescriptionIcon from "@material-ui/icons/Description";
+import PrintIcon from "@material-ui/icons/Print";
+import CallSplitIcon from "@material-ui/icons/CallSplit";
 
 const useStyles = makeStyles({
   list: {
@@ -47,7 +53,7 @@ class AppItem extends Component {
   }
 }
 
-export default function Menu({ title, history }) {
+export default function Menu({ title }) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -77,57 +83,53 @@ export default function Menu({ title, history }) {
       <List>
         <AppItem
           label="Vendedor"
-          icon={<KeyboardArrowRightIcon />}
+          icon={<CardTravelIcon />}
           address="sellerdetails"
         />
         <AppItem
           label="Cliente"
-          icon={<KeyboardArrowRightIcon />}
+          icon={<ContactsIcon />}
           address="clientdetails"
         />
         <AppItem
           label="Produtos"
-          icon={<KeyboardArrowRightIcon />}
+          icon={<ShoppingCartIcon />}
           address="productdetails"
         />
         <AppItem
           label="Contrato"
-          icon={<KeyboardArrowRightIcon />}
+          icon={<DescriptionIcon />}
           address="contractoptions"
         />
         <AppItem
           label="Kit Hidráulico"
-          icon={<KeyboardArrowRightIcon address="hidraulicdetails" />}
+          icon={<CallSplitIcon address="hidraulicdetails" />}
         />
         <AppItem
           label="Pagamento"
-          icon={<KeyboardArrowRightIcon />}
+          icon={<CreditCardIcon />}
           address="paymentdetails"
         />
         <AppItem
           label="Frete"
-          icon={<KeyboardArrowRightIcon />}
+          icon={<CommuteIcon />}
           address="freightdetails"
         />
         <AppItem
           label="Outros"
-          icon={<KeyboardArrowRightIcon />}
+          icon={<BookmarksIcon />}
           address="otherdetails"
         />
         <AppItem
           label="Confirmar"
-          icon={<KeyboardArrowRightIcon />}
+          icon={<DoneOutlineIcon />}
           address="confirm"
         />
-        <AppItem
-          label="Imprimir"
-          icon={<KeyboardArrowRightIcon />}
-          address="success"
-        />
+        <AppItem label="Imprimir" icon={<PrintIcon />} address="success" />
       </List>
       <Divider />
       <List>
-        <AppItem label="Sincronizar Dados" icon={<DataUsageIcon />} />
+        <AppItem label="Sincronizar Dados" icon={<CloudDownloadIcon />} />
         <AppItem label="Sair" icon={<ExitToAppIcon />} />
       </List>
     </div>
