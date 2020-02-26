@@ -5,6 +5,7 @@ import importedComponent from "react-imported-component";
 import Start from "./pages/Home";
 import SellerDetails from "./pages/SellerDetails";
 import ClientDetails from "./pages/ClientDetails";
+import ClientRegister from "./pages/ClientRegister";
 import ProductDetails from "./pages/ProductDetails";
 import ContractOptions from "./pages/ContractOptions";
 import HidraulicDetails from "./pages/HidraulicDetails";
@@ -21,9 +22,10 @@ function App() {
     <BrowserRouter>
       <div>
         <Switch>
-          <Route exact path="/" component={Start} />
+          <Route exact path="/" component={SellerDetails} />
           <Route exact path="/sellerdetails" component={SellerDetails} />
           <Route exact path="/clientdetails" component={ClientDetails} />
+          <Route exact path="/clientregister" component={ClientRegister} />
           <Route exact path="/productdetails" component={ProductDetails} />
           <Route exact path="/contractoptions" component={ContractOptions} />
           <Route exact path="/hidraulicdetails" component={HidraulicDetails} />

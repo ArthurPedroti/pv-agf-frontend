@@ -30,15 +30,6 @@ function Confirm({
   return (
     <div>
       <Menu title="Confirme as informações" />
-      <PdfMake
-        vendedor={vendedor.name}
-        naturezaOperacao={naturezaOperacao.name}
-        cliente={cliente}
-        values={values}
-        produtos={produtos}
-        parcelas={parcelas}
-      />
-
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left"></Container>
@@ -47,15 +38,14 @@ function Confirm({
               Voltar
             </Button>
           </Link>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            style={{ margin: 15 }}
-            disabled={submitting}
-          >
-            Confirmar
-          </Button>
+          <PdfMake
+            vendedor={vendedor.name}
+            naturezaOperacao={naturezaOperacao.name}
+            cliente={cliente}
+            values={values}
+            produtos={produtos}
+            parcelas={parcelas}
+          />
         </form>
       </Container>
     </div>

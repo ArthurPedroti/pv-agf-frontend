@@ -135,15 +135,15 @@ function ClientDetails({
           >
             Continuar
           </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            style={{ margin: 15 }}
-            disabled={submitting}
-          >
-            Cadastrar Cliente
-          </Button>
+          <Link to="/clientregister">
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{ margin: 15 }}
+            >
+              Cadastrar Cliente
+            </Button>
+          </Link>
         </form>
       </Container>
     </div>

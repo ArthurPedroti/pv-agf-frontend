@@ -1,6 +1,7 @@
 import React from "react";
 import pdfMake from "pdfmake/build/pdfmake";
 import vfsFonts from "pdfmake/build/vfs_fonts";
+import Button from "@material-ui/core/Button";
 
 export default function PdfMake({
   vendedor,
@@ -549,7 +550,16 @@ export default function PdfMake({
   const PdfGenerator = () => {
     pdfMake.createPdf(documentDefinition).open();
   };
-  return <button onClick={PdfGenerator}>Generate PDF</button>;
+  return (
+    <Button
+      variant="contained"
+      color="primary"
+      style={{ margin: 15 }}
+      onClick={PdfGenerator}
+    >
+      Imprimir
+    </Button>
+  );
 }
 
 /* LAYOUT
