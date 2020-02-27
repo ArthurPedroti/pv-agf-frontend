@@ -14,9 +14,9 @@ import TextField from "@material-ui/core/TextField";
 import Menu from "../../components/Menu";
 
 function ClientRegister({ addClient, submitting, history }) {
-  const [razaoSocial, setRazaoSocial] = useState("");
+  const [razao_social, setRazaoSocial] = useState("");
   const [cnpj, setCnpj] = useState("");
-  const [inscricaoEstadual, setInscricaoEstadual] = useState("");
+  const [inscricao_estadual, setInscricaoEstadual] = useState("");
   const [endereco, setEndereco] = useState("");
   const [bairro, setBairro] = useState("");
   const [municipio, setMunicipio] = useState("");
@@ -24,13 +24,12 @@ function ClientRegister({ addClient, submitting, history }) {
   const [cep, setCep] = useState("");
   const [telefone, setTelefone] = useState("");
   const [celular, setCelular] = useState("");
-  const [errors, setErrors] = useState({});
 
   async function handleSubmit() {
     await addClient(
-      razaoSocial,
+      razao_social,
       cnpj,
-      inscricaoEstadual,
+      inscricao_estadual,
       endereco,
       bairro,
       municipio,
@@ -120,10 +119,11 @@ function ClientRegister({ addClient, submitting, history }) {
               fullWidth
               onChange={e => setCelular(e.target.value)}
             />
-            <Typography variant="overline" display="block" gutterBottom>
-              {errors.product}
-              {errors.value}
-            </Typography>
+            <Typography
+              variant="overline"
+              display="block"
+              gutterBottom
+            ></Typography>
           </Container>
 
           <Link to="/clientdetails">

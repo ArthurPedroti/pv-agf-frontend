@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field, getFormValues } from "redux-form";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -13,6 +13,9 @@ import WindowedSelect from "react-windowed-select";
 import { Form } from "antd";
 import { message } from "antd";
 import TextField from "@material-ui/core/TextField";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import Menu from "../../components/Menu";
 
@@ -53,8 +56,25 @@ const renderInput = ({ input, label, placeholder }) => (
   </div>
 );
 
+const radioButton = ({ input, ...rest }) => (
+  <RadioGroup {...input} {...rest}>
+    <FormControlLabel
+      value="system"
+      control={<Radio />}
+      label="Cliente do Sistema"
+    />
+    <FormControlLabel
+      value="seller"
+      control={<Radio />}
+      label="Cliente Cadastrado"
+    />
+  </RadioGroup>
+);
+
 function ClientDetails({
+  formValues,
   cliente,
+  clientList,
   system_clients,
   toggleClient,
   history,
@@ -76,10 +96,18 @@ function ClientDetails({
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
+            <Field name="clientType" component={radioButton}></Field>
             <Form.Item
               label="Cliente *"
               style={{ fontWeight: 500, marginBottom: 0 }}
             />
+            {function Teste() {
+              if (formValues.clientType === "Equipamentos Hidráulicos") {
+                // a
+              } else if (formValues.clientType === "Equipamentos Gerais") {
+                // b
+              }
+            }}
             <WindowedSelect
               options={system_clients}
               value={cliente}
@@ -99,8 +127,32 @@ function ClientDetails({
               windowThreshold="10"
               placeholder={"Selecione um cliente"}
               onChange={changedItem => toggleClient(changedItem)}
-              getOptionLabel={option => option.razao_social}
-              getOptionValue={option => option.razao_social}
+              getOptionLabel={option =>
+                option.razao_social + " - " + option.cnpj
+              }
+            />
+            <WindowedSelect
+              options={clientList}
+              value={cliente}
+              styles={customStyles}
+              theme={theme => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  primary25: "ambar",
+                  primary: "black"
+                }
+              })}
+              textFieldProps={{
+                InputLabelProps: { shrink: true }
+              }}
+              isClearable={true}
+              windowThreshold="10"
+              placeholder={"Selecione um cliente"}
+              onChange={changedItem => toggleClient(changedItem)}
+              getOptionLabel={option =>
+                option.razao_social + " - " + option.cnpj
+              }
             />
             <Field
               name="nome_contato"
@@ -155,7 +207,9 @@ const mapDispatchToProps = dispatch =>
 
 const mapStateToProps = state => ({
   system_clients: state.bd_selects.system_clients,
-  cliente: state.select_infos.cliente
+  cliente: state.select_infos.cliente,
+  clientList: state.clientList,
+  formValues: getFormValues("infoReduxForm")(state)
 });
 
 ClientDetails = connect(mapStateToProps, mapDispatchToProps)(ClientDetails);

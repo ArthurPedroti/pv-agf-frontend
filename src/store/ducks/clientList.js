@@ -5,9 +5,9 @@ import { createActions, createReducer } from "reduxsauce";
  */
 export const { Types, Creators } = createActions({
   addClient: [
-    "razaoSocial",
+    "razao_social",
     "cnpj",
-    "inscricaoEstadual",
+    "inscricao_estadual",
     "endereco",
     "bairro",
     "municipio",
@@ -28,9 +28,9 @@ const add = (state = INITIAL_STATE, action) => [
   ...state,
   {
     id: Math.random(),
-    razaoSocial: action.razaoSocial,
+    razao_social: action.razao_social,
     cnpj: action.cnpj,
-    inscricaoEstadual: action.inscricaoEstadual,
+    inscricao_estadual: action.inscricao_estadual,
     endereco: action.endereco,
     bairro: action.bairro,
     municipio: action.municipio,
