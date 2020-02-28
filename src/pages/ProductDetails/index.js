@@ -16,6 +16,15 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import IconButton from "@material-ui/core/IconButton";
+
 import Menu from "../../components/Menu";
 
 import { message } from "antd";
@@ -54,18 +63,6 @@ function NumberFormatCustom(props) {
   );
 }
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    margin: 10
-  }
-}));
-
 function ProdutoDetails({
   productsSelect,
   productList,
@@ -74,8 +71,6 @@ function ProdutoDetails({
   submitting,
   history
 }) {
-  const classes = useStyles();
-
   const [products, setProducts] = useState("");
   const [value, setValue] = useState("");
   const [qtd, setQtd] = useState("");
@@ -104,13 +99,6 @@ function ProdutoDetails({
       });
     } else {
       setErrors({});
-      var valueFormated = value.toLocaleString("pt-br", {
-        style: "currency",
-        currency: "BRL"
-      });
-      console.log(value);
-      console.log(valueFormated);
-
       addProduct(products, parseFloat(value), qtd);
     }
     console.log(errors);
@@ -157,30 +145,46 @@ function ProdutoDetails({
                 {errors.product}
                 {errors.value}
               </Typography>
-              <Button type="button" onClick={handleAdd}>
+              <Button type="button" variant="outlined" onClick={handleAdd}>
                 Adicionar Produto
               </Button>
             </form>
             <Container align="left">
-              <Grid item xs={12}>
-                {productList.map(product => (
-                  <Paper className={classes.paper} key={product.id}>
-                    <h2>{product.product.descricao}</h2>
-                    <h3>
-                      {product.value.toLocaleString("pt-br", {
-                        style: "currency",
-                        currency: "BRL"
-                      })}
-                    </h3>
-                    <h3>Quantidade: {product.qtd}</h3>
-                    <div>
-                      <Button onClick={() => removeProduct(product.id)}>
-                        Remover
-                      </Button>
-                    </div>
-                  </Paper>
-                ))}
-              </Grid>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Produto</TableCell>
+                      <TableCell align="center">Preço</TableCell>
+                      <TableCell align="center">Quantidade</TableCell>
+                      <TableCell align="center">Ações</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {productList.map(product => (
+                      <TableRow key={product.product.descricao}>
+                        <TableCell component="th" scope="row">
+                          {product.product.descricao}
+                        </TableCell>
+                        <TableCell align="center">
+                          {product.value.toLocaleString("pt-br", {
+                            style: "currency",
+                            currency: "BRL"
+                          })}
+                        </TableCell>
+                        <TableCell align="center">{product.qtd}</TableCell>
+                        <TableCell align="center">
+                          <IconButton aria-label="delete">
+                            <DeleteOutlineIcon
+                              onClick={() => removeProduct(product.id)}
+                            />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
               <Field
                 name="info_ad_produtos"
                 label="Informações adicionais:"

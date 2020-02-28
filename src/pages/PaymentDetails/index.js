@@ -18,6 +18,15 @@ import NativeSelect from "@material-ui/core/NativeSelect";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import IconButton from "@material-ui/core/IconButton";
+
 import Menu from "../../components/Menu";
 
 import { message } from "antd";
@@ -122,7 +131,7 @@ function PaymentDetails({
       });
     } else {
       setErrors({});
-      addPayment(num, date, value, condition);
+      addPayment(num, date, parseFloat(value), condition);
     }
     console.log(errors);
   };
@@ -191,26 +200,48 @@ function PaymentDetails({
                 {errors.condition}
               </Typography>
 
-              <Button type="button" onClick={handleAdd}>
+              <Button type="button" variant="outlined" onClick={handleAdd}>
                 Adicionar Parcela
               </Button>
             </form>
             <Container align="left">
-              <Grid item xs={12}>
-                {paymentList.map(payment => (
-                  <Paper className={classes.paper} key={payment.id}>
-                    <h3>{payment.num}</h3>
-                    <h3>{payment.date}</h3>
-                    <h3>R$ {payment.value},00</h3>
-                    <h3>{payment.condition}</h3>
-                    <div>
-                      <Button onClick={() => removePayment(payment.id)}>
-                        Remover
-                      </Button>
-                    </div>
-                  </Paper>
-                ))}
-              </Grid>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">Parcela</TableCell>
+                      <TableCell align="center">Data</TableCell>
+                      <TableCell align="center">Valor</TableCell>
+                      <TableCell align="center">Tipo de Pagamento</TableCell>
+                      <TableCell align="center">Ações</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {paymentList.map(payment => (
+                      <TableRow key={payment.num}>
+                        <TableCell align="center">{payment.num}</TableCell>
+                        <TableCell align="center">{payment.date}</TableCell>
+                        <TableCell align="center">
+                          {payment.value.toLocaleString("pt-br", {
+                            style: "currency",
+                            currency: "BRL"
+                          })}
+                        </TableCell>
+                        <TableCell align="center">
+                          {payment.condition}
+                        </TableCell>
+                        <TableCell align="center">
+                          <IconButton aria-label="delete">
+                            <DeleteOutlineIcon
+                              onClick={() => removePayment(payment.id)}
+                            />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Container>
           </section>
           <Field
