@@ -131,10 +131,18 @@ function PaymentDetails({
       });
     } else {
       setErrors({});
-      addPayment(num, date, parseFloat(value), condition);
+
+      addPayment(num, dataAtualFormatada(date), parseFloat(value), condition);
     }
-    console.log(errors);
   };
+
+  function dataAtualFormatada(input) {
+    var data = new Date(input),
+      dia = (data.getDate() + 1).toString().padStart(2, "0"),
+      mes = (data.getMonth() + 1).toString().padStart(2, "0"), //+1 pois no getMonth Janeiro começa com zero.
+      ano = data.getFullYear();
+    return dia + "/" + mes + "/" + ano;
+  }
 
   const handleSubmit = e => {
     if (paymentList.length > 0) {
