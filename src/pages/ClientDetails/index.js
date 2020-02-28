@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { reduxForm, Field, getFormValues } from "redux-form";
@@ -25,21 +25,6 @@ const customStyles = {
     ...provided,
     marginBottom: 10
   })
-};
-
-const validate = values => {
-  const errors = {};
-  if (!values.nome_contato) {
-    errors.nome_contato = "Obrigatório!";
-  }
-  if (!values.cargo_contato) {
-    errors.cargo_contato = "Obrigatório!";
-  }
-  if (!values.email_contato) {
-    errors.email_contato = "Obrigatório!";
-  }
-
-  return errors;
 };
 
 const renderInput = ({ input, label, placeholder }) => (
@@ -72,7 +57,7 @@ const radioButton = ({ input, ...rest }) => (
 );
 
 function ClientDetails({
-  formValues,
+  values,
   cliente,
   clientList,
   system_clients,
@@ -89,6 +74,57 @@ function ClientDetails({
     }
   }
 
+  function ClientSelect(values) {
+    if (values.clientType === "seller") {
+      return (
+        <WindowedSelect
+          options={clientList}
+          value={cliente}
+          styles={customStyles}
+          theme={theme => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary25: "ambar",
+              primary: "black"
+            }
+          })}
+          textFieldProps={{
+            InputLabelProps: { shrink: true }
+          }}
+          isClearable={true}
+          windowThreshold="10"
+          placeholder={"Selecione um cliente"}
+          onChange={changedItem => toggleClient(changedItem)}
+          getOptionLabel={option => option.razao_social + " - " + option.cnpj}
+        />
+      );
+    }
+    return (
+      <WindowedSelect
+        options={system_clients}
+        value={cliente}
+        styles={customStyles}
+        theme={theme => ({
+          ...theme,
+          colors: {
+            ...theme.colors,
+            primary25: "ambar",
+            primary: "black"
+          }
+        })}
+        textFieldProps={{
+          InputLabelProps: { shrink: true }
+        }}
+        isClearable={true}
+        windowThreshold="10"
+        placeholder={"Selecione um cliente"}
+        onChange={changedItem => toggleClient(changedItem)}
+        getOptionLabel={option => option.razao_social + " - " + option.cnpj}
+      />
+    );
+  }
+
   return (
     <div>
       <Menu title="Detalhes do Cliente" />
@@ -101,59 +137,8 @@ function ClientDetails({
               label="Cliente *"
               style={{ fontWeight: 500, marginBottom: 0 }}
             />
-            {function Teste() {
-              if (formValues.clientType === "Equipamentos Hidráulicos") {
-                // a
-              } else if (formValues.clientType === "Equipamentos Gerais") {
-                // b
-              }
-            }}
-            <WindowedSelect
-              options={system_clients}
-              value={cliente}
-              styles={customStyles}
-              theme={theme => ({
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  primary25: "ambar",
-                  primary: "black"
-                }
-              })}
-              textFieldProps={{
-                InputLabelProps: { shrink: true }
-              }}
-              isClearable={true}
-              windowThreshold="10"
-              placeholder={"Selecione um cliente"}
-              onChange={changedItem => toggleClient(changedItem)}
-              getOptionLabel={option =>
-                option.razao_social + " - " + option.cnpj
-              }
-            />
-            <WindowedSelect
-              options={clientList}
-              value={cliente}
-              styles={customStyles}
-              theme={theme => ({
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  primary25: "ambar",
-                  primary: "black"
-                }
-              })}
-              textFieldProps={{
-                InputLabelProps: { shrink: true }
-              }}
-              isClearable={true}
-              windowThreshold="10"
-              placeholder={"Selecione um cliente"}
-              onChange={changedItem => toggleClient(changedItem)}
-              getOptionLabel={option =>
-                option.razao_social + " - " + option.cnpj
-              }
-            />
+            {ClientSelect(values)}
+
             <Field
               name="nome_contato"
               label="Nome do contato"
@@ -206,16 +191,15 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
+  values: getFormValues("infoReduxForm")(state),
   system_clients: state.bd_selects.system_clients,
   cliente: state.select_infos.cliente,
-  clientList: state.clientList,
-  formValues: getFormValues("infoReduxForm")(state)
+  clientList: state.clientList
 });
 
 ClientDetails = connect(mapStateToProps, mapDispatchToProps)(ClientDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false,
-  validate
+  destroyOnUnmount: false
 })(ClientDetails);

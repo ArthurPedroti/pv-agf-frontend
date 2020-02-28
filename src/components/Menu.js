@@ -138,8 +138,13 @@ export default function Menu({ title }) {
   return (
     <App position="static">
       <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="menu">
-          <MenuIcon onClick={toggleDrawer("left", true)} />
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={toggleDrawer("left", true)}
+        >
+          <MenuIcon />
         </IconButton>
         <Typography variant="h6">{title}</Typography>
       </Toolbar>

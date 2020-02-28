@@ -14,6 +14,9 @@
 
 ## OtherDetails > ok
 
-## Confirm > working > adicionar campo novos
+## Confirm > working > add new labels
 
 ## Success
+
+## Add the switch on "ponteiro extra" option
+## Tranform the cards in table / products and payments
