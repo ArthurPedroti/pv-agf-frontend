@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field, getFormValues } from "redux-form";
 import NumberFormat from "react-number-format";
 
 import { bindActionCreators } from "redux";
@@ -12,7 +12,6 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import FormControl from "@material-ui/core/FormControl";
@@ -90,6 +89,7 @@ const payments = [
 ];
 
 function PaymentDetails({
+  values,
   paymentList,
   addPayment,
   removePayment,
@@ -151,6 +151,25 @@ function PaymentDetails({
       message.error("Insira pelo menos um produto!");
     }
   };
+
+  function BackButton() {
+    if (values.tipo_contrato === "Equipamentos Hidráulicos") {
+      return (
+        <Link to="/hidraulicdetails">
+          <Button variant="contained" style={{ margin: 15 }}>
+            Voltar
+          </Button>
+        </Link>
+      );
+    }
+    return (
+      <Link to="/contractoptions">
+        <Button variant="contained" style={{ margin: 15 }}>
+          Voltar
+        </Button>
+      </Link>
+    );
+  }
 
   return (
     <div>
@@ -260,11 +279,7 @@ function PaymentDetails({
           />
         </Container>
 
-        <Link to="/contractoptions">
-          <Button variant="contained" style={{ margin: 15 }}>
-            Voltar
-          </Button>
-        </Link>
+        <BackButton />
         <Button
           variant="contained"
           color="primary"
@@ -280,6 +295,7 @@ function PaymentDetails({
 }
 
 const mapStateToProps = state => ({
+  values: getFormValues("infoReduxForm")(state),
   paymentList: state.paymentList
 });
 

@@ -1,16 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import WindowedSelect from "react-windowed-select";
+
+import NativeSelect from "@material-ui/core/NativeSelect";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
 
 import { bindActionCreators } from "redux";
 import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
 import Menu from "../../components/Menu";
 import { message } from "antd";
+
+const renderSelect = ({ input, label, options }) => (
+  <div>
+    <FormControl required fullWidth margin="normal">
+      <InputLabel>{label}</InputLabel>
+      <NativeSelect native required {...input}>
+        <option value="" />
+        {options.map(option => (
+          <option value={option.name}>{option.name}</option>
+        ))}
+      </NativeSelect>
+    </FormControl>
+  </div>
+);
 
 function SellerDetails({
   vendedor,
@@ -38,24 +56,19 @@ function SellerDetails({
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
-            <h3>Vendedor: *</h3>
-            <WindowedSelect
+            <Field
+              name="vendedor"
               options={sellers}
-              value={vendedor}
-              placeholder="Selecione um vendedor"
-              isClearable={true}
-              getOptionLabel={option => option.name}
-              onChange={changedItem => toggleSeller(changedItem)}
+              label="Selecione um vendedor"
+              type="text"
+              component={renderSelect}
             />
-            <br />
-            <h3>Natureza da Operação: *</h3>
-            <WindowedSelect
+            <Field
+              name="natureza_operacao"
               options={operation_natures}
-              value={naturezaOperacao}
-              placeholder="Selecione a natureza da operação"
-              isClearable={true}
-              getOptionLabel={option => option.name}
-              onChange={changedItem => toggleON(changedItem)}
+              label="Selecione o tipo de contrato"
+              type="text"
+              component={renderSelect}
             />
           </Container>
           <Button

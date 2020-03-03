@@ -11,9 +11,7 @@ import { Creators as ProductActions } from "../../store/ducks/productList";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 
 import Table from "@material-ui/core/Table";

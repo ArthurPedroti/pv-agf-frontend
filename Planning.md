@@ -18,5 +18,5 @@
 
 ## Success
 
-## Add the switch on "ponteiro extra" option
-## Tranform the cards in table / products and payments
+## Syncronism of data and data updates
+## Can trick the required field with menu?

@@ -103,7 +103,8 @@ export default function Menu({ title }) {
         />
         <AppItem
           label="Kit Hidráulico"
-          icon={<CallSplitIcon address="hidraulicdetails" />}
+          icon={<CallSplitIcon />}
+          address="hidraulicdetails"
         />
         <AppItem
           label="Pagamento"

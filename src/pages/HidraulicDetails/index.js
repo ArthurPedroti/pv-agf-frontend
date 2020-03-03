@@ -14,6 +14,9 @@ import TextField from "@material-ui/core/TextField";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 import Menu from "../../components/Menu";
 
@@ -72,6 +75,24 @@ const renderSelect = ({ input, label, options }) => (
   </div>
 );
 
+const renderSwitch = ({ input, checked, options }) => (
+  <div>
+    <FormControlLabel
+      control={
+        <Switch
+          {...input}
+          checked={checked}
+          onChange={options}
+          value="checked"
+          color="primary"
+        />
+      }
+      labelPlacement="start"
+      label="Ponteiro Extra ?"
+    />
+  </div>
+);
+
 const kits = [
   { label: "Sem nenhum Kit" },
   { label: "Kit Lubrificação" },
@@ -124,6 +145,43 @@ const tool_types = [
 ];
 
 function HidraulicDetails({ history, handleSubmit, submitting }) {
+  const [state, setState] = React.useState({
+    checked: true
+  });
+
+  const handleChange = name => event => {
+    setState({ ...state, [name]: event.target.checked });
+  };
+
+  function ExtraToolOptions() {
+    if (state.checked) {
+      return (
+        <>
+          <Field
+            name="qtd_extra"
+            label="Quantidade:"
+            type="number"
+            component={renderInput}
+          />
+          <Field
+            name="tipo_extra"
+            label="Tipo de ponteira:"
+            options={tool_types}
+            type="text"
+            component={renderSelect}
+          />
+          <Field
+            name="info_ad_hidraulico"
+            label="Informações adicionais:"
+            type="text"
+            component={renderInput}
+          />
+        </>
+      );
+    }
+    return null;
+  }
+
   async function showResults() {
     history.push(`/paymentdetails`);
   }
@@ -187,29 +245,12 @@ function HidraulicDetails({ history, handleSubmit, submitting }) {
             <Field
               name="pont_extra"
               label="Ponteira extra:"
-              options={yesno}
+              checked={state.checked}
+              options={handleChange("checked")}
               type="text"
-              component={renderSelect}
+              component={renderSwitch}
             />
-            <Field
-              name="qtd_extra"
-              label="Quantidade:"
-              type="number"
-              component={renderInputNotReq}
-            />
-            <Field
-              name="tipo_extra"
-              label="Tipo de ponteira:"
-              options={tool_types}
-              type="text"
-              component={renderSelectNoReq}
-            />
-            <Field
-              name="info_ad_hidraulico"
-              label="Informações adicionais:"
-              type="text"
-              component={renderInputNotReq}
-            />
+            <ExtraToolOptions />
           </Container>
           <Link to="/contractoptions">
             <Button variant="contained" style={{ margin: 15 }}>
