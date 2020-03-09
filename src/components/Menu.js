@@ -137,7 +137,7 @@ export default function Menu({ title }) {
   );
 
   return (
-    <App position="static">
+    <App position="sticky">
       <Toolbar>
         <IconButton
           edge="start"

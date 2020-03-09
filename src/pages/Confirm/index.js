@@ -56,8 +56,6 @@ class TableData extends Component {
 
 function Confirm({
   values,
-  vendedor,
-  naturezaOperacao,
   cliente,
   produtos,
   parcelas,
@@ -66,6 +64,9 @@ function Confirm({
   submitting
 }) {
   const classes = useStyles();
+  const engate = (values.engate = true ? "SIM" : "NÃO");
+  const ponteira = (values.pont_extra = true ? "SIM" : "NÃO");
+  const contrato = (values.contrato = true ? "SIM" : "NÃO");
 
   async function showResults() {
     history.push(`/success`);
@@ -81,10 +82,10 @@ function Confirm({
             <TableContainer component={Paper}>
               <Table className={classes.table} aria-label="simple table">
                 <TableBody>
-                  <TableData title="Vendedor" data={vendedor.name} />
+                  <TableData title="Vendedor" data={values.vendedor} />
                   <TableData
                     title="Natureza da Operação"
-                    data={naturezaOperacao.name}
+                    data={values.natureza_operacao}
                   />
                   <TableData
                     title="Código do cliente"
@@ -123,6 +124,10 @@ function Confirm({
                     />
                   ))}
                   <TableData
+                    title="Informações adicionais"
+                    data={values.info_ad_produtos}
+                  />
+                  <TableData
                     title="Tipo de Contrato"
                     data={values.tipo_contrato}
                   />
@@ -130,18 +135,43 @@ function Confirm({
                   <TableData title="Máquina" data={values.maquina} />
                   <TableData title="Modelo" data={values.modelo} />
                   <TableData title="Ano" data={values.ano} />
-                  <TableData title="Engate" data={values.engate} />
+                  <TableData title="Engate" data={engate} />
                   <TableData
                     title="Informações relevantes"
                     data={values.informacoes_relevantes}
                   />
-                  <TableData title="Pagamento" />
+                  <TableData title="Condição" data={values.condicao} />
+                  <TableData
+                    title="Tipo de ponteira"
+                    data={values.tipo_ponteira}
+                  />
+                  <TableData title="Ponteira extra" data={ponteira} />
+                  <TableData title="Quantidade extra" data={values.qtd_extra} />
+                  <TableData title="Tipo extra" data={values.tipo_extra} />
+                  <TableData
+                    title="Informações adicionais"
+                    data={values.info_ad_hidraulico}
+                  />
+
+                  <TableData title="Parcelas de pagamento" />
+                  <TableData title="Data" data="Valor" />
+
                   {parcelas.map(parcela => (
-                    <TableData title={parcela.date} data={parcela.value} />
+                    <TableData
+                      title={parcela.date}
+                      data={parcela.value.toLocaleString("pt-br", {
+                        style: "currency",
+                        currency: "BRL"
+                      })}
+                    />
                   ))}
+                  <TableData
+                    title="Informações adicionais"
+                    data={values.info_ad_pagamento}
+                  />
 
                   <TableData title="Frete" data={values.frete} />
-                  <TableData title="Contrato" data={values.contrato} />
+                  <TableData title="Contrato" data={contrato} />
                   <TableData
                     title="Nº do Contrato"
                     data={values.num_contrato}

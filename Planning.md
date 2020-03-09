@@ -16,7 +16,8 @@
 
 ## Confirm > working > add new labels
 
-## Success
+## Success > need to complete the print and the two options of prints
 
 ## Syncronism of data and data updates
-## Can trick the required field with menu?
+
+## option for payment table: fixed table with parcels incremation, see old pvagf

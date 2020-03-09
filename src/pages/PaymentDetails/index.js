@@ -153,14 +153,16 @@ function PaymentDetails({
   };
 
   function BackButton() {
-    if (values.tipo_contrato === "Equipamentos Hidráulicos") {
-      return (
-        <Link to="/hidraulicdetails">
-          <Button variant="contained" style={{ margin: 15 }}>
-            Voltar
-          </Button>
-        </Link>
-      );
+    if (values !== undefined) {
+      if (values.tipo_contrato === "Equipamentos Hidráulicos") {
+        return (
+          <Link to="/hidraulicdetails">
+            <Button variant="contained" style={{ margin: 15 }}>
+              Voltar
+            </Button>
+          </Link>
+        );
+      }
     }
     return (
       <Link to="/contractoptions">

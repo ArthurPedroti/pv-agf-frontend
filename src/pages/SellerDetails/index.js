@@ -4,7 +4,6 @@ import { reduxForm, Field } from "redux-form";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
-import WindowedSelect from "react-windowed-select";
 
 import NativeSelect from "@material-ui/core/NativeSelect";
 import FormControl from "@material-ui/core/FormControl";
@@ -14,7 +13,6 @@ import { bindActionCreators } from "redux";
 import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
 import Menu from "../../components/Menu";
-import { message } from "antd";
 
 const renderSelect = ({ input, label, options }) => (
   <div>
@@ -31,10 +29,6 @@ const renderSelect = ({ input, label, options }) => (
 );
 
 function SellerDetails({
-  vendedor,
-  naturezaOperacao,
-  toggleSeller,
-  toggleON,
   sellers,
   operation_natures,
   history,
@@ -42,11 +36,7 @@ function SellerDetails({
   submitting
 }) {
   async function showResults() {
-    if (!vendedor || !naturezaOperacao) {
-      message.error("Preencha todos os campos obrigatórios");
-    } else {
-      history.push(`/clientdetails`);
-    }
+    history.push(`/clientdetails`);
   }
 
   return (

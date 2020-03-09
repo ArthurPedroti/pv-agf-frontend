@@ -14,6 +14,8 @@ import TextField from "@material-ui/core/TextField";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 import Menu from "../../components/Menu";
 
@@ -59,6 +61,24 @@ const renderSelect = ({ input, label, options }) => (
   </div>
 );
 
+const renderSwitch = ({ input, label }) => (
+  <div>
+    <FormControlLabel
+      control={
+        <Switch
+          {...input}
+          checked={input.value ? true : false}
+          onChange={input.onChange}
+          value="checked"
+          color="primary"
+        />
+      }
+      labelPlacement="start"
+      label={label}
+    />
+  </div>
+);
+
 const yesno = [{ label: "Sim" }, { label: "Não" }];
 
 function OtherDetails({ history, handleSubmit, submitting }) {
@@ -75,10 +95,9 @@ function OtherDetails({ history, handleSubmit, submitting }) {
           <Container maxWidth="sm" align="left">
             <Field
               name="contrato"
-              label="Possui contrato:"
-              options={yesno}
+              label="Possui contrato?"
               type="text"
-              component={renderSelect}
+              component={renderSwitch}
             />
             <Field
               name="num_contrato"

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field, getFormValues } from "redux-form";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -20,19 +20,6 @@ import Switch from "@material-ui/core/Switch";
 
 import Menu from "../../components/Menu";
 
-const renderInputNotReq = ({ input, label, placeholder }) => (
-  <div>
-    <TextField
-      {...input}
-      label={label}
-      placeholder={placeholder}
-      fullWidth
-      margin="normal"
-      size="small"
-    />
-  </div>
-);
-
 const renderInput = ({ input, label, placeholder }) => (
   <div>
     <TextField
@@ -47,17 +34,16 @@ const renderInput = ({ input, label, placeholder }) => (
   </div>
 );
 
-const renderSelectNoReq = ({ input, label, options }) => (
+const renderInputNoReq = ({ input, label, placeholder }) => (
   <div>
-    <FormControl fullWidth margin="normal">
-      <InputLabel>{label}</InputLabel>
-      <NativeSelect native {...input}>
-        <option value="" />
-        {options.map(option => (
-          <option value={option.label}>{option.label}</option>
-        ))}
-      </NativeSelect>
-    </FormControl>
+    <TextField
+      {...input}
+      label={label}
+      placeholder={placeholder}
+      fullWidth
+      margin="normal"
+      size="small"
+    />
   </div>
 );
 
@@ -75,20 +61,20 @@ const renderSelect = ({ input, label, options }) => (
   </div>
 );
 
-const renderSwitch = ({ input, checked, options }) => (
+const renderSwitch = ({ input, label }) => (
   <div>
     <FormControlLabel
       control={
         <Switch
           {...input}
-          checked={checked}
-          onChange={options}
+          checked={input.value ? true : false}
+          onChange={input.onChange}
           value="checked"
           color="primary"
         />
       }
       labelPlacement="start"
-      label="Ponteiro Extra ?"
+      label={label}
     />
   </div>
 );
@@ -144,17 +130,9 @@ const tool_types = [
   { label: "Ponteiro Universal Longo" }
 ];
 
-function HidraulicDetails({ history, handleSubmit, submitting }) {
-  const [state, setState] = React.useState({
-    checked: true
-  });
-
-  const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
-
+function HidraulicDetails({ values, history, handleSubmit, submitting }) {
   function ExtraToolOptions() {
-    if (state.checked) {
+    if (values.pont_extra) {
       return (
         <>
           <Field
@@ -169,12 +147,6 @@ function HidraulicDetails({ history, handleSubmit, submitting }) {
             options={tool_types}
             type="text"
             component={renderSelect}
-          />
-          <Field
-            name="info_ad_hidraulico"
-            label="Informações adicionais:"
-            type="text"
-            component={renderInput}
           />
         </>
       );
@@ -216,10 +188,9 @@ function HidraulicDetails({ history, handleSubmit, submitting }) {
             <Field name="ano" label="Ano" type="text" component={renderInput} />
             <Field
               name="engate"
-              label="Possui engate rápido:"
-              options={yesno}
+              label="Possui engate rápido?"
               type="text"
-              component={renderSelect}
+              component={renderSwitch}
             />
             <Field
               name="informacoes_relevantes"
@@ -244,13 +215,17 @@ function HidraulicDetails({ history, handleSubmit, submitting }) {
             />
             <Field
               name="pont_extra"
-              label="Ponteira extra:"
-              checked={state.checked}
-              options={handleChange("checked")}
+              label="Ponteira extra?"
               type="text"
               component={renderSwitch}
             />
             <ExtraToolOptions />
+            <Field
+              name="info_ad_hidraulico"
+              label="Informações adicionais:"
+              type="text"
+              component={renderInputNoReq}
+            />
           </Container>
           <Link to="/contractoptions">
             <Button variant="contained" style={{ margin: 15 }}>
@@ -276,6 +251,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
+  values: getFormValues("infoReduxForm")(state),
   kit: state.select_infos.kit,
   maquina: state.select_infos.maquina
 });

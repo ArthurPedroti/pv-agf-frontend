@@ -42,7 +42,7 @@ const renderInput = ({ input, label, placeholder }) => (
 );
 
 const radioButton = ({ input, ...rest }) => (
-  <RadioGroup {...input} {...rest}>
+  <RadioGroup {...input} {...rest} value={input.value || "system"}>
     <FormControlLabel
       value="system"
       control={<Radio />}
@@ -75,30 +75,32 @@ function ClientDetails({
   }
 
   function ClientSelect(values) {
-    if (values.clientType === "seller") {
-      return (
-        <WindowedSelect
-          options={clientList}
-          value={cliente}
-          styles={customStyles}
-          theme={theme => ({
-            ...theme,
-            colors: {
-              ...theme.colors,
-              primary25: "ambar",
-              primary: "black"
-            }
-          })}
-          textFieldProps={{
-            InputLabelProps: { shrink: true }
-          }}
-          isClearable={true}
-          windowThreshold="10"
-          placeholder={"Selecione um cliente"}
-          onChange={changedItem => toggleClient(changedItem)}
-          getOptionLabel={option => option.razao_social + " - " + option.cnpj}
-        />
-      );
+    if (values !== undefined) {
+      if (values.clientType === "seller") {
+        return (
+          <WindowedSelect
+            options={clientList}
+            value={cliente}
+            styles={customStyles}
+            theme={theme => ({
+              ...theme,
+              colors: {
+                ...theme.colors,
+                primary25: "ambar",
+                primary: "black"
+              }
+            })}
+            textFieldProps={{
+              InputLabelProps: { shrink: true }
+            }}
+            isClearable={true}
+            windowThreshold="10"
+            placeholder={"Selecione um cliente"}
+            onChange={changedItem => toggleClient(changedItem)}
+            getOptionLabel={option => option.razao_social + " - " + option.cnpj}
+          />
+        );
+      }
     }
     return (
       <WindowedSelect
