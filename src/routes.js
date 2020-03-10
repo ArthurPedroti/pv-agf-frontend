@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import importedComponent from "react-imported-component";
 
-import Start from "./pages/Home";
+import Login from "./pages/Login";
 import SellerDetails from "./pages/SellerDetails";
 import ClientDetails from "./pages/ClientDetails";
 import ClientRegister from "./pages/ClientRegister";
@@ -22,7 +22,7 @@ function App() {
     <BrowserRouter>
       <div>
         <Switch>
-          <Route exact path="/" component={SellerDetails} />
+          <Route exact path="/" component={Login} />
           <Route exact path="/sellerdetails" component={SellerDetails} />
           <Route exact path="/clientdetails" component={ClientDetails} />
           <Route exact path="/clientregister" component={ClientRegister} />

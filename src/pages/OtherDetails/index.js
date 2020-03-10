@@ -79,8 +79,6 @@ const renderSwitch = ({ input, label }) => (
   </div>
 );
 
-const yesno = [{ label: "Sim" }, { label: "Não" }];
-
 function OtherDetails({ history, handleSubmit, submitting }) {
   async function showResults() {
     history.push(`/confirm`);

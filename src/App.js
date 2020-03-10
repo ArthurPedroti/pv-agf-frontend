@@ -11,20 +11,6 @@ import grey from "@material-ui/core/colors/grey";
 
 import Routes from "./routes";
 
-import {
-  loadSellers,
-  loadOperation_natures,
-  loadSystem_clients,
-  loadSeller_clients,
-  loadProducts,
-  loadKits,
-  loadMachines,
-  loadImportant_infos,
-  loadConditions,
-  loadTool_types,
-  loadPayment_methods,
-  loadFreights
-} from "./store/actions api/fetchBD";
 import { store, persistor } from "./store";
 
 const theme = createMuiTheme({
@@ -49,20 +35,6 @@ const theme = createMuiTheme({
     }
   }
 });
-
-store.dispatch(loadSellers());
-store.dispatch(loadSellers());
-store.dispatch(loadOperation_natures());
-store.dispatch(loadSystem_clients());
-store.dispatch(loadSeller_clients());
-store.dispatch(loadProducts());
-store.dispatch(loadKits());
-store.dispatch(loadMachines());
-store.dispatch(loadImportant_infos());
-store.dispatch(loadConditions());
-store.dispatch(loadTool_types());
-store.dispatch(loadPayment_methods());
-store.dispatch(loadFreights());
 
 function App() {
   return (
