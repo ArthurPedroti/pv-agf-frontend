@@ -20,4 +20,8 @@
 
 ## Syncronism of data and data updates
 
+## Config Print Order Normal
+
+$$
 ## option for payment table: fixed table with parcels incremation, see old pvagf
+$$

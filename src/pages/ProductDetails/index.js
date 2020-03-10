@@ -112,7 +112,7 @@ function ProdutoDetails({
 
   return (
     <div>
-      <Menu title="Detalhes dos Produtos" />
+      <Menu title="Informações dos Produtos" />
 
       <Container maxWidth="md" component="main" align="center">
         <Container>

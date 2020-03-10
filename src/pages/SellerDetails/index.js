@@ -41,7 +41,7 @@ function SellerDetails({
 
   return (
     <div>
-      <Menu title="Detalhes do Vendedor" />
+      <Menu title="Informações do Vendedor" />
 
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>

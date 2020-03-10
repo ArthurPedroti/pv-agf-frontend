@@ -129,7 +129,7 @@ function ClientDetails({
 
   return (
     <div>
-      <Menu title="Detalhes do Cliente" />
+      <Menu title="Informações do Cliente" />
 
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>

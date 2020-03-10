@@ -1,14 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { reduxForm, getFormValues } from "redux-form";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
-
-import { bindActionCreators } from "redux";
-import { Creators as SelectActions } from "../../store/ducks/select_infos";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -16,6 +13,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import TableHead from "@material-ui/core/TableHead";
 
 import Menu from "../../components/Menu";
 
@@ -31,29 +34,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const StyledTableCell = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
-  },
-  body: {
-    fontSize: 16
-  }
-}))(TableCell);
-
-class TableData extends Component {
-  render() {
-    return (
-      <TableRow>
-        <StyledTableCell>{this.props.title}</StyledTableCell>
-        <StyledTableCell size="medium" align="right">
-          {this.props.data}
-        </StyledTableCell>
-      </TableRow>
-    );
-  }
-}
-
 function Confirm({
   values,
   cliente,
@@ -64,12 +44,64 @@ function Confirm({
   submitting
 }) {
   const classes = useStyles();
-  const engate = (values.engate = true ? "SIM" : "NÃO");
-  const ponteira = (values.pont_extra = true ? "SIM" : "NÃO");
-  const contrato = (values.contrato = true ? "SIM" : "NÃO");
 
   async function showResults() {
     history.push(`/success`);
+  }
+
+  function ExtraToolOptions() {
+    if (values.pont_extra) {
+      return (
+        <>
+          <strong>Ponteira extra: </strong>
+          Sim <br />
+          <strong>Quantidade extra: </strong>
+          {values.qtd_extra} <br />
+          <strong>Tipo extra: </strong>
+          {values.tipo_extra} <br />
+        </>
+      );
+    }
+    return null;
+  }
+
+  function Contrato() {
+    if (values.num_contrato) {
+      return (
+        <>
+          <strong>Contrato: </strong>
+          Sim <br />
+          <strong>Nº do Contrato: </strong>
+          {values.num_contrato}
+          <br />
+        </>
+      );
+    }
+    return null;
+  }
+
+  function InfoAdPro() {
+    if (values.info_ad_produtos) {
+      return (
+        <caption>
+          <strong>Informações adicionais: </strong>
+          {values.info_ad_produtos} <br />
+        </caption>
+      );
+    }
+    return null;
+  }
+
+  function InfoAdPag() {
+    if (values.info_ad_pagamento) {
+      return (
+        <caption>
+          <strong>Informações adicionais: </strong>
+          {values.info_ad_pagamento} <br />
+        </caption>
+      );
+    }
+    return null;
   }
 
   return (
@@ -79,117 +111,254 @@ function Confirm({
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
-            <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
-                <TableBody>
-                  <TableData title="Vendedor" data={values.vendedor} />
-                  <TableData
-                    title="Natureza da Operação"
-                    data={values.natureza_operacao}
-                  />
-                  <TableData
-                    title="Código do cliente"
-                    data={cliente.codigo_cliente}
-                  />
-                  <TableData title="Razão Social" data={cliente.razao_social} />
-                  <TableData title="CNPJ" data={cliente.cnpj} />
-                  <TableData
-                    title="Inscrição Estadual"
-                    data={cliente.inscricao_estadual}
-                  />
-                  <TableData title="Endereço" data={cliente.endereco} />
-                  <TableData title="Bairro" data={cliente.bairro} />
-                  <TableData title="Município" data={cliente.municipio} />
-                  <TableData title="UF" data={cliente.uf} />
-                  <TableData title="CEP" data={cliente.cep} />
-                  <TableData title="Telefone" data={cliente.telefone} />
-                  <TableData title="Celular" data={cliente.celular} />
-                  <TableData
-                    title="Cargo do contato"
-                    data={values.cargo_contato}
-                  />
-                  <TableData
-                    title="Nome do contato"
-                    data={values.nome_contato}
-                  />
-                  <TableData
-                    title="Email do contato"
-                    data={values.email_contato}
-                  />
-                  <TableData title="Produtos:" />
-                  {produtos.map(produto => (
-                    <TableData
-                      title={produto.product.codigo}
-                      data={produto.value}
-                    />
-                  ))}
-                  <TableData
-                    title="Informações adicionais"
-                    data={values.info_ad_produtos}
-                  />
-                  <TableData
-                    title="Tipo de Contrato"
-                    data={values.tipo_contrato}
-                  />
-                  <TableData title="Kit" data={values.kit} />
-                  <TableData title="Máquina" data={values.maquina} />
-                  <TableData title="Modelo" data={values.modelo} />
-                  <TableData title="Ano" data={values.ano} />
-                  <TableData title="Engate" data={engate} />
-                  <TableData
-                    title="Informações relevantes"
-                    data={values.informacoes_relevantes}
-                  />
-                  <TableData title="Condição" data={values.condicao} />
-                  <TableData
-                    title="Tipo de ponteira"
-                    data={values.tipo_ponteira}
-                  />
-                  <TableData title="Ponteira extra" data={ponteira} />
-                  <TableData title="Quantidade extra" data={values.qtd_extra} />
-                  <TableData title="Tipo extra" data={values.tipo_extra} />
-                  <TableData
-                    title="Informações adicionais"
-                    data={values.info_ad_hidraulico}
-                  />
+            <ExpansionPanel>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography className={classes.heading}>
+                  Informações do Vendedor
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <p>
+                  <strong>Vendedor: </strong>
+                  {values.vendedor}
+                  <br />
+                  <strong>Natureza da Operação: </strong>
+                  {values.natureza_operacao}
+                </p>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
 
-                  <TableData title="Parcelas de pagamento" />
-                  <TableData title="Data" data="Valor" />
+            <ExpansionPanel>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography className={classes.heading}>
+                  Informações do Cliente
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <p>
+                  <strong>Código do cliente: </strong>
+                  {cliente.codigo_cliente} <br />
+                  <strong>Razão Social: </strong>
+                  {cliente.razao_social} <br />
+                  <strong>CNPJ: </strong>
+                  {cliente.cnpj} <br />
+                  <strong>Inscrição Estadual: </strong>
+                  {cliente.inscricao_estadual} <br />
+                  <strong>Endereço: </strong>
+                  {cliente.endereco} <br />
+                  <strong>Bairro: </strong>
+                  {cliente.bairro} <br />
+                  <strong>Município: </strong>
+                  {cliente.municipio} <br />
+                  <strong>UF: </strong>
+                  {cliente.uf} <br />
+                  <strong>CEP: </strong>
+                  {cliente.cep} <br />
+                  <strong>Telefone: </strong>
+                  {cliente.telefone} <br />
+                  <strong>Celular: </strong>
+                  {cliente.celular} <br />
+                  <strong>Cargo do contato: </strong>
+                  {values.cargo_contato} <br />
+                  <strong>Nome do contato: </strong>
+                  {values.nome_contato} <br />
+                  <strong>Email do contato: </strong>
+                  {values.email_contato}
+                </p>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
 
-                  {parcelas.map(parcela => (
-                    <TableData
-                      title={parcela.date}
-                      data={parcela.value.toLocaleString("pt-br", {
-                        style: "currency",
-                        currency: "BRL"
-                      })}
-                    />
-                  ))}
-                  <TableData
-                    title="Informações adicionais"
-                    data={values.info_ad_pagamento}
-                  />
+            <ExpansionPanel>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography className={classes.heading}>
+                  Informações dos Produtos
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <TableContainer component={Paper}>
+                  <Table aria-label="caption table">
+                    <InfoAdPro />
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Produto</TableCell>
+                        <TableCell align="center">Preço</TableCell>
+                        <TableCell align="center">Quantidade</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {produtos.map(product => (
+                        <TableRow key={product.product.descricao}>
+                          <TableCell component="th" scope="row">
+                            {product.product.descricao}
+                          </TableCell>
+                          <TableCell align="center">
+                            {product.value.toLocaleString("pt-br", {
+                              style: "currency",
+                              currency: "BRL"
+                            })}
+                          </TableCell>
+                          <TableCell align="center">{product.qtd}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
 
-                  <TableData title="Frete" data={values.frete} />
-                  <TableData title="Contrato" data={contrato} />
-                  <TableData
-                    title="Nº do Contrato"
-                    data={values.num_contrato}
-                  />
-                  <TableData title="Nº do Pedido" data={values.num_pedido} />
-                  <TableData title="Nº da NF" data={values.num_nf} />
-                  <TableData
-                    title="Nº do pedido de compra"
-                    data={values.num_pc}
-                  />
-                  <TableData
-                    title="Data do pedido de compra"
-                    data={values.data_pc}
-                  />
-                  <TableData title="NS" data={values.ns} />
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <ExpansionPanel>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography className={classes.heading}>
+                  Tipo de Contrato
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <p>
+                  <strong>Tipo de Contrato: </strong>
+                  {values.tipo_contrato}
+                </p>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+
+            <ExpansionPanel>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography className={classes.heading}>
+                  Informações do Kit Hidráulico
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <p>
+                  <strong>Kit: </strong>
+                  {values.kit} <br />
+                  <strong>Máquina: </strong>
+                  {values.maquina} <br />
+                  <strong>Modelo: </strong>
+                  {values.modelo} <br />
+                  <strong>Ano: </strong>
+                  {values.ano} <br />
+                  <strong>Engate: </strong>
+                  {values.engate} <br />
+                  <strong>Informações relevantes: </strong>
+                  {values.informacoes_relevantes} <br />
+                  <strong>Condição: </strong>
+                  {values.condicao} <br />
+                  <strong>Tipo de ponteira: </strong>
+                  {values.tipo_ponteira} <br />
+                  <ExtraToolOptions />
+                  <strong>Informações adicionais: </strong>
+                  {values.info_ad_hidraulico} <br />
+                </p>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+
+            <ExpansionPanel>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography className={classes.heading}>
+                  Informações do Pagamento
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <TableContainer component={Paper}>
+                  <Table aria-label="caption table">
+                    <InfoAdPag />
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center">Parcela</TableCell>
+                        <TableCell align="center">Data</TableCell>
+                        <TableCell align="center">Valor</TableCell>
+                        <TableCell align="center">Tipo de Pagamento</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {parcelas.map(payment => (
+                        <TableRow key={payment.num}>
+                          <TableCell align="center">{payment.num}</TableCell>
+                          <TableCell align="center">{payment.date}</TableCell>
+                          <TableCell align="center">
+                            {payment.value.toLocaleString("pt-br", {
+                              style: "currency",
+                              currency: "BRL"
+                            })}
+                          </TableCell>
+                          <TableCell align="center">
+                            {payment.condition}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+
+            <ExpansionPanel>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography className={classes.heading}>
+                  Informações do Frete
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <p>
+                  <strong>Responsável: </strong>
+                  {values.frete}
+                </p>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+
+            <ExpansionPanel>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography className={classes.heading}>
+                  Outras Informações
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <p>
+                  <Contrato />
+                  <strong>Nº do Pedido: </strong>
+                  {values.num_pedido} <br />
+                  <strong>Nº da NF: </strong>
+                  {values.num_nf} <br />
+                  <strong>Nº do pedido de compra: </strong>
+                  {values.num_pc} <br />
+                  <strong>Data do pedido de compra: </strong>
+                  {values.data_pc} <br />
+                  <strong>Nº de Serie: </strong>
+                  {values.ns}
+                </p>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
           </Container>
           <Link to="/otherdetails">
             <Button variant="contained" style={{ margin: 15 }}>
@@ -211,19 +380,14 @@ function Confirm({
   );
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(SelectActions, dispatch);
-
 const mapStateToProps = state => ({
   values: getFormValues("infoReduxForm")(state),
-  vendedor: state.select_infos.vendedor,
-  naturezaOperacao: state.select_infos.naturezaOperacao,
   cliente: state.select_infos.cliente,
   produtos: state.productList,
   parcelas: state.paymentList
 });
 
-Confirm = connect(mapStateToProps, mapDispatchToProps)(Confirm);
+Confirm = connect(mapStateToProps)(Confirm);
 
 export default reduxForm({
   form: "infoReduxForm",

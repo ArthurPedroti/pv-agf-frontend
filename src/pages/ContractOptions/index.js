@@ -45,7 +45,7 @@ function ClientDetails({ formValues, history, handleSubmit, submitting }) {
 
   return (
     <div>
-      <Menu title="Detalhes do Cliente" />
+      <Menu title="Tipo de Contrato" />
 
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>

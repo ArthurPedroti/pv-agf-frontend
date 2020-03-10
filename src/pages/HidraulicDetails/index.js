@@ -160,7 +160,7 @@ function HidraulicDetails({ values, history, handleSubmit, submitting }) {
 
   return (
     <div>
-      <Menu title="Detalhes do Cliente" />
+      <Menu title="Informações do Kit Hidráulico" />
 
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
