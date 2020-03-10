@@ -591,7 +591,7 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
     if (errorCount === 0) {
       setErrors({});
 
-      pdfMake.createPdf(documentDefinition).open();
+      pdfMake.createPdf(documentDefinition).download();
     }
     errorCount = 0;
   };

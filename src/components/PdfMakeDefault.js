@@ -530,7 +530,7 @@ export default function PdfMakeDefault({
     if (errorCount === 0) {
       setErrors({});
 
-      pdfMake.createPdf(documentDefinition).open();
+      pdfMake.createPdf(documentDefinition).download();
     }
     errorCount = 0;
   };
