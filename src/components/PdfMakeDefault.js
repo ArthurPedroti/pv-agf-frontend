@@ -3,7 +3,12 @@ import pdfMake from "pdfmake/build/pdfmake";
 import vfsFonts from "pdfmake/build/vfs_fonts";
 import Button from "@material-ui/core/Button";
 
-export default function PdfMake({ cliente, values, produtos, parcelas }) {
+export default function PdfMakeDefault({
+  cliente,
+  values,
+  produtos,
+  parcelas
+}) {
   const productsFormat = produtos => {
     return produtos.map(produto => {
       return [
@@ -330,69 +335,6 @@ export default function PdfMake({ cliente, values, produtos, parcelas }) {
       {
         table: {
           widths: "*",
-          body: [
-            [
-              {
-                text: "KIT HIDRÁULICO",
-                alignment: "center",
-                colSpan: 3,
-                bold: true,
-                fontSize: 9,
-                fillColor: "#dddddd"
-              },
-              {},
-              {}
-            ],
-            [
-              {
-                text: [
-                  values.kit,
-                  "\n\n",
-                  { text: "SOBRE A MÁQUINA: ", bold: true },
-                  values.maquina,
-                  "\n",
-                  { text: "MODELO: ", bold: true },
-                  values.modelo,
-                  "\n",
-                  { text: "ANO: ", bold: true },
-                  values.ano,
-                  "\n"
-                ]
-              },
-              {
-                text: [
-                  { text: "MÁQUINA POSSUI ENGATE RÁPIDO: ", bold: true },
-                  engate,
-                  "\n",
-                  { text: "INFORMAÇÕES RELEVANTES: ", bold: true },
-                  values.informacoes_relevantes,
-                  "\n",
-                  { text: "TIPO DE PONTEIRA: ", bold: true },
-                  values.tipo_ponteira,
-                  "\n\n",
-                  ...pontExtraFormated
-                ]
-              },
-              {
-                text: [
-                  {
-                    text: "USO EXCLUSIVO PARA ROMPEDORES HIDRÁULICOS: ",
-                    bold: true
-                  },
-                  values.condicao,
-                  "\n"
-                ]
-              }
-            ]
-          ],
-          align: "center"
-        }
-      },
-      ...infoAdd02,
-      "\n",
-      {
-        table: {
-          widths: "*",
           body: [...formattedPayments]
         }
       },
@@ -432,9 +374,6 @@ export default function PdfMake({ cliente, values, produtos, parcelas }) {
                   "\n",
                   { text: "DATA PREVISÃO DE ENTREGA: ", bold: true },
                   "A COMBINAR",
-                  "\n",
-                  { text: "DATA PREVISTA DE INSTALAÇÃO: ", bold: true },
-                  "3 a 10 dias após a chegada do equipamento",
                   "\n"
                 ]
               },

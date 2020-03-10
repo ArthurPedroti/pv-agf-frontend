@@ -8,7 +8,7 @@ import ClientDetails from "./pages/ClientDetails";
 import ClientRegister from "./pages/ClientRegister";
 import ProductDetails from "./pages/ProductDetails";
 import ContractOptions from "./pages/ContractOptions";
-import HidraulicDetails from "./pages/HidraulicDetails";
+import ContractDetails from "./pages/ContractDetails";
 import PaymentDetails from "./pages/PaymentDetails";
 import FreightDetails from "./pages/FreightDetails";
 import OtherDetails from "./pages/OtherDetails";
@@ -28,7 +28,7 @@ function App() {
           <Route exact path="/clientregister" component={ClientRegister} />
           <Route exact path="/productdetails" component={ProductDetails} />
           <Route exact path="/contractoptions" component={ContractOptions} />
-          <Route exact path="/hidraulicdetails" component={HidraulicDetails} />
+          <Route exact path="/contractdetails" component={ContractDetails} />
           <Route exact path="/paymentdetails" component={PaymentDetails} />
           <Route exact path="/freightdetails" component={FreightDetails} />
           <Route exact path="/otherdetails" component={OtherDetails} />

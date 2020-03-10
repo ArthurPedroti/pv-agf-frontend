@@ -22,6 +22,8 @@
 
 ## Config Print Order Normal
 
+## Disable contractdetails on select default contract
+
 $$
 ## option for payment table: fixed table with parcels incremation, see old pvagf
 $$

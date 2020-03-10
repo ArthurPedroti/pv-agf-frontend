@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { reduxForm, Field, getFormValues } from "redux-form";
 
@@ -7,18 +7,17 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 
 import { bindActionCreators } from "redux";
-import { Creators as SelectActions } from "../../store/ducks/select_infos";
+import { Creators as SelectActions } from "../../../store/ducks/select_infos";
 
 import TextField from "@material-ui/core/TextField";
 
 import NativeSelect from "@material-ui/core/NativeSelect";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 
-import Menu from "../../components/Menu";
+import Menu from "../../../components/Menu";
 
 const renderInput = ({ input, label, placeholder }) => (
   <div>
@@ -130,7 +129,7 @@ const tool_types = [
   { label: "Ponteiro Universal Longo" }
 ];
 
-function HidraulicDetails({ values, history, handleSubmit, submitting }) {
+function Kit({ values, history, handleSubmit, submitting }) {
   function ExtraToolOptions() {
     if (values.pont_extra) {
       return (
@@ -194,7 +193,7 @@ function HidraulicDetails({ values, history, handleSubmit, submitting }) {
             />
             <Field
               name="informacoes_relevantes"
-              label="Informcações relevantes:"
+              label="Informaações relevantes:"
               options={relevant_infos}
               type="text"
               component={renderSelect}
@@ -256,12 +255,11 @@ const mapStateToProps = state => ({
   maquina: state.select_infos.maquina
 });
 
-HidraulicDetails = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HidraulicDetails);
+Kit = connect(mapStateToProps, mapDispatchToProps)(Kit);
 
-export default reduxForm({
-  form: "infoReduxForm",
-  destroyOnUnmount: false
-})(HidraulicDetails);
+export default withRouter(
+  reduxForm({
+    form: "infoReduxForm",
+    destroyOnUnmount: false
+  })(Kit)
+);

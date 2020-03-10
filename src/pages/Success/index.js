@@ -10,7 +10,9 @@ import { bindActionCreators } from "redux";
 import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
 import Menu from "../../components/Menu";
-import PdfMake from "../../components/PdfMake";
+import PdfMakeDefault from "../../components/PdfMakeDefault";
+import PdfMakeKit from "../../components/PdfMakeKit";
+import PdfMakeMonofio from "../../components/PdfMakeMonofio";
 
 function Confirm({
   values,
@@ -18,27 +20,13 @@ function Confirm({
   naturezaOperacao,
   cliente,
   produtos,
-  parcelas,
-  history,
-  handleSubmit,
-  submitting
+  parcelas
 }) {
-  async function showResults() {
-    history.push(`/success`);
-  }
-
-  return (
-    <div>
-      <Menu title="Confirme as informações" />
-      <Container maxWidth="md" component="main" align="center">
-        <form onSubmit={handleSubmit(showResults)}>
-          <Container maxWidth="sm" align="left"></Container>
-          <Link to="/confirm">
-            <Button variant="contained" style={{ margin: 15 }}>
-              Voltar
-            </Button>
-          </Link>
-          <PdfMake
+  function PdfMake() {
+    if (values !== undefined) {
+      if (values.tipo_contrato === "Contrato para Kits Hidráulicos") {
+        return (
+          <PdfMakeKit
             vendedor={vendedor.name}
             naturezaOperacao={naturezaOperacao.name}
             cliente={cliente}
@@ -46,6 +34,46 @@ function Confirm({
             produtos={produtos}
             parcelas={parcelas}
           />
+        );
+      }
+    }
+    if (values.tipo_contrato === "Contrato para Monofio") {
+      console.log("mono");
+      return (
+        <PdfMakeMonofio
+          vendedor={vendedor.name}
+          naturezaOperacao={naturezaOperacao.name}
+          cliente={cliente}
+          values={values}
+          produtos={produtos}
+          parcelas={parcelas}
+        />
+      );
+    }
+    return (
+      <PdfMakeDefault
+        vendedor={vendedor.name}
+        naturezaOperacao={naturezaOperacao.name}
+        cliente={cliente}
+        values={values}
+        produtos={produtos}
+        parcelas={parcelas}
+      />
+    );
+  }
+
+  return (
+    <div>
+      <Menu title="Impressão" />
+      <Container maxWidth="md" component="main" align="center">
+        <form>
+          <Container maxWidth="sm" align="left"></Container>
+          <Link to="/confirm">
+            <Button variant="contained" style={{ margin: 15 }}>
+              Voltar
+            </Button>
+          </Link>
+          <PdfMake />
         </form>
       </Container>
     </div>

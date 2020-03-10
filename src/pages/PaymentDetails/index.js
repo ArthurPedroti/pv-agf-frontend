@@ -154,9 +154,9 @@ function PaymentDetails({
 
   function BackButton() {
     if (values !== undefined) {
-      if (values.tipo_contrato === "Equipamentos Hidráulicos") {
+      if (values.tipo_contrato === "Contrato Padrão") {
         return (
-          <Link to="/hidraulicdetails">
+          <Link to="/contractoptions">
             <Button variant="contained" style={{ margin: 15 }}>
               Voltar
             </Button>
@@ -165,7 +165,7 @@ function PaymentDetails({
       }
     }
     return (
-      <Link to="/contractoptions">
+      <Link to="/contractdetails">
         <Button variant="contained" style={{ margin: 15 }}>
           Voltar
         </Button>

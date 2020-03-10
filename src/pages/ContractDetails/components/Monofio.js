@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { reduxForm, Field, getFormValues } from "redux-form";
 
@@ -7,19 +7,15 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 
 import { bindActionCreators } from "redux";
-import { Creators as SelectActions } from "../../store/ducks/select_infos";
+import { Creators as SelectActions } from "../../../store/ducks/select_infos";
 
 import NativeSelect from "@material-ui/core/NativeSelect";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
-import Menu from "../../components/Menu";
-
-const contract_options = [
-  { label: "Contrato Padrão" },
-  { label: "Contrato para Kits Hidráulicos" },
-  { label: "Contrato para Monofio" }
-];
+import Menu from "../../../components/Menu";
 
 const renderSelect = ({ input, label, options }) => (
   <div>
@@ -35,31 +31,53 @@ const renderSelect = ({ input, label, options }) => (
   </div>
 );
 
-function ContractOptions({ formValues, history, handleSubmit, submitting }) {
+const renderSwitch = ({ input, label }) => (
+  <div>
+    <FormControlLabel
+      control={
+        <Switch
+          {...input}
+          checked={input.value ? true : false}
+          onChange={input.onChange}
+          value="checked"
+          color="primary"
+        />
+      }
+      labelPlacement="start"
+      label={label}
+    />
+  </div>
+);
+
+const circuit_length = [{ label: "18 M" }, { label: "24,5 M" }];
+
+function Monofio({ values, history, handleSubmit, submitting }) {
   async function showResults() {
-    if (formValues.tipo_contrato === "Contrato Padrão") {
-      history.push(`/paymentdetails`);
-    } else {
-      history.push(`/contractdetails`);
-    }
+    history.push(`/paymentdetails`);
   }
 
   return (
     <div>
-      <Menu title="Tipo de Contrato" />
+      <Menu title="Informações do Kit Hidráulico" />
 
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
             <Field
-              name="tipo_contrato"
-              options={contract_options}
-              label="Selecione o tipo de contrato"
+              name="kit_instalacao"
+              label="Acompanha kit de instalação (CE25P10001)?"
+              type="text"
+              component={renderSwitch}
+            />
+            <Field
+              name="comprimento_circuito"
+              label="Comprimento do circuito:"
+              options={circuit_length}
               type="text"
               component={renderSelect}
             />
           </Container>
-          <Link to="/productdetails">
+          <Link to="/contractoptions">
             <Button variant="contained" style={{ margin: 15 }}>
               Voltar
             </Button>
@@ -83,12 +101,16 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
-  formValues: getFormValues("infoReduxForm")(state)
+  values: getFormValues("infoReduxForm")(state),
+  kit: state.select_infos.kit,
+  maquina: state.select_infos.maquina
 });
 
-ContractOptions = connect(mapStateToProps, mapDispatchToProps)(ContractOptions);
+Monofio = connect(mapStateToProps, mapDispatchToProps)(Monofio);
 
-export default reduxForm({
-  form: "infoReduxForm",
-  destroyOnUnmount: false
-})(ContractOptions);
+export default withRouter(
+  reduxForm({
+    form: "infoReduxForm",
+    destroyOnUnmount: false
+  })(Monofio)
+);

@@ -97,14 +97,14 @@ export default function Menu({ title }) {
           address="productdetails"
         />
         <AppItem
-          label="Contrato"
+          label="Tipo de Contrato"
           icon={<DescriptionIcon />}
           address="contractoptions"
         />
         <AppItem
-          label="Kit Hidráulico"
+          label="Detalhes do Contrato"
           icon={<CallSplitIcon />}
-          address="hidraulicdetails"
+          address="contractdetails"
         />
         <AppItem
           label="Pagamento"
