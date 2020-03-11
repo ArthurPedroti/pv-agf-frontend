@@ -2,31 +2,47 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   height: 100%;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  position: absolute;
   align-items: center;
+  text-align: center;
+  background-color: rgb(16, 15, 18);
+  color: #fff;
 `;
 export const Login__wrapper = styled.div`
   width: 100%;
   max-width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
+  margin: 0 auto;
+  display: grid;
 
-  img {
-    max-width: 250px;
-    margin-bottom: 10px;
+  span {
+    font-size: 16px;
+    line-height: 26px;
+    padding: 5px 0;
+  }
+
+  .version {
+    font-weight: bold;
   }
 `;
 export const TextField = styled.input`
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
+  display: block;
+  border: 2px solid rgb(247, 223, 30);
+  background: rgb(16, 15, 18);
+  color: #fff;
   border-radius: 4px;
   box-sizing: border-box;
+  outline-color: rgb(247, 223, 30);
+
+  ::placeholder {
+    color: #fff;
+    font-size: 16px;
+    line-height: 26px;
+  }
 `;
 export const Button = styled.button`
   width: 100%;

@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { store } from "../../store";
 
 import * as apiActions from "../../store/actions api/fetchBD";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.svg";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { Container, Login__wrapper, TextField, Button } from "./styles";
@@ -63,9 +63,10 @@ function Login({ history }) {
             placeholder="Digite a senha"
             onChange={e => setPassword(e.target.value)}
           />
-          {error}
+          <span>{error}</span>
           <Button onClick={handleSubmit}>Login</Button>
-          {loading}
+          <span className="version">v1.0.1</span>
+          <span>{loading}</span>
         </Login__wrapper>
       </Container>
     </div>

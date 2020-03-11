@@ -193,7 +193,7 @@ function Kit({ values, history, handleSubmit, submitting }) {
             />
             <Field
               name="informacoes_relevantes"
-              label="Informaações relevantes:"
+              label="Informações relevantes:"
               options={relevant_infos}
               type="text"
               component={renderSelect}
