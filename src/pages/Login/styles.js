@@ -36,7 +36,11 @@ export const TextField = styled.input`
   color: #fff;
   border-radius: 4px;
   box-sizing: border-box;
-  outline-color: rgb(247, 223, 30);
+  -webkit-transition: all 0.2s ease-in-out;
+
+  :focus {
+    box-shadow: 0 0 7px rgb(247, 223, 30);
+  }
 
   ::placeholder {
     color: #fff;

@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { reduxForm, getFormValues } from "redux-form";
 import { store } from "../../store";
+import pjson from "../../../package.json";
 
 import * as apiActions from "../../store/actions api/fetchBD";
 import logo from "../../assets/logo.svg";
@@ -25,29 +26,34 @@ import {
   loadFreights
 } from "../../store/actions api/fetchBD";
 
-function Login({ history }) {
+function Login({ history, values }) {
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState("");
   const [error, setError] = React.useState("");
 
   async function handleSubmit(e) {
     if (password === "agf123") {
-      setLoading(<CircularProgress />);
-      await store.dispatch(loadSellers());
-      await store.dispatch(loadSellers());
-      await store.dispatch(loadOperation_natures());
-      await store.dispatch(loadSystem_clients());
-      await store.dispatch(loadSeller_clients());
-      await store.dispatch(loadProducts());
-      await store.dispatch(loadKits());
-      await store.dispatch(loadMachines());
-      await store.dispatch(loadImportant_infos());
-      await store.dispatch(loadConditions());
-      await store.dispatch(loadTool_types());
-      await store.dispatch(loadPayment_methods());
-      await store.dispatch(loadFreights());
+      if (values.sync_date) {
+        history.push(`/sellerdetails`);
+      } else {
+        setLoading(<CircularProgress />);
+        await store.dispatch(loadSellers());
+        await store.dispatch(loadSellers());
+        await store.dispatch(loadOperation_natures());
+        await store.dispatch(loadSystem_clients());
+        await store.dispatch(loadSeller_clients());
+        await store.dispatch(loadProducts());
+        await store.dispatch(loadKits());
+        await store.dispatch(loadMachines());
+        await store.dispatch(loadImportant_infos());
+        await store.dispatch(loadConditions());
+        await store.dispatch(loadTool_types());
+        await store.dispatch(loadPayment_methods());
+        await store.dispatch(loadFreights());
+        values.sync_date = new Date();
 
-      history.push(`/sellerdetails`);
+        history.push(`/sellerdetails`);
+      }
     } else {
       setError("Senha incorreta!");
     }
@@ -65,7 +71,7 @@ function Login({ history }) {
           />
           <span>{error}</span>
           <Button onClick={handleSubmit}>Login</Button>
-          <span className="version">v1.0.1</span>
+          <span className="version">v{pjson.version}</span>
           <span>{loading}</span>
         </Login__wrapper>
       </Container>
@@ -73,6 +79,10 @@ function Login({ history }) {
   );
 }
 
+const mapStateToProps = state => ({
+  values: getFormValues("infoReduxForm")(state)
+});
+
 const mapDispatchToProps = dispatch => bindActionCreators(apiActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
