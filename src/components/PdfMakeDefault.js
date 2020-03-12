@@ -131,6 +131,13 @@ export default function PdfMakeDefault({
     currency: "BRL"
   });
 
+  const data_pc = values.data_pc
+    .slice(-2)
+    .concat("/")
+    .concat(values.data_pc.slice(5, 7))
+    .concat("/")
+    .concat(values.data_pc.slice(0, 4));
+
   console.log(values);
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd02 = infoAdd(values.info_ad_hidraulico);
@@ -191,7 +198,7 @@ export default function PdfMakeDefault({
                     fillColor: "#dddddd"
                   }
                 ],
-                [{ text: values.data_pc, alignment: "center", fontSize: 5 }],
+                [{ text: data_pc, alignment: "center", fontSize: 5 }],
                 [
                   {
                     text: "Nº DE SÉRIE",

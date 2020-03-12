@@ -235,41 +235,63 @@ function Confirm({
                 </p>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-
-            <ExpansionPanel>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Typography className={classes.heading}>
-                  Informações do Kit Hidráulico
-                </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <p>
-                  <strong>Kit: </strong>
-                  {values.kit} <br />
-                  <strong>Máquina: </strong>
-                  {values.maquina} <br />
-                  <strong>Modelo: </strong>
-                  {values.modelo} <br />
-                  <strong>Ano: </strong>
-                  {values.ano} <br />
-                  <strong>Engate: </strong>
-                  {values.engate} <br />
-                  <strong>Informações relevantes: </strong>
-                  {values.informacoes_relevantes} <br />
-                  <strong>Condição: </strong>
-                  {values.condicao} <br />
-                  <strong>Tipo de ponteira: </strong>
-                  {values.tipo_ponteira} <br />
-                  <ExtraToolOptions />
-                  <strong>Informações adicionais: </strong>
-                  {values.info_ad_hidraulico} <br />
-                </p>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
+            {values.tipo_contrato === "Contrato para Kits Hidráulicos" ? (
+              <ExpansionPanel>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel2a-content"
+                  id="panel2a-header"
+                >
+                  <Typography className={classes.heading}>
+                    Informações do Kit Hidráulico
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <p>
+                    <strong>Kit: </strong>
+                    {values.kit} <br />
+                    <strong>Máquina: </strong>
+                    {values.maquina} <br />
+                    <strong>Modelo: </strong>
+                    {values.modelo} <br />
+                    <strong>Ano: </strong>
+                    {values.ano} <br />
+                    <strong>Engate: </strong>
+                    {values.engate} <br />
+                    <strong>Informações relevantes: </strong>
+                    {values.informacoes_relevantes} <br />
+                    <strong>Condição: </strong>
+                    {values.condicao} <br />
+                    <strong>Tipo de ponteira: </strong>
+                    {values.tipo_ponteira} <br />
+                    <ExtraToolOptions />
+                    <strong>Informações adicionais: </strong>
+                    {values.info_ad_hidraulico} <br />
+                  </p>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            ) : null}
+            {values.tipo_contrato === "Contrato para Monofio" ? (
+              <ExpansionPanel>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel2a-content"
+                  id="panel2a-header"
+                >
+                  <Typography className={classes.heading}>
+                    Informações do Monofio
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <p>
+                    <strong>Acompanha kit de instalação (CE25P10001)?: </strong>
+                    {values.kit_instalacao} <br />
+                    <strong>Comprimento do circuito: </strong>
+                    {values.comprimento_circuito}
+                  </p>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            ) : null}
 
             <ExpansionPanel>
               <ExpansionPanelSummary

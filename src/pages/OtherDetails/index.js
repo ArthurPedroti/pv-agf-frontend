@@ -34,30 +34,33 @@ const validate = values => {
   return errors;
 };
 
-const renderInput = ({ input, label, placeholder }) => (
+const renderDate = ({ input, label, type, placeholder }) => (
   <div>
     <TextField
       {...input}
       label={label}
       placeholder={placeholder}
       fullWidth
+      type={type}
+      onChange={input.onChange}
+      InputLabelProps={{ shrink: true }}
       margin="normal"
       size="small"
     />
   </div>
 );
 
-const renderSelect = ({ input, label, options }) => (
+const renderInput = ({ input, label, type, placeholder }) => (
   <div>
-    <FormControl required fullWidth margin="normal">
-      <InputLabel>{label}</InputLabel>
-      <NativeSelect native required {...input}>
-        <option value="" />
-        {options.map(option => (
-          <option value={option.label}>{option.label}</option>
-        ))}
-      </NativeSelect>
-    </FormControl>
+    <TextField
+      {...input}
+      label={label}
+      placeholder={placeholder}
+      fullWidth
+      type={type}
+      margin="normal"
+      size="small"
+    />
   </div>
 );
 
@@ -124,8 +127,8 @@ function OtherDetails({ history, handleSubmit, submitting }) {
             <Field
               name="data_pc"
               label="Data do Pedido:"
-              type="text"
-              component={renderInput}
+              type="date"
+              component={renderDate}
             />
             <Field
               name="ns"

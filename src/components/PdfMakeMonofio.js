@@ -116,25 +116,34 @@ export default function PdfMakeDefault({
   };
 
   const mapProducts = produtos.map(produto => produto.value * produto.qtd);
-  const sumProducts = mapProducts.reduce((a, b) => a + b);
+  const sumProducts =
+    mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
   const sumProductsFormated = sumProducts.toLocaleString("pt-br", {
     style: "currency",
     currency: "BRL"
   });
 
   const mapPayments = parcelas.map(parcela => parcela.value);
-  const sumPayments = mapPayments.reduce((a, b) => a + b);
+  const sumPayments =
+    mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
   const sumPaymentsFormated = sumPayments.toLocaleString("pt-br", {
     style: "currency",
     currency: "BRL"
   });
-  console.log(values);
+
+  const data_pc = values.data_pc
+    .slice(-2)
+    .concat("/")
+    .concat(values.data_pc.slice(5, 7))
+    .concat("/")
+    .concat(values.data_pc.slice(0, 4));
+
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd02 = infoAdd(values.info_ad_hidraulico);
   const infoAdd03 = infoAdd(values.info_ad_pagamento);
-  const engate = (values.engate = true ? "SIM" : "NÃO");
-  const contrato = (values.contrato = true ? "SIM" : "NÃO");
-  const kit_instalacao = (values.kit_instalacao = true ? "SIM" : "NÃO");
+  const engate = values.engate === true ? "SIM" : "NÃO";
+  const contrato = values.contrato === true ? "SIM" : "NÃO";
+  const kit_instalacao = values.kit_instalacao === true ? "SIM" : "NÃO";
   const pontExtraFormated = pontExtraFormat();
   const formattedProducts = productsFormat(produtos);
   const formattedPayments = paymentsFormat(parcelas);
@@ -189,7 +198,7 @@ export default function PdfMakeDefault({
                     fillColor: "#dddddd"
                   }
                 ],
-                [{ text: values.data_pc, alignment: "center", fontSize: 5 }],
+                [{ text: data_pc, alignment: "center", fontSize: 5 }],
                 [
                   {
                     text: "Nº DE SÉRIE",
@@ -511,6 +520,13 @@ export default function PdfMakeDefault({
       setErrors(prevState => ({
         ...prevState,
         contrato: "Selecione o tipo de contrato!"
+      }));
+      errorCount++;
+    }
+    if (!values.comprimento_circuito) {
+      setErrors(prevState => ({
+        ...prevState,
+        cliente: "Preencha todos os dados dos detalhes do contrato!"
       }));
       errorCount++;
     }
