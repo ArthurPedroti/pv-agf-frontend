@@ -514,30 +514,6 @@ export default function PdfMakeDefault({
       }));
       errorCount++;
     }
-    if (
-      !values.kit ||
-      !values.maquina ||
-      !values.modelo ||
-      !values.ano ||
-      !values.informacoes_relevantes ||
-      !values.condicao ||
-      !values.tipo_ponteira
-    ) {
-      setErrors(prevState => ({
-        ...prevState,
-        hidraulico: "Preencha todos os dados obrigatórios do kit hidráulico!"
-      }));
-      errorCount++;
-    }
-    if (values.pont_extra) {
-      if (!values.qtd_extra || !values.tipo_extra) {
-        setErrors(prevState => ({
-          ...prevState,
-          hidraulico: "Preencha todos os dados obrigatórios do kit hidráulico!"
-        }));
-        errorCount++;
-      }
-    }
     if (parcelas.length <= 0) {
       setErrors(prevState => ({
         ...prevState,
