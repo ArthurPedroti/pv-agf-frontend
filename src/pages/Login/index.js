@@ -44,24 +44,29 @@ function Login({ history, values }) {
       if (values.login === true) {
         history.push(`/sellerdetails`);
       }
-      setLoading(<CircularProgress />);
-      await store.dispatch(loadSellers());
-      await store.dispatch(loadSellers());
-      await store.dispatch(loadOperation_natures());
-      await store.dispatch(loadSystem_clients());
-      await store.dispatch(loadSeller_clients());
-      await store.dispatch(loadProducts());
-      await store.dispatch(loadKits());
-      await store.dispatch(loadMachines());
-      await store.dispatch(loadImportant_infos());
-      await store.dispatch(loadConditions());
-      await store.dispatch(loadTool_types());
-      await store.dispatch(loadPayment_methods());
-      await store.dispatch(loadFreights());
-      await store.dispatch(change("infoReduxForm", "login", true));
-      await store.dispatch(change("infoReduxForm", "sync_date", new Date()));
+      if (values.sync_date) {
+        await store.dispatch(change("infoReduxForm", "login", true));
+        history.push(`/sellerdetails`);
+      } else {
+        setLoading(<CircularProgress />);
+        await store.dispatch(loadSellers());
+        await store.dispatch(loadSellers());
+        await store.dispatch(loadOperation_natures());
+        await store.dispatch(loadSystem_clients());
+        await store.dispatch(loadSeller_clients());
+        await store.dispatch(loadProducts());
+        await store.dispatch(loadKits());
+        await store.dispatch(loadMachines());
+        await store.dispatch(loadImportant_infos());
+        await store.dispatch(loadConditions());
+        await store.dispatch(loadTool_types());
+        await store.dispatch(loadPayment_methods());
+        await store.dispatch(loadFreights());
+        await store.dispatch(change("infoReduxForm", "login", true));
+        await store.dispatch(change("infoReduxForm", "sync_date", new Date()));
 
-      history.push(`/sellerdetails`);
+        history.push(`/sellerdetails`);
+      }
     } else {
       setError("Senha incorreta!");
     }
