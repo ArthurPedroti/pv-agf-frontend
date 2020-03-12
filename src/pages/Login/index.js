@@ -26,7 +26,7 @@ import {
   loadFreights
 } from "../../store/actions api/fetchBD";
 
-store.dispatch(change("infoReduxForm", "populate", true));
+store.dispatch(change("infoReduxForm", "login", false));
 
 function Login({ history, values }) {
   const [password, setPassword] = React.useState("");
@@ -34,14 +34,14 @@ function Login({ history, values }) {
   const [error, setError] = React.useState("");
 
   React.useEffect(() => {
-    if (values.sync_date) {
+    if (values.login === true) {
       history.push(`/sellerdetails`);
     }
   }, []);
 
   async function handleSubmit(e) {
     if (password === "agf123") {
-      if (values.sync_date) {
+      if (values.login === true) {
         history.push(`/sellerdetails`);
       }
       setLoading(<CircularProgress />);
@@ -58,6 +58,7 @@ function Login({ history, values }) {
       await store.dispatch(loadTool_types());
       await store.dispatch(loadPayment_methods());
       await store.dispatch(loadFreights());
+      await store.dispatch(change("infoReduxForm", "login", true));
       await store.dispatch(change("infoReduxForm", "sync_date", new Date()));
 
       history.push(`/sellerdetails`);

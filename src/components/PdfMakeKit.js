@@ -8,8 +8,8 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
     return produtos.map(produto => {
       return [
         { text: produto.product.codigo, style: "centerLine" },
-        { text: produto.product.codigo, style: "centerLine" },
-        { text: produto.product.codigo, style: "centerLine" },
+        { text: produto.product.descricao, style: "centerLine" },
+        { text: produto.product.desc_grupo, style: "centerLine" },
         { text: produto.qtd, style: "centerLine" },
         {
           text: produto.value.toLocaleString("pt-br", {

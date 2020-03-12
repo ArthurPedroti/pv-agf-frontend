@@ -13,8 +13,8 @@ export default function PdfMakeDefault({
     return produtos.map(produto => {
       return [
         { text: produto.product.codigo, style: "centerLine" },
-        { text: produto.product.codigo, style: "centerLine" },
-        { text: produto.product.codigo, style: "centerLine" },
+        { text: produto.product.descricao, style: "centerLine" },
+        { text: produto.product.desc_grupo, style: "centerLine" },
         { text: produto.qtd, style: "centerLine" },
         {
           text: produto.value.toLocaleString("pt-br", {
@@ -116,18 +116,21 @@ export default function PdfMakeDefault({
   };
 
   const mapProducts = produtos.map(produto => produto.value * produto.qtd);
-  const sumProducts = mapProducts.reduce((a, b) => a + b);
+  const sumProducts =
+    mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
   const sumProductsFormated = sumProducts.toLocaleString("pt-br", {
     style: "currency",
     currency: "BRL"
   });
 
   const mapPayments = parcelas.map(parcela => parcela.value);
-  const sumPayments = mapPayments.reduce((a, b) => a + b);
+  const sumPayments =
+    mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
   const sumPaymentsFormated = sumPayments.toLocaleString("pt-br", {
     style: "currency",
     currency: "BRL"
   });
+
   console.log(values);
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd02 = infoAdd(values.info_ad_hidraulico);

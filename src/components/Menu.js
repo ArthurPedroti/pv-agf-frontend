@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { reduxForm, getFormValues } from "redux-form";
+import { reduxForm, getFormValues, change } from "redux-form";
 import { store } from "../store";
 import pjson from "../../package.json";
 
@@ -48,6 +48,9 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import DescriptionIcon from "@material-ui/icons/Description";
 import PrintIcon from "@material-ui/icons/Print";
 import CallSplitIcon from "@material-ui/icons/CallSplit";
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -64,6 +67,18 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center"
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: 5,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3)
   }
 }));
 
@@ -85,7 +100,21 @@ class AppItem extends Component {
   }
 }
 
-function Menu({ title, values }) {
+class AppItemAction extends Component {
+  render() {
+    return (
+      <ListItem button onClick={this.props.action}>
+        <ListItemIcon>{this.props.icon}</ListItemIcon>
+        <ListItemText
+          primary={this.props.label}
+          secondary={this.props.subtitle}
+        />
+      </ListItem>
+    );
+  }
+}
+
+function Menu({ title, values, history }) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -162,12 +191,13 @@ function Menu({ title, values }) {
       </List>
       <Divider />
       <List>
-        <AppItem
+        <AppItemAction
           label="Sincronizar Dados "
           subtitle={dataAtualFormatada(values.sync_date)}
+          action={SyncData}
           icon={<CloudDownloadIcon />}
         />
-        <AppItem label="Sair" icon={<ExitToAppIcon />} address="" />
+        <AppItemAction label="Sair" icon={<ExitToAppIcon />} action={logout} />
       </List>
     </div>
   );
@@ -183,10 +213,15 @@ function Menu({ title, values }) {
     return dia + "/" + mes + "/" + ano;
   }
 
+  async function logout() {
+    await store.dispatch(change("infoReduxForm", "login", false));
+    await history.push(`/`);
+  }
+
   const [loading, setLoading] = React.useState("");
 
   async function SyncData() {
-    setLoading(<CircularProgress />);
+    handleOpen();
     await store.dispatch(loadSellers());
     await store.dispatch(loadSellers());
     await store.dispatch(loadOperation_natures());
@@ -201,7 +236,18 @@ function Menu({ title, values }) {
     await store.dispatch(loadPayment_methods());
     await store.dispatch(loadFreights());
     values.sync_date = new Date();
+    handleClose();
   }
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -227,6 +273,27 @@ function Menu({ title, values }) {
           {sideList("left")}
         </Drawer>
       </App>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500
+        }}
+      >
+        <Fade in={open}>
+          <div className={classes.paper}>
+            <h2>Sincronizando...</h2>
+            <span>
+              <CircularProgress />
+            </span>
+          </div>
+        </Fade>
+      </Modal>
     </div>
   );
 }
@@ -235,4 +302,4 @@ const mapStateToProps = state => ({
   values: getFormValues("infoReduxForm")(state)
 });
 
-export default connect(mapStateToProps)(Menu);
+export default withRouter(connect(mapStateToProps)(Menu));
