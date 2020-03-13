@@ -71,23 +71,6 @@ export default function PdfMakeDefault({
     return [...arr1, ...arr2];
   };
 
-  const pontExtraFormat = () => {
-    if (values.pont_extra) {
-      return [
-        { text: "PONTEIRA EXTRA: ", bold: true },
-        "SIM",
-        "\n",
-        { text: "QUANTIDADE: ", bold: true },
-        values.qtd_extra,
-        "\n",
-        { text: "TIPO: ", bold: true },
-        values.tipo_extra,
-        "\n"
-      ];
-    }
-    return [];
-  };
-
   const infoAdd = input => {
     if (input) {
       return [
@@ -143,11 +126,8 @@ export default function PdfMakeDefault({
 
   console.log(values);
   const infoAdd01 = infoAdd(values.info_ad_produtos);
-  const infoAdd02 = infoAdd(values.info_ad_hidraulico);
   const infoAdd03 = infoAdd(values.info_ad_pagamento);
-  const engate = values.engate === true ? "SIM" : "NÃO";
   const contrato = values.contrato === true ? "SIM" : "NÃO";
-  const pontExtraFormated = pontExtraFormat();
   const formattedProducts = productsFormat(produtos);
   const formattedPayments = paymentsFormat(parcelas);
 

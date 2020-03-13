@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { reduxForm, getFormValues, change } from "redux-form";
+import { getFormValues, change } from "redux-form";
 import { store } from "../store";
 import pjson from "../../package.json";
 
@@ -26,9 +26,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
 import { styled } from "@material-ui/core/styles";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -217,8 +215,6 @@ function Menu({ title, values, history }) {
     await store.dispatch(change("infoReduxForm", "login", false));
     await history.push(`/`);
   }
-
-  const [loading, setLoading] = React.useState("");
 
   async function SyncData() {
     handleOpen();

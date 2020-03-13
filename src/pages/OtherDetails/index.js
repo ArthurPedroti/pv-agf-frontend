@@ -11,38 +11,18 @@ import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
 import TextField from "@material-ui/core/TextField";
 
-import NativeSelect from "@material-ui/core/NativeSelect";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 
 import Menu from "../../components/Menu";
 
-const validate = values => {
-  const errors = {};
-  if (!values.nome_contato) {
-    errors.nome_contato = "Obrigatório!";
-  }
-  if (!values.cargo_contato) {
-    errors.cargo_contato = "Obrigatório!";
-  }
-  if (!values.email_contato) {
-    errors.email_contato = "Obrigatório!";
-  }
-
-  return errors;
-};
-
-const renderDate = ({ input, label, type, placeholder }) => (
+const renderDate = ({ input, label, type }) => (
   <div>
     <TextField
       {...input}
       label={label}
-      placeholder={placeholder}
       fullWidth
       type={type}
-      onChange={input.onChange}
       InputLabelProps={{ shrink: true }}
       margin="normal"
       size="small"
@@ -50,14 +30,12 @@ const renderDate = ({ input, label, type, placeholder }) => (
   </div>
 );
 
-const renderInput = ({ input, label, type, placeholder }) => (
+const renderInput = ({ input, label }) => (
   <div>
     <TextField
       {...input}
       label={label}
-      placeholder={placeholder}
       fullWidth
-      type={type}
       margin="normal"
       size="small"
     />
@@ -169,6 +147,5 @@ OtherDetails = connect(mapStateToProps, mapDispatchToProps)(OtherDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false,
-  validate
+  destroyOnUnmount: false
 })(OtherDetails);
