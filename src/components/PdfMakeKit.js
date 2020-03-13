@@ -126,18 +126,21 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
     currency: "BRL"
   });
 
-  const data_pc = values.data_pc
-    .slice(-2)
-    .concat("/")
-    .concat(values.data_pc.slice(5, 7))
-    .concat("/")
-    .concat(values.data_pc.slice(0, 4));
+  const data_pc =
+    values.data_pc === true
+      ? values.data_pc
+          .slice(-2)
+          .concat("/")
+          .concat(values.data_pc.slice(5, 7))
+          .concat("/")
+          .concat(values.data_pc.slice(0, 4))
+      : null;
 
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd02 = infoAdd(values.info_ad_hidraulico);
   const infoAdd03 = infoAdd(values.info_ad_pagamento);
-  const engate = (values.engate = true ? "SIM" : "NÃO");
-  const contrato = (values.contrato = true ? "SIM" : "NÃO");
+  const engate = values.engate === true ? "SIM" : "NÃO";
+  const contrato = values.contrato === true ? "SIM" : "NÃO";
   const pontExtraFormated = pontExtraFormat();
   const formattedProducts = productsFormat(produtos);
   const formattedPayments = paymentsFormat(parcelas);

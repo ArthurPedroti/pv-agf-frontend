@@ -131,12 +131,15 @@ export default function PdfMakeDefault({
     currency: "BRL"
   });
 
-  const data_pc = values.data_pc
-    .slice(-2)
-    .concat("/")
-    .concat(values.data_pc.slice(5, 7))
-    .concat("/")
-    .concat(values.data_pc.slice(0, 4));
+  const data_pc =
+    values.data_pc === true
+      ? values.data_pc
+          .slice(-2)
+          .concat("/")
+          .concat(values.data_pc.slice(5, 7))
+          .concat("/")
+          .concat(values.data_pc.slice(0, 4))
+      : null;
 
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd02 = infoAdd(values.info_ad_hidraulico);
