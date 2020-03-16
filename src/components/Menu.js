@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getFormValues, change } from "redux-form";
+import { getFormValues, change, reset } from "redux-form";
 import { store } from "../store";
 import pjson from "../../package.json";
 
@@ -50,6 +50,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
+import ClearAllIcon from "@material-ui/icons/ClearAll";
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -113,7 +114,7 @@ class AppItemAction extends Component {
   }
 }
 
-function Menu({ title, values, history }) {
+function Menu({ title, values, dispatch, history }) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -192,9 +193,16 @@ function Menu({ title, values, history }) {
       <List>
         <AppItemAction
           label="Sincronizar Dados "
-          subtitle={dataAtualFormatada(values.sync_date)}
+          subtitle={dataAtualFormatada(
+            values === undefined ? null : values.sync_date
+          )}
           action={SyncData}
           icon={<CloudDownloadIcon />}
+        />
+        <AppItemAction
+          label="Limpar todos os campos"
+          icon={<ClearAllIcon />}
+          action={clearAll}
         />
         <AppItemAction label="Sair" icon={<ExitToAppIcon />} action={logout} />
       </List>
@@ -219,6 +227,13 @@ function Menu({ title, values, history }) {
   async function logout() {
     await store.dispatch(change("infoReduxForm", "login", false));
     await history.push(`/`);
+  }
+
+  async function clearAll() {
+    const sync_date = values.sync_date;
+    await dispatch(reset("infoReduxForm"));
+    await store.dispatch(change("infoReduxForm", "login", true));
+    await store.dispatch(change("infoReduxForm", "sync_date", sync_date));
   }
 
   async function SyncData() {

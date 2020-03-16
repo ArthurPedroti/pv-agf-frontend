@@ -5,7 +5,8 @@ import { createActions, createReducer } from "reduxsauce";
  */
 export const { Types, Creators } = createActions({
   addPayment: ["num", "date", "value", "condition"],
-  removePayment: ["id"]
+  removePayment: ["id"],
+  resetPayment: []
 });
 
 /**
@@ -27,10 +28,13 @@ const add = (state = INITIAL_STATE, action) => [
 const remove = (state = INITIAL_STATE, action) =>
   state.filter(product => product.id !== action.id);
 
+const reset = (state = INITIAL_STATE, action) => (state = INITIAL_STATE);
+
 /**
  * Reducer
  */
 export default createReducer(INITIAL_STATE, {
   [Types.ADD_PAYMENT]: add,
-  [Types.REMOVE_PAYMENT]: remove
+  [Types.REMOVE_PAYMENT]: remove,
+  [Types.RESET_PAYMENT]: reset
 });

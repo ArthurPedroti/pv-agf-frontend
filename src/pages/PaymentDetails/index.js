@@ -93,6 +93,7 @@ function PaymentDetails({
   paymentList,
   addPayment,
   removePayment,
+  resetPayment,
   submitting,
   history
 }) {
@@ -282,6 +283,15 @@ function PaymentDetails({
         </Container>
 
         <BackButton />
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={resetPayment}
+          style={{ margin: 15 }}
+          disabled={submitting}
+        >
+          Limpar Pagamentos
+        </Button>
         <Button
           variant="contained"
           color="primary"

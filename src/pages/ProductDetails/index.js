@@ -66,6 +66,7 @@ function ProdutoDetails({
   productList,
   addProduct,
   removeProduct,
+  resetProduct,
   submitting,
   history
 }) {
@@ -198,6 +199,15 @@ function ProdutoDetails({
             Voltar
           </Button>
         </Link>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={resetProduct}
+          style={{ margin: 15 }}
+          disabled={submitting}
+        >
+          Limpar Produtos
+        </Button>
         <Button
           variant="contained"
           color="primary"
