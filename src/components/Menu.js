@@ -49,6 +49,7 @@ import CallSplitIcon from "@material-ui/icons/CallSplit";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -197,6 +198,10 @@ function Menu({ title, values, history }) {
         />
         <AppItemAction label="Sair" icon={<ExitToAppIcon />} action={logout} />
       </List>
+      <AppItem
+        icon={<SettingsApplicationsIcon />}
+        subtitle={`v${pjson.version}`}
+      />
     </div>
   );
 
@@ -261,9 +266,7 @@ function Menu({ title, values, history }) {
           <Typography variant="h6" className={classes.title}>
             {title}
           </Typography>
-          <Typography variant="p" align="right">
-            v{pjson.version}
-          </Typography>
+          <Typography variant="p" align="right"></Typography>
         </Toolbar>
         <Drawer open={state.left} onClose={toggleDrawer("left", false)}>
           {sideList("left")}
