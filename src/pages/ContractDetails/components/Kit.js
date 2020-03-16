@@ -19,13 +19,12 @@ import Switch from "@material-ui/core/Switch";
 
 import Menu from "../../../components/Menu";
 
-const renderInput = ({ input, label, placeholder }) => (
+const renderInput = ({ input, label }) => (
   <div>
     <TextField
       {...input}
       required
       label={label}
-      placeholder={placeholder}
       fullWidth
       margin="normal"
       size="small"
@@ -33,12 +32,11 @@ const renderInput = ({ input, label, placeholder }) => (
   </div>
 );
 
-const renderInputNoReq = ({ input, label, placeholder }) => (
+const renderInputNoReq = ({ input, label }) => (
   <div>
     <TextField
       {...input}
       label={label}
-      placeholder={placeholder}
       fullWidth
       margin="normal"
       size="small"
@@ -98,8 +96,6 @@ const machines = [
   { label: "Escavadeira" },
   { label: "Outro" }
 ];
-
-const yesno = [{ label: "Sim" }, { label: "Não" }];
 
 const relevant_infos = [
   { label: "Sem nenhuma informação relevante" },
@@ -250,9 +246,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
-  values: getFormValues("infoReduxForm")(state),
-  kit: state.select_infos.kit,
-  maquina: state.select_infos.maquina
+  values: getFormValues("infoReduxForm")(state)
 });
 
 Kit = connect(mapStateToProps, mapDispatchToProps)(Kit);
