@@ -60,7 +60,7 @@ const renderSwitch = ({ input, label }) => (
   </div>
 );
 
-function OtherDetails({ history, handleSubmit, reset, pristine, submitting }) {
+function OtherDetails({ history, handleSubmit, submitting }) {
   async function showResults() {
     history.push(`/confirm`);
   }
@@ -128,16 +128,6 @@ function OtherDetails({ history, handleSubmit, reset, pristine, submitting }) {
             disabled={submitting}
           >
             Continuar
-          </Button>
-          <Button
-            type="button"
-            variant="contained"
-            color="primary"
-            style={{ margin: 15 }}
-            disabled={pristine || submitting}
-            onClick={reset}
-          >
-            Limpar
           </Button>
         </form>
       </Container>

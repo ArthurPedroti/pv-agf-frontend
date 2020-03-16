@@ -599,6 +599,14 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
       }));
       errorCount++;
     }
+    if (sumProducts !== sumPayments) {
+      setErrors(prevState => ({
+        ...prevState,
+        contrato:
+          "O valor total dos produtos não coincide com o valor total das parcelas!"
+      }));
+      errorCount++;
+    }
 
     if (errorCount === 0) {
       setErrors({});
