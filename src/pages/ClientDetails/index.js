@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { reduxForm, Field, getFormValues } from "redux-form";
@@ -56,7 +56,7 @@ const radioButton = ({ input, ...rest }) => (
   </RadioGroup>
 );
 
-function ClientDetails({
+var ClientDetails = ({
   values,
   cliente,
   clientList,
@@ -65,7 +65,7 @@ function ClientDetails({
   history,
   handleSubmit,
   submitting
-}) {
+}) => {
   async function showResults() {
     if (!cliente) {
       message.error("Selecione o cliente!");
@@ -187,7 +187,7 @@ function ClientDetails({
       </Container>
     </div>
   );
-}
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);

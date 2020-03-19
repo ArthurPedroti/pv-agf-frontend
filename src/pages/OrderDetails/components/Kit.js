@@ -125,7 +125,7 @@ const tool_types = [
   { label: "Ponteiro Universal Longo" }
 ];
 
-function Kit({ values, history, handleSubmit, submitting }) {
+var Kit = ({ values, history, handleSubmit, submitting }) => {
   function ExtraToolOptions() {
     if (values.pont_extra) {
       return (
@@ -155,7 +155,7 @@ function Kit({ values, history, handleSubmit, submitting }) {
 
   return (
     <div>
-      <Menu title="Informações do Kit Hidráulico" />
+      <Menu title="Detalhes do Pedido" />
 
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
@@ -222,7 +222,7 @@ function Kit({ values, history, handleSubmit, submitting }) {
               component={renderInputNoReq}
             />
           </Container>
-          <Link to="/contractoptions">
+          <Link to="/orderoptions">
             <Button variant="contained" style={{ margin: 15 }}>
               Voltar
             </Button>
@@ -240,7 +240,7 @@ function Kit({ values, history, handleSubmit, submitting }) {
       </Container>
     </div>
   );
-}
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);

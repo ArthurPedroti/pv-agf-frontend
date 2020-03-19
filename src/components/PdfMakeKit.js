@@ -52,8 +52,8 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
       ]
     ];
     const arr2 = parcelas.map(parcela => [
-      { text: parcela.num, style: "centerLine" },
-      { text: parcela.date, style: "centerLine" },
+      { text: parcelas.indexOf(parcela) + 1, style: "centerLine" },
+      { text: dataAtualFormatada(parcela.date), style: "centerLine" },
       { text: parcela.condition, style: "centerLine" },
       {
         text: parcela.value.toLocaleString("pt-br", {
@@ -126,8 +126,18 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
     currency: "BRL"
   });
 
+  const hoje = new Date();
+  hoje.setDate(hoje.getDate() - 1);
+
+  function dataAtualFormatada(input) {
+    var data = new Date(input);
+    data.setDate(data.getDate() + 1);
+    const options = { year: "numeric", month: "numeric", day: "numeric" };
+    return data.toLocaleDateString("pt-BR", options);
+  }
+
   const data_pc =
-    values.data_pc === true
+    values.data_pc !== undefined
       ? values.data_pc
           .slice(-2)
           .concat("/")
@@ -135,7 +145,6 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
           .concat("/")
           .concat(values.data_pc.slice(0, 4))
       : null;
-
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd02 = infoAdd(values.info_ad_hidraulico);
   const infoAdd03 = infoAdd(values.info_ad_pagamento);
@@ -185,7 +194,13 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
                     fillColor: "#dddddd"
                   }
                 ],
-                [{ text: values.num_pedido, alignment: "center", fontSize: 5 }],
+                [
+                  {
+                    text: values.num_pedido || " ",
+                    alignment: "center",
+                    fontSize: 5
+                  }
+                ],
                 [
                   {
                     text: "DATA DO PEDIDO",
@@ -195,17 +210,7 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
                     fillColor: "#dddddd"
                   }
                 ],
-                [{ text: data_pc, alignment: "center", fontSize: 5 }],
-                [
-                  {
-                    text: "Nº DE SÉRIE",
-                    alignment: "center",
-                    bold: true,
-                    fontSize: 5,
-                    fillColor: "#dddddd"
-                  }
-                ],
-                [{ text: values.ns, alignment: "center", fontSize: 5 }]
+                [{ text: data_pc || " ", alignment: "center", fontSize: 5 }]
               ],
               align: "center"
             }
@@ -463,6 +468,9 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
                   "\n",
                   { text: "Nº DE NOTA FISCAL: ", bold: true },
                   values.num_nf,
+                  "\n",
+                  { text: "Nº DE SÉRIE: ", bold: true },
+                  values.ns,
                   "\n"
                 ]
               }
@@ -528,7 +536,7 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
   const [errors, setErrors] = useState({});
   let errorCount = 0;
 
-  const PdfGenerator = ({}) => {
+  const PdfGenerator = () => {
     if (!values.vendedor || !values.natureza_operacao) {
       setErrors({
         vendedor: "Preencha todos os dados obrigatórios do vendedor!"
@@ -611,7 +619,9 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
     if (errorCount === 0) {
       setErrors({});
 
-      pdfMake.createPdf(documentDefinition).download();
+      pdfMake
+        .createPdf(documentDefinition)
+        .download(cliente.razao_social + " - " + dataAtualFormatada(hoje));
     }
     errorCount = 0;
   };

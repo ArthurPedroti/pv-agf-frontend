@@ -10,7 +10,7 @@ export const Container = styled.div`
   background-color: rgb(16, 15, 18);
   color: #fff;
 `;
-export const Login__wrapper = styled.div`
+export const LoginWrapper = styled.div`
   width: 100%;
   max-width: 300px;
   margin: 0 auto;

@@ -36,9 +36,7 @@ const frete = [
   { label: "Veículo" }
 ];
 
-const yesno = [{ label: "Sim" }, { label: "Não" }];
-
-function FreightDetails({ history, handleSubmit, submitting }) {
+var FreightDetails = ({ history, handleSubmit, submitting }) => {
   async function showResults() {
     history.push(`/otherdetails`);
   }
@@ -76,7 +74,7 @@ function FreightDetails({ history, handleSubmit, submitting }) {
       </Container>
     </div>
   );
-}
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);

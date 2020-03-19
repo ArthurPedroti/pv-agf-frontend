@@ -28,13 +28,13 @@ const renderSelect = ({ input, label, options }) => (
   </div>
 );
 
-function SellerDetails({
+var SellerDetails = ({
   sellers,
   operation_natures,
   history,
   handleSubmit,
   submitting
-}) {
+}) => {
   async function showResults() {
     history.push(`/clientdetails`);
   }
@@ -74,7 +74,7 @@ function SellerDetails({
       </Container>
     </div>
   );
-}
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);

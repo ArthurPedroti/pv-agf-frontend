@@ -5,21 +5,21 @@ import { reduxForm, getFormValues } from "redux-form";
 import Kit from "./components/Kit";
 import Monofio from "./components/Monofio";
 
-function ContractDetails({ values }) {
+var OrderDetails = ({ values }) => {
   return (
     <div>
-      {values.tipo_contrato === "Contrato para Monofio" ? <Monofio /> : <Kit />}
+      {values.tipo_contrato === "Pedido para Monofio" ? <Monofio /> : <Kit />}
     </div>
   );
-}
+};
 
 const mapStateToProps = state => ({
   values: getFormValues("infoReduxForm")(state)
 });
 
-ContractDetails = connect(mapStateToProps)(ContractDetails);
+OrderDetails = connect(mapStateToProps)(OrderDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
   destroyOnUnmount: false
-})(ContractDetails);
+})(OrderDetails);

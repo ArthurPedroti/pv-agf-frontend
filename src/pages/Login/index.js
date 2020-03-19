@@ -9,26 +9,26 @@ import * as apiActions from "../../store/actions api/fetchBD";
 import logo from "../../assets/logo.svg";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { Container, Login__wrapper, TextField, Button } from "./styles";
+import { Container, LoginWrapper, TextField, Button } from "./styles";
 
 import {
   loadSellers,
   loadOperation_natures,
   loadSystem_clients,
-  loadSeller_clients,
-  loadProducts,
-  loadKits,
-  loadMachines,
-  loadImportant_infos,
-  loadConditions,
-  loadTool_types,
-  loadPayment_methods,
-  loadFreights
+  // loadSeller_clients,
+  loadProducts
+  // loadKits,
+  // loadMachines,
+  // loadImportant_infos,
+  // loadConditions,
+  // loadTool_types,
+  // loadPayment_methods,
+  // loadFreights
 } from "../../store/actions api/fetchBD";
 
 store.dispatch(change("infoReduxForm", "login", false));
 
-function Login({ history, values }) {
+var Login = ({ history, values }) => {
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState("");
   const [error, setError] = React.useState("");
@@ -37,7 +37,7 @@ function Login({ history, values }) {
     if (values.login === true) {
       history.push(`/sellerdetails`);
     }
-  }, []);
+  }, [history, values]);
 
   async function handleSubmit(e) {
     if (password === "agf123") {
@@ -74,7 +74,7 @@ function Login({ history, values }) {
   return (
     <div>
       <Container>
-        <Login__wrapper>
+        <LoginWrapper>
           <img src={logo} alt="" />
           <TextField
             type="password"
@@ -85,11 +85,11 @@ function Login({ history, values }) {
           <Button onClick={handleSubmit}>Login</Button>
           <span className="version">v{pjson.version}</span>
           <span>{loading}</span>
-        </Login__wrapper>
+        </LoginWrapper>
       </Container>
     </div>
   );
-}
+};
 
 const mapStateToProps = state => ({
   values: getFormValues("infoReduxForm")(state)

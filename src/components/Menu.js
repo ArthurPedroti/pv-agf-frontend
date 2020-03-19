@@ -9,15 +9,15 @@ import {
   loadSellers,
   loadOperation_natures,
   loadSystem_clients,
-  loadSeller_clients,
-  loadProducts,
-  loadKits,
-  loadMachines,
-  loadImportant_infos,
-  loadConditions,
-  loadTool_types,
-  loadPayment_methods,
-  loadFreights
+  // loadSeller_clients,
+  loadProducts
+  // loadKits,
+  // loadMachines,
+  // loadImportant_infos,
+  // loadConditions,
+  // loadTool_types,
+  // loadPayment_methods,
+  // loadFreights
 } from "../store/actions api/fetchBD";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -51,6 +51,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
 import ClearAllIcon from "@material-ui/icons/ClearAll";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -59,6 +60,7 @@ const useStyles = makeStyles(theme => ({
   fullList: {
     width: "auto"
   },
+  offset: theme.mixins.toolbar,
   root: {
     flexGrow: 1
   },
@@ -158,14 +160,14 @@ function Menu({ title, values, dispatch, history }) {
           address="productdetails"
         />
         <AppItem
-          label="Tipo de Contrato"
+          label="Tipo de Pedido"
           icon={<DescriptionIcon />}
-          address="contractoptions"
+          address="orderoptions"
         />
         <AppItem
-          label="Detalhes do Contrato"
+          label="Detalhes do Pedido"
           icon={<CallSplitIcon />}
-          address="contractdetails"
+          address="orderdetails"
         />
         <AppItem
           label="Pagamento"
@@ -265,7 +267,7 @@ function Menu({ title, values, dispatch, history }) {
   };
 
   return (
-    <div className={classes.root}>
+    <>
       <App position="sticky">
         <Toolbar>
           <IconButton
@@ -301,13 +303,22 @@ function Menu({ title, values, dispatch, history }) {
         <Fade in={open}>
           <div className={classes.paper}>
             <h2>Sincronizando...</h2>
-            <span>
-              <CircularProgress />
-            </span>
+            <div>
+              <CircularProgress style={{ margin: 15 }} />
+            </div>
+
+            <Button
+              type="buttom"
+              onClick={handleClose}
+              variant="contained"
+              color="primary"
+            >
+              Cancelar
+            </Button>
           </div>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 }
 

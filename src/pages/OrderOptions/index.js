@@ -16,9 +16,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Menu from "../../components/Menu";
 
 const contract_options = [
-  { label: "Contrato Padrão" },
-  { label: "Contrato para Kits Hidráulicos" },
-  { label: "Contrato para Monofio" }
+  { label: "Pedido Padrão" },
+  { label: "Pedido para Kits Hidráulicos" },
+  { label: "Pedido para Monofio" }
 ];
 
 const renderSelect = ({ input, label, options }) => (
@@ -35,18 +35,18 @@ const renderSelect = ({ input, label, options }) => (
   </div>
 );
 
-function ContractOptions({ formValues, history, handleSubmit, submitting }) {
+var OrderOptions = ({ formValues, history, handleSubmit, submitting }) => {
   async function showResults() {
-    if (formValues.tipo_contrato === "Contrato Padrão") {
+    if (formValues.tipo_contrato === "Pedido Padrão") {
       history.push(`/paymentdetails`);
     } else {
-      history.push(`/contractdetails`);
+      history.push(`/orderdetails`);
     }
   }
 
   return (
     <div>
-      <Menu title="Tipo de Contrato" />
+      <Menu title="Tipo de Pedido" />
 
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
@@ -54,7 +54,7 @@ function ContractOptions({ formValues, history, handleSubmit, submitting }) {
             <Field
               name="tipo_contrato"
               options={contract_options}
-              label="Selecione o tipo de contrato"
+              label="Selecione o tipo de pedido"
               type="text"
               component={renderSelect}
             />
@@ -77,7 +77,7 @@ function ContractOptions({ formValues, history, handleSubmit, submitting }) {
       </Container>
     </div>
   );
-}
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
@@ -86,9 +86,9 @@ const mapStateToProps = state => ({
   formValues: getFormValues("infoReduxForm")(state)
 });
 
-ContractOptions = connect(mapStateToProps, mapDispatchToProps)(ContractOptions);
+OrderOptions = connect(mapStateToProps, mapDispatchToProps)(OrderOptions);
 
 export default reduxForm({
   form: "infoReduxForm",
   destroyOnUnmount: false
-})(ContractOptions);
+})(OrderOptions);

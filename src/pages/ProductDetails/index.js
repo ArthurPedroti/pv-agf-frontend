@@ -61,7 +61,7 @@ function NumberFormatCustom(props) {
   );
 }
 
-function ProdutoDetails({
+var ProdutoDetails = ({
   productsSelect,
   productList,
   addProduct,
@@ -69,7 +69,7 @@ function ProdutoDetails({
   resetProduct,
   submitting,
   history
-}) {
+}) => {
   const [products, setProducts] = useState("");
   const [value, setValue] = useState("");
   const [qtd, setQtd] = useState("");
@@ -105,7 +105,7 @@ function ProdutoDetails({
 
   const handleSubmit = e => {
     if (productList.length > 0) {
-      history.push(`/contractoptions`);
+      history.push(`/orderoptions`);
     } else {
       message.error("Insira pelo menos um produto!");
     }
@@ -220,7 +220,7 @@ function ProdutoDetails({
       </Container>
     </div>
   );
-}
+};
 
 const mapStateToProps = state => ({
   productsSelect: state.bd_selects.products,

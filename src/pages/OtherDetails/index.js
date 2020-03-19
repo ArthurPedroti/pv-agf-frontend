@@ -60,7 +60,7 @@ const renderSwitch = ({ input, label }) => (
   </div>
 );
 
-function OtherDetails({ history, handleSubmit, submitting }) {
+var OtherDetails = ({ history, handleSubmit, submitting }) => {
   async function showResults() {
     history.push(`/confirm`);
   }
@@ -133,7 +133,7 @@ function OtherDetails({ history, handleSubmit, submitting }) {
       </Container>
     </div>
   );
-}
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);

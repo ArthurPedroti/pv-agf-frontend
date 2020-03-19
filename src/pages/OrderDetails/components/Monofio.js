@@ -51,14 +51,14 @@ const renderSwitch = ({ input, label }) => (
 
 const circuit_length = [{ label: "18 M" }, { label: "24,5 M" }];
 
-function Monofio({ values, history, handleSubmit, submitting }) {
+var Monofio = ({ values, history, handleSubmit, submitting }) => {
   async function showResults() {
     history.push(`/paymentdetails`);
   }
 
   return (
     <div>
-      <Menu title="Informações do Kit Hidráulico" />
+      <Menu title="Detalhes do Pedido" />
 
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
@@ -77,7 +77,7 @@ function Monofio({ values, history, handleSubmit, submitting }) {
               component={renderSelect}
             />
           </Container>
-          <Link to="/contractoptions">
+          <Link to="/orderoptions">
             <Button variant="contained" style={{ margin: 15 }}>
               Voltar
             </Button>
@@ -95,7 +95,7 @@ function Monofio({ values, history, handleSubmit, submitting }) {
       </Container>
     </div>
   );
-}
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);

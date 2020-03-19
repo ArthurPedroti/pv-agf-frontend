@@ -13,7 +13,7 @@ import TextField from "@material-ui/core/TextField";
 
 import Menu from "../../components/Menu";
 
-function ClientRegister({ addClient, submitting, history }) {
+var ClientRegister = ({ addClient, submitting, history }) => {
   const [razao_social, setRazaoSocial] = useState("");
   const [cnpj, setCnpj] = useState("");
   const [inscricao_estadual, setInscricaoEstadual] = useState("");
@@ -144,7 +144,7 @@ function ClientRegister({ addClient, submitting, history }) {
       </Container>
     </div>
   );
-}
+};
 
 const mapStateToProps = state => ({
   productsSelect: state.bd_selects.products,

@@ -14,17 +14,17 @@ import PdfMakeDefault from "../../components/PdfMakeDefault";
 import PdfMakeKit from "../../components/PdfMakeKit";
 import PdfMakeMonofio from "../../components/PdfMakeMonofio";
 
-function Confirm({
+var Confirm = ({
   values,
   vendedor,
   naturezaOperacao,
   cliente,
   produtos,
   parcelas
-}) {
+}) => {
   function PdfMake() {
     if (values !== undefined) {
-      if (values.tipo_contrato === "Contrato para Kits Hidráulicos") {
+      if (values.tipo_contrato === "Pedido para Kits Hidráulicos") {
         return (
           <PdfMakeKit
             vendedor={vendedor.name}
@@ -37,7 +37,7 @@ function Confirm({
         );
       }
     }
-    if (values.tipo_contrato === "Contrato para Monofio") {
+    if (values.tipo_contrato === "Pedido para Monofio") {
       console.log("mono");
       return (
         <PdfMakeMonofio
@@ -78,7 +78,7 @@ function Confirm({
       </Container>
     </div>
   );
-}
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);

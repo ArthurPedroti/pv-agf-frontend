@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Confirm({
+var Confirm = ({
   values,
   cliente,
   produtos,
@@ -42,7 +42,7 @@ function Confirm({
   history,
   handleSubmit,
   submitting
-}) {
+}) => {
   const classes = useStyles();
 
   async function showResults() {
@@ -400,7 +400,7 @@ function Confirm({
       </Container>
     </div>
   );
-}
+};
 
 const mapStateToProps = state => ({
   values: getFormValues("infoReduxForm")(state),
