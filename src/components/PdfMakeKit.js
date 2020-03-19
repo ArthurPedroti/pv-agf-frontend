@@ -2,6 +2,43 @@ import React, { useState } from "react";
 import pdfMake from "pdfmake/build/pdfmake";
 import vfsFonts from "pdfmake/build/vfs_fonts";
 import Button from "@material-ui/core/Button";
+//modal imports
+import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+const useStyles = makeStyles(theme => ({
+  list: {
+    width: 250
+  },
+  fullList: {
+    width: "auto"
+  },
+  offset: theme.mixins.toolbar,
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center"
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: 5,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3)
+  }
+}));
 
 export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
   const productsFormat = produtos => {
@@ -536,6 +573,18 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
   const [errors, setErrors] = useState({});
   let errorCount = 0;
 
+  //modal
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const PdfGenerator = () => {
     if (!values.vendedor || !values.natureza_operacao) {
       setErrors({
@@ -619,9 +668,15 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
     if (errorCount === 0) {
       setErrors({});
 
-      pdfMake
-        .createPdf(documentDefinition)
-        .download(cliente.razao_social + " - " + dataAtualFormatada(hoje));
+      async function MakePdf() {
+        handleOpen();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        await pdfMake
+          .createPdf(documentDefinition)
+          .download(cliente.razao_social + " - " + dataAtualFormatada(hoje));
+        handleClose();
+      }
+      MakePdf();
     }
     errorCount = 0;
   };
@@ -638,6 +693,36 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
       {Object.values(errors).map(erro => (
         <div>{erro}</div>
       ))}
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500
+        }}
+      >
+        <Fade in={open}>
+          <div className={classes.paper}>
+            <h2>Imprimindo...</h2>
+            <div>
+              <CircularProgress style={{ margin: 15 }} />
+            </div>
+
+            <Button
+              type="buttom"
+              onClick={handleClose}
+              variant="contained"
+              color="primary"
+            >
+              Cancelar
+            </Button>
+          </div>
+        </Fade>
+      </Modal>
     </>
   );
 }
