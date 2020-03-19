@@ -57,6 +57,7 @@ function NumberFormatCustom(props) {
           }
         });
       }}
+      type="tel"
       isNumericString
       thousandSeparator={true}
       prefix="R$"

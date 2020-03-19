@@ -54,6 +54,8 @@ function NumberFormatCustom(props) {
           }
         });
       }}
+      type="tel"
+      decimalSeparator="."
       isNumericString
       thousandSeparator={true}
       prefix="R$"
@@ -127,15 +129,17 @@ var ProdutoDetails = ({
               <TextField
                 label="Valor"
                 margin="normal"
+                fullWidth
                 id="formatted-numberformat-input"
                 onChange={e => setValue(e.target.value)}
                 InputProps={{
                   inputComponent: NumberFormatCustom
                 }}
-              />{" "}
+              />
               <TextField
                 label="Quantidade"
                 margin="normal"
+                fullWidth
                 type="number"
                 id="formatted-numberformat-input"
                 onChange={e => setQtd(e.target.value)}
@@ -144,7 +148,12 @@ var ProdutoDetails = ({
                 {errors.product}
                 {errors.value}
               </Typography>
-              <Button type="button" variant="outlined" onClick={handleAdd}>
+              <Button
+                type="button"
+                style={{ marginBottom: 30 }}
+                variant="outlined"
+                onClick={handleAdd}
+              >
                 Adicionar Produto
               </Button>
             </form>
