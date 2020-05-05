@@ -18,10 +18,10 @@ const renderSelect = ({ input, label, options }) => (
   <div>
     <FormControl required fullWidth margin="normal">
       <InputLabel>{label}</InputLabel>
-      <NativeSelect native required {...input}>
-        <option value="" />
+      <NativeSelect required {...input}>
+        <option key={Math.random()} />
         {options.map(option => (
-          <option value={option.name}>{option.name}</option>
+          <option key={Math.random()}>{option.name}</option>
         ))}
       </NativeSelect>
     </FormControl>

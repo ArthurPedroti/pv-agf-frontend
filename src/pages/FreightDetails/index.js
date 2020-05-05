@@ -19,10 +19,10 @@ const renderSelect = ({ input, label, options }) => (
   <div>
     <FormControl required fullWidth margin="normal">
       <InputLabel>{label}</InputLabel>
-      <NativeSelect native required {...input}>
+      <NativeSelect required {...input}>
         <option value="" />
         {options.map(option => (
-          <option value={option.label}>{option.label}</option>
+          <option key={option.label}>{option.label}</option>
         ))}
       </NativeSelect>
     </FormControl>

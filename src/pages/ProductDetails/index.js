@@ -102,7 +102,6 @@ var ProdutoDetails = ({
       setErrors({});
       addProduct(products, parseFloat(value), qtd);
     }
-    console.log(errors);
   };
 
   const handleSubmit = e => {
@@ -130,7 +129,6 @@ var ProdutoDetails = ({
                 label="Valor"
                 margin="normal"
                 fullWidth
-                id="formatted-numberformat-input"
                 onChange={e => setValue(e.target.value)}
                 InputProps={{
                   inputComponent: NumberFormatCustom
@@ -141,7 +139,6 @@ var ProdutoDetails = ({
                 margin="normal"
                 fullWidth
                 type="number"
-                id="formatted-numberformat-input"
                 onChange={e => setQtd(e.target.value)}
               />
               <Typography variant="overline" display="block" gutterBottom>
@@ -170,7 +167,7 @@ var ProdutoDetails = ({
                   </TableHead>
                   <TableBody>
                     {productList.map(product => (
-                      <TableRow key={product.product.descricao}>
+                      <TableRow key={product.id}>
                         <TableCell component="th" scope="row">
                           {product.product.descricao}
                         </TableCell>
@@ -182,10 +179,11 @@ var ProdutoDetails = ({
                         </TableCell>
                         <TableCell align="center">{product.qtd}</TableCell>
                         <TableCell align="center">
-                          <IconButton aria-label="delete">
-                            <DeleteOutlineIcon
-                              onClick={() => removeProduct(product.id)}
-                            />
+                          <IconButton
+                            aria-label="delete"
+                            onClick={() => removeProduct(product.id)}
+                          >
+                            <DeleteOutlineIcon />
                           </IconButton>
                         </TableCell>
                       </TableRow>

@@ -20,7 +20,7 @@ var Confirm = ({
   naturezaOperacao,
   cliente,
   produtos,
-  parcelas
+  parcelas,
 }) => {
   function PdfMake() {
     if (values !== undefined) {
@@ -67,7 +67,6 @@ var Confirm = ({
       <Menu title="Impressão" />
       <Container maxWidth="md" component="main" align="center">
         <form>
-          <Container maxWidth="sm" align="left"></Container>
           <Link to="/confirm">
             <Button variant="contained" style={{ margin: 15 }}>
               Voltar
@@ -80,21 +79,21 @@ var Confirm = ({
   );
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(SelectActions, dispatch);
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   values: getFormValues("infoReduxForm")(state),
   vendedor: state.select_infos.vendedor,
   naturezaOperacao: state.select_infos.naturezaOperacao,
   cliente: state.select_infos.cliente,
   produtos: state.productList,
-  parcelas: state.paymentList
+  parcelas: state.paymentList,
 });
 
 Confirm = connect(mapStateToProps, mapDispatchToProps)(Confirm);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
 })(Confirm);

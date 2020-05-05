@@ -10,7 +10,7 @@ import {
   loadOperation_natures,
   loadSystem_clients,
   // loadSeller_clients,
-  loadProducts
+  loadProducts,
   // loadKits,
   // loadMachines,
   // loadImportant_infos,
@@ -53,39 +53,39 @@ import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
 import ClearAllIcon from "@material-ui/icons/ClearAll";
 import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   list: {
-    width: 250
+    width: 250,
   },
   fullList: {
-    width: "auto"
+    width: "auto",
   },
   offset: theme.mixins.toolbar,
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   modal: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    textAlign: "center"
+    textAlign: "center",
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
     borderRadius: 5,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3)
-  }
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
 const App = styled(AppBar)({
-  margin: "0 0 20px 0"
+  margin: "0 0 20px 0",
 });
 
 class AppItem extends Component {
@@ -122,10 +122,10 @@ function Menu({ title, values, dispatch, history }) {
     top: false,
     left: false,
     bottom: false,
-    right: false
+    right: false,
   });
 
-  const toggleDrawer = (side, open) => event => {
+  const toggleDrawer = (side, open) => (event) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
@@ -136,7 +136,7 @@ function Menu({ title, values, dispatch, history }) {
     setState({ ...state, [side]: open });
   };
 
-  const sideList = side => (
+  const sideList = (side) => (
     <div
       className={classes.list}
       role="presentation"
@@ -211,16 +211,14 @@ function Menu({ title, values, dispatch, history }) {
       <AppItem
         icon={<SettingsApplicationsIcon />}
         subtitle={`v${pjson.version}`}
+        address={() => {}}
       />
     </div>
   );
 
   function dataAtualFormatada(input) {
     var data = new Date(input),
-      dia = data
-        .getDate()
-        .toString()
-        .padStart(2, "0"),
+      dia = data.getDate().toString().padStart(2, "0"),
       mes = (data.getMonth() + 1).toString().padStart(2, "0"), //+1 pois no getMonth Janeiro começa com zero.
       ano = data.getFullYear();
     return dia + "/" + mes + "/" + ano;
@@ -232,6 +230,7 @@ function Menu({ title, values, dispatch, history }) {
   }
 
   async function clearAll() {
+    await history.push(`/`);
     const sync_date = values.sync_date;
     await dispatch(reset("infoReduxForm"));
     await store.dispatch(change("infoReduxForm", "login", true));
@@ -282,7 +281,6 @@ function Menu({ title, values, dispatch, history }) {
           <Typography variant="h6" className={classes.title}>
             {title}
           </Typography>
-          <Typography variant="p" align="right"></Typography>
         </Toolbar>
         <Drawer open={state.left} onClose={toggleDrawer("left", false)}>
           {sideList("left")}
@@ -297,7 +295,7 @@ function Menu({ title, values, dispatch, history }) {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500
+          timeout: 500,
         }}
       >
         <Fade in={open}>
@@ -308,7 +306,7 @@ function Menu({ title, values, dispatch, history }) {
             </div>
 
             <Button
-              type="buttom"
+              type="button"
               onClick={handleClose}
               variant="contained"
               color="primary"
@@ -322,8 +320,8 @@ function Menu({ title, values, dispatch, history }) {
   );
 }
 
-const mapStateToProps = state => ({
-  values: getFormValues("infoReduxForm")(state)
+const mapStateToProps = (state) => ({
+  values: getFormValues("infoReduxForm")(state),
 });
 
 export default withRouter(connect(mapStateToProps)(Menu));

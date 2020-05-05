@@ -50,11 +50,11 @@ function NumberFormatCustom(props) {
     <NumberFormat
       {...other}
       getInputRef={inputRef}
-      onValueChange={values => {
+      onValueChange={(values) => {
         onChange({
           target: {
-            value: values.value
-          }
+            value: values.value,
+          },
         });
       }}
       type="tel"
@@ -65,19 +65,19 @@ function NumberFormatCustom(props) {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    margin: 10
+    margin: 10,
   },
   form: {
-    margin: 10
-  }
+    margin: 10,
+  },
 }));
 
 const payments = [
@@ -86,7 +86,7 @@ const payments = [
   { label: "Boleto" },
   { label: "Cartão de Crédito" },
   { label: "Cheque" },
-  { label: "Financiamento Bancário" }
+  { label: "Financiamento Bancário" },
 ];
 
 var PaymentDetails = ({
@@ -96,7 +96,7 @@ var PaymentDetails = ({
   removePayment,
   resetPayment,
   submitting,
-  history
+  history,
 }) => {
   const classes = useStyles();
 
@@ -111,26 +111,26 @@ var PaymentDetails = ({
   const [condition, setCondition] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleAddEntrada = e => {
+  const handleAddEntrada = (e) => {
     e.preventDefault();
 
     if (!dateEntrada) {
       setErrorsEntrada({
-        date: "Insira a data da entrada!"
+        date: "Insira a data da entrada!",
       });
     } else if (!valueEntrada) {
       if (Number.isInteger(value)) {
         setErrorsEntrada({
-          value: "Insira um número!"
+          value: "Insira um número!",
         });
       } else {
         setErrorsEntrada({
-          value: "Insira um valor!"
+          value: "Insira um valor!",
         });
       }
     } else if (!conditionEntrada) {
       setErrorsEntrada({
-        condition: "Insira a condição da entrada!"
+        condition: "Insira a condição da entrada!",
       });
     } else {
       setErrorsEntrada({});
@@ -143,34 +143,34 @@ var PaymentDetails = ({
     }
   };
 
-  const handleAdd = e => {
+  const handleAdd = (e) => {
     e.preventDefault();
 
     if (!num) {
       setErrors({
-        num: "Insira o número de parcelas!"
+        num: "Insira o número de parcelas!",
       });
     } else if (!inter) {
       setErrors({
-        inter: "Insira o intervalo de dias das parcelas!"
+        inter: "Insira o intervalo de dias das parcelas!",
       });
     } else if (!value) {
       if (Number.isInteger(value)) {
         setErrors({
-          value: "Insira um número!"
+          value: "Insira um número!",
         });
       } else {
         setErrors({
-          value: "Insira um valor!"
+          value: "Insira um valor!",
         });
       }
     } else if (!condition) {
       setErrors({
-        condition: "Insira a condição da parcela!"
+        condition: "Insira a condição da parcela!",
       });
     } else if (paymentList[0] === undefined) {
       setErrors({
-        date: "Insira a entrada!"
+        date: "Insira a entrada!",
       });
     } else {
       setErrors({});
@@ -197,7 +197,7 @@ var PaymentDetails = ({
     return data;
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     if (paymentList.length > 0) {
       history.push(`/freightdetails`);
     } else {
@@ -238,33 +238,30 @@ var PaymentDetails = ({
                 label="Data"
                 margin="normal"
                 fullWidth
-                id="formatted-numberformat-input"
                 className={classes.form}
-                onChange={e => setdateEntrada(e.target.value)}
+                onChange={(e) => setdateEntrada(e.target.value)}
                 InputLabelProps={{ shrink: true }}
                 type="date"
               />
               <TextField
-                label="Valor da parcela"
+                label="Valor da entrada"
                 margin="normal"
                 fullWidth
-                id="formatted-numberformat-input"
                 className={classes.form}
-                onChange={e => setValueEntrada(e.target.value)}
+                onChange={(e) => setValueEntrada(e.target.value)}
                 InputProps={{
-                  inputComponent: NumberFormatCustom
+                  inputComponent: NumberFormatCustom,
                 }}
               />
               <FormControl fullWidth className={classes.form}>
                 <InputLabel>Condição da parcela</InputLabel>
                 <NativeSelect
-                  native
                   required
-                  onChange={e => setConditionEntrada(e.target.value)}
+                  onChange={(e) => setConditionEntrada(e.target.value)}
                 >
                   <option value="" />
-                  {payments.map(option => (
-                    <option value={option.label}>{option.label}</option>
+                  {payments.map((option) => (
+                    <option key={option.label}>{option.label}</option>
                   ))}
                 </NativeSelect>
               </FormControl>
@@ -292,41 +289,37 @@ var PaymentDetails = ({
                 label="Numero de Parcelas"
                 margin="normal"
                 fullWidth
-                id="formatted-numberformat-input"
                 className={classes.form}
-                onChange={e => setNum(e.target.value)}
+                onChange={(e) => setNum(e.target.value)}
                 type="number"
               />
               <TextField
                 label="Intervalo das Parcelas(dias)"
                 margin="normal"
                 fullWidth
-                id="formatted-numberformat-input"
                 className={classes.form}
-                onChange={e => setInter(e.target.value)}
+                onChange={(e) => setInter(e.target.value)}
                 type="number"
               />
               <TextField
-                label="Valor da parcela"
+                label="Valor de cada parcela"
                 margin="normal"
                 fullWidth
-                id="formatted-numberformat-input"
                 className={classes.form}
-                onChange={e => setValue(e.target.value)}
+                onChange={(e) => setValue(e.target.value)}
                 InputProps={{
-                  inputComponent: NumberFormatCustom
+                  inputComponent: NumberFormatCustom,
                 }}
               />
               <FormControl fullWidth className={classes.form}>
                 <InputLabel>Condição das parcelas</InputLabel>
                 <NativeSelect
-                  native
                   required
-                  onChange={e => setCondition(e.target.value)}
+                  onChange={(e) => setCondition(e.target.value)}
                 >
                   <option value="" />
-                  {payments.map(option => (
-                    <option value={option.label}>{option.label}</option>
+                  {payments.map((option) => (
+                    <option key={option.label}>{option.label}</option>
                   ))}
                 </NativeSelect>
               </FormControl>
@@ -347,7 +340,7 @@ var PaymentDetails = ({
               <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                   <TableHead>
-                    <TableRow>
+                    <TableRow key={Math.random()}>
                       <TableCell align="center">Parcela</TableCell>
                       <TableCell align="center">Data</TableCell>
                       <TableCell align="center">Valor</TableCell>
@@ -356,8 +349,8 @@ var PaymentDetails = ({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {paymentList.map(payment => (
-                      <TableRow id={payment.id}>
+                    {paymentList.map((payment) => (
+                      <TableRow key={payment.id}>
                         <TableCell align="center">
                           {paymentList.indexOf(payment) + 1}
                         </TableCell>
@@ -367,17 +360,18 @@ var PaymentDetails = ({
                         <TableCell align="center">
                           {payment.value.toLocaleString("pt-br", {
                             style: "currency",
-                            currency: "BRL"
+                            currency: "BRL",
                           })}
                         </TableCell>
                         <TableCell align="center">
                           {payment.condition}
                         </TableCell>
                         <TableCell align="center">
-                          <IconButton aria-label="delete">
-                            <DeleteOutlineIcon
-                              onClick={() => removePayment(payment.id)}
-                            />
+                          <IconButton
+                            aria-label="delete"
+                            onClick={() => removePayment(payment.id)}
+                          >
+                            <DeleteOutlineIcon />
                           </IconButton>
                         </TableCell>
                       </TableRow>
@@ -418,17 +412,17 @@ var PaymentDetails = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   values: getFormValues("infoReduxForm")(state),
-  paymentList: state.paymentList
+  paymentList: state.paymentList,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(PaymentAction, dispatch);
 
 PaymentDetails = connect(mapStateToProps, mapDispatchToProps)(PaymentDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
 })(PaymentDetails);
