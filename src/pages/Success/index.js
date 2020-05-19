@@ -7,28 +7,19 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 
 import { bindActionCreators } from "redux";
-import { Creators as SelectActions } from "../../store/ducks/select_infos";
+import { Creators as OrderActions } from "../../store/ducks/orderList";
 
 import Menu from "../../components/Menu";
 import PdfMakeDefault from "../../components/PdfMakeDefault";
 import PdfMakeKit from "../../components/PdfMakeKit";
 import PdfMakeMonofio from "../../components/PdfMakeMonofio";
 
-var Confirm = ({
-  values,
-  vendedor,
-  naturezaOperacao,
-  cliente,
-  produtos,
-  parcelas,
-}) => {
+var Confirm = ({ values, addOrder, cliente, produtos, parcelas }) => {
   function PdfMake() {
     if (values !== undefined) {
       if (values.tipo_contrato === "Pedido para Kits Hidráulicos") {
         return (
           <PdfMakeKit
-            vendedor={vendedor.name}
-            naturezaOperacao={naturezaOperacao.name}
             cliente={cliente}
             values={values}
             produtos={produtos}
@@ -41,8 +32,6 @@ var Confirm = ({
       console.log("mono");
       return (
         <PdfMakeMonofio
-          vendedor={vendedor.name}
-          naturezaOperacao={naturezaOperacao.name}
           cliente={cliente}
           values={values}
           produtos={produtos}
@@ -52,8 +41,6 @@ var Confirm = ({
     }
     return (
       <PdfMakeDefault
-        vendedor={vendedor.name}
-        naturezaOperacao={naturezaOperacao.name}
         cliente={cliente}
         values={values}
         produtos={produtos}
@@ -61,6 +48,12 @@ var Confirm = ({
       />
     );
   }
+
+  const handleAddEntrada = (e) => {
+    e.preventDefault();
+
+    addOrder(cliente, values, produtos, parcelas);
+  };
 
   return (
     <div>
@@ -74,13 +67,16 @@ var Confirm = ({
           </Link>
           <PdfMake />
         </form>
+        <Button type="button" variant="outlined" onClick={handleAddEntrada}>
+          Salvar pedido
+        </Button>
       </Container>
     </div>
   );
 };
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(SelectActions, dispatch);
+  bindActionCreators(OrderActions, dispatch);
 
 const mapStateToProps = (state) => ({
   values: getFormValues("infoReduxForm")(state),

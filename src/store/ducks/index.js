@@ -5,6 +5,7 @@ import bd_selects from "./bd_selects";
 import productList from "./productList";
 import paymentList from "./paymentList";
 import clientList from "./clientList";
+import orderList from "./orderList";
 import { reducer as formReducer } from "redux-form";
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
   productList,
   paymentList,
   clientList,
-  form: formReducer
+  orderList,
+  form: formReducer,
 });

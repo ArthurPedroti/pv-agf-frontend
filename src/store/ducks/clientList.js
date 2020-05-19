@@ -14,9 +14,9 @@ export const { Types, Creators } = createActions({
     "uf",
     "cep",
     "telefone",
-    "celular"
+    "celular",
   ],
-  removeClient: ["id"]
+  removeClient: ["id"],
 });
 
 /**
@@ -37,17 +37,17 @@ const add = (state = INITIAL_STATE, action) => [
     uf: action.uf,
     cep: action.cep,
     telefone: action.telefone,
-    celular: action.celular
-  }
+    celular: action.celular,
+  },
 ];
 
 const remove = (state = INITIAL_STATE, action) =>
-  state.filter(product => product.id !== action.id);
+  state.filter((product) => product.id !== action.id);
 
 /**
  * Reducer
  */
 export default createReducer(INITIAL_STATE, {
   [Types.ADD_CLIENT]: add,
-  [Types.REMOVE_CLIENT]: remove
+  [Types.REMOVE_CLIENT]: remove,
 });

@@ -27,3 +27,10 @@
 $$
 ## option for payment table: fixed table with parcels incremation, see old pvagf
 $$
+
+# Tabela para salvar pedidos
+
+✔ Criar duck para salvar os pedidos;
+✔ Criar dashboard para mostrar os pedidos salvos;
+
+- Criar loading do pedidos salvos na aplicação;

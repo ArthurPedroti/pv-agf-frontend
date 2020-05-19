@@ -44,6 +44,7 @@ import BookmarksIcon from "@material-ui/icons/Bookmarks";
 import CardTravelIcon from "@material-ui/icons/CardTravel";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import DescriptionIcon from "@material-ui/icons/Description";
+import ListIcon from "@material-ui/icons/List";
 import PrintIcon from "@material-ui/icons/Print";
 import CallSplitIcon from "@material-ui/icons/CallSplit";
 import Modal from "@material-ui/core/Modal";
@@ -189,6 +190,7 @@ function Menu({ title, values, dispatch, history }) {
           icon={<DoneOutlineIcon />}
           address="confirm"
         />
+        <AppItem label="Pedidos" icon={<ListIcon />} address="orderslist" />
         <AppItem label="Imprimir" icon={<PrintIcon />} address="success" />
       </List>
       <Divider />

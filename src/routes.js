@@ -11,6 +11,7 @@ import OrderDetails from "./pages/OrderDetails";
 import PaymentDetails from "./pages/PaymentDetails";
 import FreightDetails from "./pages/FreightDetails";
 import OtherDetails from "./pages/OtherDetails";
+import OrdersList from "./pages/OrdersList";
 import Confirm from "./pages/Confirm";
 import Success from "./pages/Success";
 
@@ -31,6 +32,7 @@ function App() {
           <Route exact path="/paymentdetails" component={PaymentDetails} />
           <Route exact path="/freightdetails" component={FreightDetails} />
           <Route exact path="/otherdetails" component={OtherDetails} />
+          <Route exact path="/orderslist" component={OrdersList} />
           <Route exact path="/confirm" component={Confirm} />
           <Route exact path="/success" component={Success} />
           <Route component={AsyncNoMatch} />
