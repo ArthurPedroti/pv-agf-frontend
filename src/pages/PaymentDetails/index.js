@@ -5,7 +5,7 @@ import { reduxForm, Field, getFormValues } from "redux-form";
 import NumberFormat from "react-number-format";
 
 import { bindActionCreators } from "redux";
-import { Creators as PaymentAction } from "../../store/ducks/paymentList";
+import { Creators as PaymentActions } from "../../store/ducks/paymentList";
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -418,7 +418,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(PaymentAction, dispatch);
+  bindActionCreators(PaymentActions, dispatch);
 
 PaymentDetails = connect(mapStateToProps, mapDispatchToProps)(PaymentDetails);
 

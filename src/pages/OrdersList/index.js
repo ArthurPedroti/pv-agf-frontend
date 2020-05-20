@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm, getFormValues } from "redux-form";
+import { reduxForm } from "redux-form";
 
 import { bindActionCreators } from "redux";
 import { Creators as OrderActions } from "../../store/ducks/orderList";
 import { Creators as SelectActions } from "../../store/ducks/select_infos";
+import { Creators as ProductActions } from "../../store/ducks/productList";
+import { Creators as PaymentActions } from "../../store/ducks/paymentList";
 
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -22,15 +24,18 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "../../components/Menu";
 
 var orderDetails = ({
-  values,
   orderList,
   removeOrder,
+  loadProducts,
+  loadPayments,
   toggleClient,
-  submitting,
-  history,
+  initialize,
 }) => {
-  const loadOrder = (cliente) => {
+  const loadOrder = (cliente, values, produtos, parcelas) => {
     toggleClient(cliente);
+    initialize(values);
+    loadProducts(produtos);
+    loadPayments(parcelas);
   };
 
   return (
@@ -68,7 +73,14 @@ var orderDetails = ({
                     <TableCell align="center">
                       <IconButton
                         aria-label="load"
-                        onClick={() => loadOrder(order.cliente)}
+                        onClick={() =>
+                          loadOrder(
+                            order.cliente,
+                            order.values,
+                            order.produtos,
+                            order.parcelas
+                          )
+                        }
                       >
                         <PublishIcon />
                       </IconButton>
@@ -91,16 +103,19 @@ var orderDetails = ({
 };
 
 const mapStateToProps = (state) => ({
-  values: getFormValues("infoReduxForm")(state),
   orderList: state.orderList,
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ ...OrderActions, ...SelectActions }, dispatch);
+  bindActionCreators(
+    { ...OrderActions, ...SelectActions, ...ProductActions, ...PaymentActions },
+    dispatch
+  );
 
 orderDetails = connect(mapStateToProps, mapDispatchToProps)(orderDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
   destroyOnUnmount: false,
+  enableReinitialize: true,
 })(orderDetails);

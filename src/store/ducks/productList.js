@@ -6,7 +6,8 @@ import { createActions, createReducer } from "reduxsauce";
 export const { Types, Creators } = createActions({
   addProduct: ["text", "value", "qtd"],
   removeProduct: ["id"],
-  resetProduct: []
+  loadProducts: ["data"],
+  resetProduct: [],
 });
 
 /**
@@ -21,14 +22,16 @@ const add = (state = INITIAL_STATE, action) => [
     product: action.text,
     value: action.value,
     qtd: action.qtd,
-    complete: false
-  }
+    complete: false,
+  },
 ];
 
 const remove = (state = INITIAL_STATE, action) =>
-  state.filter(product => product.id !== action.id);
+  state.filter((product) => product.id !== action.id);
 
-const reset = (state = INITIAL_STATE, action) => (state = INITIAL_STATE);
+const load = (state = INITIAL_STATE, action) => (state = action.data);
+
+const reset = (state = INITIAL_STATE) => (state = INITIAL_STATE);
 
 /**
  * Reducer
@@ -36,5 +39,6 @@ const reset = (state = INITIAL_STATE, action) => (state = INITIAL_STATE);
 export default createReducer(INITIAL_STATE, {
   [Types.ADD_PRODUCT]: add,
   [Types.REMOVE_PRODUCT]: remove,
-  [Types.RESET_PRODUCT]: reset
+  [Types.LOAD_PRODUCTS]: load,
+  [Types.RESET_PRODUCT]: reset,
 });
