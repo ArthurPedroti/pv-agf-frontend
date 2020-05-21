@@ -23,6 +23,7 @@ import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import Menu from "../../components/Menu";
 
@@ -90,46 +91,39 @@ var OrderDetails = ({
           <Table aria-label="simple table">
             <TableHead>
               <TableRow key={Math.random()}>
-                <TableCell align="center">Índice</TableCell>
                 <TableCell align="center">Nome</TableCell>
-                <TableCell align="center">Valor</TableCell>
-                <TableCell align="center">Tipo de Pagamento</TableCell>
                 <TableCell align="center">Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {orderList.map((order) => (
                 <TableRow key={order.id}>
-                  <TableCell align="center">
-                    {orderList.indexOf(order) + 1}
-                  </TableCell>
                   <TableCell align="center">{order.name}</TableCell>
+
                   <TableCell align="center">
-                    {order.cliente.codigo_cliente}
-                  </TableCell>
-                  <TableCell align="center">
-                    {order.cliente.codigo_cliente}
-                  </TableCell>
-                  <TableCell align="center">
-                    <IconButton
-                      aria-label="load"
-                      onClick={() =>
-                        loadOrder(
-                          order.cliente,
-                          order.values,
-                          order.produtos,
-                          order.parcelas
-                        )
-                      }
-                    >
-                      <PublishIcon />
-                    </IconButton>
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => removeOrder(order.id)}
-                    >
-                      <DeleteOutlineIcon />
-                    </IconButton>
+                    <Tooltip title="Carregar">
+                      <IconButton
+                        aria-label="load"
+                        onClick={() =>
+                          loadOrder(
+                            order.cliente,
+                            order.values,
+                            order.produtos,
+                            order.parcelas
+                          )
+                        }
+                      >
+                        <PublishIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Deletar">
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => removeOrder(order.id)}
+                      >
+                        <DeleteOutlineIcon />
+                      </IconButton>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               ))}
