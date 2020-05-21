@@ -20,6 +20,7 @@ import TableRow from "@material-ui/core/TableRow";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import PublishIcon from "@material-ui/icons/Publish";
 import IconButton from "@material-ui/core/IconButton";
+import GetAppIcon from "@material-ui/icons/GetApp";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -34,6 +35,7 @@ var OrderDetails = ({
   produtos,
   parcelas,
   orderList,
+  editOrder,
   removeOrder,
   loadProducts,
   loadPayments,
@@ -60,6 +62,14 @@ var OrderDetails = ({
     } else {
       setErrors({});
       addOrder(value, cliente, values, produtos, parcelas);
+    }
+  };
+
+  const handleEdit = (id, name) => {
+    if (!value) {
+      editOrder(id, name, cliente, values, produtos, parcelas);
+    } else {
+      editOrder(id, value, cliente, values, produtos, parcelas);
     }
   };
 
@@ -114,6 +124,14 @@ var OrderDetails = ({
                         }
                       >
                         <PublishIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Salvar">
+                      <IconButton
+                        aria-label="load"
+                        onClick={() => handleEdit(order.id, order.name)}
+                      >
+                        <GetAppIcon />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Deletar">
