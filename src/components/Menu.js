@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getFormValues, change, reset } from "redux-form";
+import { getFormValues, change, destroy } from "redux-form";
 import { store } from "../store";
 import pjson from "../../package.json";
+
+import { Creators as ProductCreators } from "../store/ducks/productList";
+import { Creators as PaymentCreators } from "../store/ducks/paymentList";
+import { Creators as SelectCreators } from "../store/ducks/select_infos";
 
 import {
   loadSellers,
@@ -234,9 +238,12 @@ function Menu({ title, values, dispatch, history }) {
   async function clearAll() {
     await history.push(`/`);
     const sync_date = values.sync_date;
-    await dispatch(reset("infoReduxForm"));
+    await dispatch(destroy("infoReduxForm"));
     await store.dispatch(change("infoReduxForm", "login", true));
     await store.dispatch(change("infoReduxForm", "sync_date", sync_date));
+    await store.dispatch(ProductCreators.resetProduct());
+    await store.dispatch(PaymentCreators.resetPayment());
+    await store.dispatch(SelectCreators.resetSelect());
   }
 
   async function SyncData() {
