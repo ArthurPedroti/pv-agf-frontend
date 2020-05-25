@@ -33,3 +33,5 @@ $$
 ✔ Criar duck para salvar os pedidos;
 ✔ Criar dashboard para mostrar os pedidos salvos;
 ✔ Criar loading do pedidos salvos na aplicação;
+
+- Criar search para os pedidos salvos

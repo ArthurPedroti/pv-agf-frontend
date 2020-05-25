@@ -21,7 +21,7 @@ const renderSelect = ({ input, label, options }) => (
       <InputLabel>{label}</InputLabel>
       <NativeSelect required {...input}>
         <option value="" />
-        {options.map(option => (
+        {options.map((option) => (
           <option key={option.label}>{option.label}</option>
         ))}
       </NativeSelect>
@@ -30,10 +30,10 @@ const renderSelect = ({ input, label, options }) => (
 );
 
 const frete = [
-  { label: "AGF Equipamentos" },
   { label: "Cliente" },
   { label: "Indicar cotação" },
-  { label: "Veículo" }
+  { label: "Veículo" },
+  { label: "Outros" },
 ];
 
 var FreightDetails = ({ history, handleSubmit, submitting }) => {
@@ -76,17 +76,17 @@ var FreightDetails = ({ history, handleSubmit, submitting }) => {
   );
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(SelectActions, dispatch);
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   kit: state.select_infos.kit,
-  maquina: state.select_infos.maquina
+  maquina: state.select_infos.maquina,
 });
 
 FreightDetails = connect(mapStateToProps, mapDispatchToProps)(FreightDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
 })(FreightDetails);
