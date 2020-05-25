@@ -49,12 +49,6 @@ var Confirm = ({ values, addOrder, cliente, produtos, parcelas }) => {
     );
   }
 
-  const handleAddEntrada = (e) => {
-    e.preventDefault();
-
-    addOrder(cliente, values, produtos, parcelas);
-  };
-
   return (
     <div>
       <Menu title="Impressão" />
@@ -67,9 +61,6 @@ var Confirm = ({ values, addOrder, cliente, produtos, parcelas }) => {
           </Link>
           <PdfMake />
         </form>
-        <Button type="button" variant="outlined" onClick={handleAddEntrada}>
-          Salvar pedido
-        </Button>
       </Container>
     </div>
   );

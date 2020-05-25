@@ -149,7 +149,6 @@ function Menu({ title, values, dispatch, history }) {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        <AppItem label="Pedidos" icon={<ListIcon />} address="orderslist" />
         <AppItem
           label="Vendedor"
           icon={<CardTravelIcon />}
@@ -196,6 +195,7 @@ function Menu({ title, values, dispatch, history }) {
           address="confirm"
         />
         <AppItem label="Imprimir" icon={<PrintIcon />} address="success" />
+        <AppItem label="Pedidos" icon={<ListIcon />} address="orderslist" />
       </List>
       <Divider />
       <List>
