@@ -14,27 +14,41 @@ import { Creators as SelectActions } from "../../store/ducks/select_infos";
 
 import Menu from "../../components/Menu";
 
+const sellers = [
+  { label: "ALEXANDRE SOUZA" },
+  { label: "ANDRÉ FILHO" },
+  { label: "EDSON BORGES" },
+  { label: "FERNANDO SOUZA" },
+  { label: "MANOEL LAGE" },
+  { label: "MAURICIO MARCONDES" },
+  { label: "MOZART PEDROTI" },
+  { label: "GIOVANI ALBUQUERQUE" },
+  { label: "FABIO GROBA" },
+  { label: "GELSON VASCONCELLOS" },
+];
+
+const operation_natures = [
+  { label: "VENDA" },
+  { label: "DEMONSTRAÇÃO" },
+  { label: "LOCAÇÃO" },
+  { label: "VENDA COM ENTREGA FUTURA" },
+];
+
 const renderSelect = ({ input, label, options }) => (
   <div>
     <FormControl required fullWidth margin="normal">
       <InputLabel>{label}</InputLabel>
       <NativeSelect required {...input}>
         <option key={Math.random()} />
-        {options.map(option => (
-          <option key={Math.random()}>{option.name}</option>
+        {options.map((option) => (
+          <option key={Math.random()}>{option.label}</option>
         ))}
       </NativeSelect>
     </FormControl>
   </div>
 );
 
-var SellerDetails = ({
-  sellers,
-  operation_natures,
-  history,
-  handleSubmit,
-  submitting
-}) => {
+var SellerDetails = ({ history, handleSubmit, submitting }) => {
   async function showResults() {
     history.push(`/clientdetails`);
   }
@@ -76,19 +90,19 @@ var SellerDetails = ({
   );
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(SelectActions, dispatch);
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   sellers: state.bd_selects.sellers,
   operation_natures: state.bd_selects.operation_natures,
   vendedor: state.select_infos.vendedor,
-  naturezaOperacao: state.select_infos.naturezaOperacao
+  naturezaOperacao: state.select_infos.naturezaOperacao,
 });
 
 SellerDetails = connect(mapStateToProps, mapDispatchToProps)(SellerDetails);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
 })(SellerDetails);
