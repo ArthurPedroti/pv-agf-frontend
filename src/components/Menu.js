@@ -10,8 +10,8 @@ import { Creators as PaymentCreators } from "../store/ducks/paymentList";
 import { Creators as SelectCreators } from "../store/ducks/select_infos";
 
 import {
-  loadSellers,
-  loadOperation_natures,
+  // loadSellers,
+  // loadOperation_natures,
   loadSystem_clients,
   // loadSeller_clients,
   loadProducts,
@@ -248,8 +248,8 @@ function Menu({ title, values, dispatch, history }) {
 
   async function SyncData() {
     handleOpen();
-    await store.dispatch(loadSellers());
-    await store.dispatch(loadOperation_natures());
+    // await store.dispatch(loadSellers());
+    // await store.dispatch(loadOperation_natures());
     await store.dispatch(loadSystem_clients());
     // await store.dispatch(loadSeller_clients());
     await store.dispatch(loadProducts());

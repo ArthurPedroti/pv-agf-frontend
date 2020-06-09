@@ -12,11 +12,11 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { Container, LoginWrapper, TextField, Button } from "./styles";
 
 import {
-  loadSellers,
-  loadOperation_natures,
+  // loadSellers,
+  // loadOperation_natures,
   loadSystem_clients,
   // loadSeller_clients,
-  loadProducts
+  loadProducts,
   // loadKits,
   // loadMachines,
   // loadImportant_infos,
@@ -49,8 +49,8 @@ var Login = ({ history, values }) => {
         history.push(`/sellerdetails`);
       } else {
         setLoading(<CircularProgress />);
-        await store.dispatch(loadSellers());
-        await store.dispatch(loadOperation_natures());
+        // await store.dispatch(loadSellers());
+        // await store.dispatch(loadOperation_natures());
         await store.dispatch(loadSystem_clients());
         // await store.dispatch(loadSeller_clients());
         await store.dispatch(loadProducts());
@@ -79,7 +79,7 @@ var Login = ({ history, values }) => {
           <TextField
             type="password"
             placeholder="Digite a senha"
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <span>{error}</span>
           <Button onClick={handleSubmit}>Login</Button>
@@ -91,15 +91,16 @@ var Login = ({ history, values }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  values: getFormValues("infoReduxForm")(state)
+const mapStateToProps = (state) => ({
+  values: getFormValues("infoReduxForm")(state),
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(apiActions, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(apiActions, dispatch);
 
 Login = connect(mapStateToProps, mapDispatchToProps)(Login);
 
 export default reduxForm({
   form: "infoReduxForm",
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
 })(Login);
