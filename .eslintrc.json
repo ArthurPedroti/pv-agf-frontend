@@ -22,5 +22,27 @@
         "react"
     ],
     "rules": {
+      "react/jsx-one-expression-per-line": "off",
+      "react/jsx-props-no-spreading": "off",
+      "react/prop-types": "off",
+      "no-unused-expressions": "off",
+      "import/no-duplicates": "off",
+      "camelcase": "off",
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [
+            ".js"
+          ]
+        }
+      ],
+      "import/prefer-default-export": "off",
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "never"
+        }
+      ]
     }
 }
