@@ -221,7 +221,7 @@ let ManualPayment = ({
                 required
                 onChange={(e) => setConditionEntrada(e.target.value)}
               >
-                <option value="" label="Selecione" />
+                <option value="" />
                 {payments.map((option) => (
                   <option key={option.label}>{option.label}</option>
                 ))}
@@ -279,7 +279,7 @@ let ManualPayment = ({
                 required
                 onChange={(e) => setCondition(e.target.value)}
               >
-                <option value="" label="Selecione" />
+                <option value="" />
                 {payments.map((option) => (
                   <option key={option.label}>{option.label}</option>
                 ))}

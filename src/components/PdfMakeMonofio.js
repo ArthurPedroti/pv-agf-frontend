@@ -642,7 +642,7 @@ export default function PdfMakeDefault({
             </div>
 
             <Button
-              type="buttom"
+              type="button"
               onClick={handleClose}
               variant="contained"
               color="primary"

@@ -28,6 +28,7 @@
       "no-unused-expressions": "off",
       "import/no-duplicates": "off",
       "camelcase": "off",
+      "jsx-a11y/control-has-associated-label": "off",
       "react/jsx-filename-extension": [
         1,
         {

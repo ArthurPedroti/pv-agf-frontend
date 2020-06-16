@@ -6,15 +6,21 @@ import { bindActionCreators } from 'redux';
 
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import { Creators as PaymentActions } from '../../../store/ducks/paymentList';
 
 let AutomaticPayment = () => {
-  const renderInput = useCallback(({ input, label, placeholder }) => (
+  const renderInput = useCallback(({
+    input, type, label, placeholder,
+  }) => (
     <div>
       <TextField
         {...input}
         label={label}
+        type={type}
         placeholder={placeholder}
         fullWidth
         margin="normal"
@@ -23,30 +29,52 @@ let AutomaticPayment = () => {
     </div>
   ), []);
 
+  const radioButton = useCallback(({ input, ...rest }) => (
+    <RadioGroup {...input} {...rest} value={input.value || 'normal'}>
+      <FormControlLabel
+        value="normal"
+        control={<Radio />}
+        label="Normal"
+      />
+      <FormControlLabel
+        value="ddl"
+        control={<Radio />}
+        label="DDL"
+      />
+    </RadioGroup>
+  ), []);
+
   return (
     <div>
       <Container>
         <Field
           name="entrada"
           label="Entrada"
-          type="text"
+          type="number"
           component={renderInput}
         />
         <Field
           name="num_parcelas"
           label="Numero de parcelas"
-          type="text"
+          type="number"
           component={renderInput}
         />
         <Field
           name="valor_parcelas"
           label="Valor das parcelas"
-          type="text"
+          type="number"
           component={renderInput}
         />
         <Field
           name="int_parcelas"
           label="Intervalo das parcelas"
+          type="number"
+          component={renderInput}
+        />
+        <Field name="parcelas_type" component={radioButton} />
+        <Field
+          name="info_ad_pagamentoAuto"
+          label="Informações adicionais:"
           type="text"
           component={renderInput}
         />
