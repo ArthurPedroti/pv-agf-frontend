@@ -43,7 +43,14 @@ const useStyles = makeStyles((theme) => ({
 export default function PdfMakeKit({
   cliente, values, produtos, parcelas,
 }) {
-  const productsFormat = (produtos) => produtos.map((produto) => [
+  function dataAtualFormatada(input) {
+    const data = new Date(input);
+    data.setDate(data.getDate() + 1);
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    return data.toLocaleDateString('pt-BR', options);
+  }
+
+  const productsFormat = (produtoParams) => produtoParams.map((produto) => [
     { text: produto.product.codigo, style: 'centerLine' },
     { text: produto.product.descricao, style: 'centerLine' },
     { text: produto.product.desc_grupo, style: 'centerLine' },
@@ -64,7 +71,7 @@ export default function PdfMakeKit({
     },
   ]);
 
-  const paymentsFormat = (parcelas) => {
+  let paymentsFormat = (parcelasParams) => {
     const arr1 = [
       [
         {
@@ -86,8 +93,8 @@ export default function PdfMakeKit({
         { text: 'VALOR', style: 'centerHeader' },
       ],
     ];
-    const arr2 = parcelas.map((parcela) => [
-      { text: parcelas.indexOf(parcela) + 1, style: 'centerLine' },
+    const arr2 = parcelasParams.map((parcela) => [
+      { text: parcelasParams.indexOf(parcela) + 1, style: 'centerLine' },
       { text: dataAtualFormatada(parcela.date), style: 'centerLine' },
       { text: parcela.condition, style: 'centerLine' },
       {
@@ -153,21 +160,53 @@ export default function PdfMakeKit({
   });
 
   const mapPayments = parcelas.map((parcela) => parcela.value);
-  const sumPayments = mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
+  let sumPayments = mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
   const sumPaymentsFormated = sumPayments.toLocaleString('pt-br', {
     style: 'currency',
     currency: 'BRL',
   });
 
+  const paymentType = (input) => {
+    if (input) {
+      return;
+    }
+    paymentsFormat = () => [
+      [
+        {
+          text: 'FINANCEIRO',
+          alignment: 'center',
+          bold: true,
+          colSpan: 4,
+          fontSize: 9,
+          fillColor: '#dddddd',
+        },
+        {},
+        {},
+        {},
+      ],
+      [
+        {
+          text: [values.entrada ? `Entrada de ${values.entrada.toLocaleString('pt-br', {
+            style: 'currency',
+            currency: 'BRL',
+          })}` : 'Sem entrada', values.valor_parcelas && ` / ${values.num_parcelas}x parcelas de ${values.valor_parcelas.toLocaleString('pt-br', {
+            style: 'currency',
+            currency: 'BRL',
+          })} `, values.parcelas_type === 'ddl' ? '(DDL) ' : null, `a cada ${values.int_parcelas} dias.`, values.info_ad_pagamentoAuto && `\n${values.info_ad_pagamentoAuto}`],
+          colSpan: 4,
+        },
+        {},
+        {},
+        {},
+      ],
+    ];
+    sumPayments = values.entrada + (values.num_parcelas * values.valor_parcelas);
+  };
+
+  paymentType(values.payment_type);
+
   const hoje = new Date();
   hoje.setDate(hoje.getDate() - 1);
-
-  function dataAtualFormatada(input) {
-    const data = new Date(input);
-    data.setDate(data.getDate() + 1);
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-    return data.toLocaleDateString('pt-BR', options);
-  }
 
   const data_pc = values.data_pc !== undefined
     ? values.data_pc
@@ -177,6 +216,7 @@ export default function PdfMakeKit({
       .concat('/')
       .concat(values.data_pc.slice(0, 4))
     : null;
+
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd02 = infoAdd(values.info_ad_hidraulico);
   const infoAdd03 = infoAdd(values.info_ad_pagamento);
@@ -585,7 +625,7 @@ export default function PdfMakeKit({
       setErrors({
         vendedor: 'Preencha todos os dados obrigatórios do vendedor!',
       });
-      errorCount++;
+      errorCount += 1;
     }
     if (
       !cliente
@@ -597,59 +637,35 @@ export default function PdfMakeKit({
         ...prevState,
         cliente: 'Preencha todos os dados obrigatórios do cliente!',
       }));
-      errorCount++;
+      errorCount += 1;
     }
     if (produtos.length <= 0) {
       setErrors((prevState) => ({
         ...prevState,
         produto: 'Preencha os produtos!',
       }));
-      errorCount++;
+      errorCount += 1;
     }
     if (!values.tipo_contrato) {
       setErrors((prevState) => ({
         ...prevState,
         contrato: 'Selecione o tipo de contrato!',
       }));
-      errorCount++;
-    }
-    if (
-      !values.kit
-      || !values.maquina
-      || !values.modelo
-      || !values.ano
-      || !values.informacoes_relevantes
-      || !values.condicao
-      || !values.tipo_ponteira
-    ) {
-      setErrors((prevState) => ({
-        ...prevState,
-        hidraulico: 'Preencha todos os dados dos detalhes do contrato!',
-      }));
-      errorCount++;
-    }
-    if (values.pont_extra) {
-      if (!values.qtd_extra || !values.tipo_extra) {
-        setErrors((prevState) => ({
-          ...prevState,
-          hidraulico: 'Preencha todos os dados dos detalhes do contrato!',
-        }));
-        errorCount++;
-      }
+      errorCount += 1;
     }
     if (parcelas.length <= 0) {
       setErrors((prevState) => ({
         ...prevState,
         produto: 'Preencha os dados de pagamento!',
       }));
-      errorCount++;
+      errorCount += 1;
     }
     if (!values.frete) {
       setErrors((prevState) => ({
         ...prevState,
         contrato: 'Selecione o tipo de frete!',
       }));
-      errorCount++;
+      errorCount += 1;
     }
     if (sumProducts !== sumPayments) {
       setErrors((prevState) => ({
@@ -657,20 +673,20 @@ export default function PdfMakeKit({
         contrato:
           'O valor total dos produtos não coincide com o valor total das parcelas!',
       }));
-      errorCount++;
+      errorCount += 1;
+    }
+
+    async function MakePdf() {
+      handleOpen();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      pdfMake
+        .createPdf(documentDefinition)
+        .download(`${cliente.razao_social} - ${dataAtualFormatada(hoje)}`);
+      handleClose();
     }
 
     if (errorCount === 0) {
       setErrors({});
-
-      async function MakePdf() {
-        handleOpen();
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        await pdfMake
-          .createPdf(documentDefinition)
-          .download(`${cliente.razao_social} - ${dataAtualFormatada(hoje)}`);
-        handleClose();
-      }
       MakePdf();
     }
     errorCount = 0;

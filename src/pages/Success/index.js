@@ -15,7 +15,7 @@ import PdfMakeKit from '../../components/PdfMakeKit';
 import PdfMakeMonofio from '../../components/PdfMakeMonofio';
 
 let Confirm = ({
-  values, addOrder, cliente, produtos, parcelas,
+  values, cliente, produtos, parcelas,
 }) => {
   function PdfMake() {
     if (values !== undefined) {
@@ -31,7 +31,6 @@ let Confirm = ({
       }
     }
     if (values.tipo_contrato === 'Pedido para Monofio') {
-      console.log('mono');
       return (
         <PdfMakeMonofio
           cliente={cliente}

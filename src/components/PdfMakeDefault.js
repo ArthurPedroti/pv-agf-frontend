@@ -139,7 +139,6 @@ export default function PdfMakeDefault({
     return [...arr1, ...arr2];
   };
 
-
   const mapProducts = produtos.map((produto) => produto.value * produto.qtd);
   const sumProducts = mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
   const sumProductsFormated = sumProducts.toLocaleString('pt-br', {
@@ -154,29 +153,8 @@ export default function PdfMakeDefault({
     currency: 'BRL',
   });
 
-  const hoje = new Date();
-  hoje.setDate(hoje.getDate() - 1);
-
-  const data_pc = values.data_pc !== undefined
-    ? values.data_pc
-      .slice(-2)
-      .concat('/')
-      .concat(values.data_pc.slice(5, 7))
-      .concat('/')
-      .concat(values.data_pc.slice(0, 4))
-    : null;
-
-  const infoAdd01 = infoAdd(values.info_ad_produtos);
-  const infoAdd03 = infoAdd(values.info_ad_pagamento);
-  const contrato = values.contrato === true ? 'SIM' : 'NÃO';
-  const formattedProducts = productsFormat(produtos);
-  const formattedPayments = paymentsFormat(parcelas);
-
-  const { vfs } = vfsFonts.pdfMake;
-  pdfMake.vfs = vfs;
-
   const paymentType = (input) => {
-    if (input === 'normal') {
+    if (input) {
       return;
     }
     paymentsFormat = () => [
@@ -201,7 +179,7 @@ export default function PdfMakeDefault({
           })}` : 'Sem entrada', values.valor_parcelas && ` / ${values.num_parcelas}x parcelas de ${values.valor_parcelas.toLocaleString('pt-br', {
             style: 'currency',
             currency: 'BRL',
-          })} (DDL) a cada ${values.int_parcelas} dias.`, values.info_ad_pagamentoAuto && `\n${values.info_ad_pagamentoAuto}`],
+          })} `, values.parcelas_type === 'ddl' ? '(DDL) ' : null, `a cada ${values.int_parcelas} dias.`, values.info_ad_pagamentoAuto && `\n${values.info_ad_pagamentoAuto}`],
           colSpan: 4,
         },
         {},
@@ -212,7 +190,28 @@ export default function PdfMakeDefault({
     sumPayments = values.entrada + (values.num_parcelas * values.valor_parcelas);
   };
 
-  paymentType(values.parcelas_type);
+  paymentType(values.payment_type);
+
+  const hoje = new Date();
+  hoje.setDate(hoje.getDate() - 1);
+
+  const data_pc = values.data_pc !== undefined
+    ? values.data_pc
+      .slice(-2)
+      .concat('/')
+      .concat(values.data_pc.slice(5, 7))
+      .concat('/')
+      .concat(values.data_pc.slice(0, 4))
+    : null;
+
+  const infoAdd01 = infoAdd(values.info_ad_produtos);
+  const infoAdd03 = infoAdd(values.info_ad_pagamento);
+  const contrato = values.contrato === true ? 'SIM' : 'NÃO';
+  const formattedProducts = productsFormat(produtos);
+  const formattedPayments = paymentsFormat(parcelas);
+
+  const { vfs } = vfsFonts.pdfMake;
+  pdfMake.vfs = vfs;
 
   const documentDefinition = {
     pageSize: 'A4',
@@ -480,7 +479,7 @@ export default function PdfMakeDefault({
                 bold: true,
               },
               '\n\n',
-              { text: 'Cliente', bold: true },
+              { text: cliente.razao_social, bold: true },
               '\n\n',
               { text: 'Data: ______ / ______ / ________', bold: true },
             ],
@@ -572,7 +571,7 @@ export default function PdfMakeDefault({
       }));
       errorCount += 1;
     }
-    if (parcelas.length <= 0) {
+    if (values.payment_type && parcelas.length <= 0) {
       setErrors((prevState) => ({
         ...prevState,
         produto: 'Preencha os dados de pagamento!',

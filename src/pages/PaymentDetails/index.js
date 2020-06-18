@@ -48,13 +48,15 @@ let PaymentDetails = ({
 
   const handleSubmit = useCallback(
     () => {
-      if (paymentList.length > 0) {
+      if (!values.payment_type) {
+        history.push('/freightdetails');
+      } else if (paymentList.length > 0) {
         history.push('/freightdetails');
       } else {
-        message.error('Insira pelo menos um produto!');
+        message.error('Insira pelo menos uma parcela!');
       }
     },
-    [history, paymentList.length],
+    [history, paymentList.length, values.payment_type],
   );
 
   const BackButton = useCallback(
