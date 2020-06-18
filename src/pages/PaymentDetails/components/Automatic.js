@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+import NumberFormat from 'react-number-format';
 
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
@@ -44,6 +45,28 @@ let AutomaticPayment = () => {
     </RadioGroup>
   ), []);
 
+  const NumberFormatCustom = useCallback((props) => {
+    const {
+      inputRef, input, input: { onChange, value }, ...other
+    } = props;
+
+    return (
+      <NumberFormat
+        {...other}
+        getInputRef={inputRef}
+        onValueChange={(e) => onChange(e.value)}
+        type="tel"
+        defaultValue={value}
+        decimalSeparator=","
+        thousandSeparator="."
+        thousandsGroupStyle="thousand"
+        isNumericString
+        prefix="R$"
+        allowedDecimalSeparators={false}
+      />
+    );
+  }, []);
+
   return (
     <div>
       <Container>
@@ -51,24 +74,32 @@ let AutomaticPayment = () => {
           name="entrada"
           label="Entrada"
           type="number"
-          component={renderInput}
+          parse={(value) => (isNaN(parseInt(value, 10)) ? null : parseInt(value, 10))}
+          component={NumberFormatCustom}
+          fullWidth
+          customInput={TextField}
         />
         <Field
           name="num_parcelas"
           label="Numero de parcelas"
           type="number"
+          parse={(value) => (isNaN(parseInt(value, 10)) ? null : parseInt(value, 10))}
           component={renderInput}
         />
         <Field
           name="valor_parcelas"
           label="Valor das parcelas"
           type="number"
-          component={renderInput}
+          parse={(value) => (isNaN(parseInt(value, 10)) ? null : parseInt(value, 10))}
+          component={NumberFormatCustom}
+          fullWidth
+          customInput={TextField}
         />
         <Field
           name="int_parcelas"
           label="Intervalo das parcelas"
           type="number"
+          parse={(value) => (isNaN(parseInt(value, 10)) ? null : parseInt(value, 10))}
           component={renderInput}
         />
         <Field name="parcelas_type" component={radioButton} />

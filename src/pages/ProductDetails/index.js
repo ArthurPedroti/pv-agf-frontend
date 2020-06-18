@@ -1,31 +1,31 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
-import WindowedSelect from "react-windowed-select";
-import NumberFormat from "react-number-format";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
+import WindowedSelect from 'react-windowed-select';
+import NumberFormat from 'react-number-format';
 
-import { bindActionCreators } from "redux";
-import { Creators as ProductActions } from "../../store/ducks/productList";
+import { bindActionCreators } from 'redux';
 
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
 
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import IconButton from "@material-ui/core/IconButton";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import IconButton from '@material-ui/core/IconButton';
 
-import Menu from "../../components/Menu";
+import { message } from 'antd';
+import Menu from '../../components/Menu';
 
-import { message } from "antd";
+import { Creators as ProductActions } from '../../store/ducks/productList';
 
 const renderInput = ({ input, label, placeholder }) => (
   <div>
@@ -47,56 +47,58 @@ function NumberFormatCustom(props) {
     <NumberFormat
       {...other}
       getInputRef={inputRef}
-      onValueChange={values => {
+      onValueChange={(values) => {
         onChange({
           target: {
-            value: values.value
-          }
+            value: values.value,
+          },
         });
       }}
       type="tel"
-      decimalSeparator="."
+      decimalSeparator=","
+      thousandSeparator="."
+      thousandsGroupStyle="thousand"
       isNumericString
-      thousandSeparator={true}
       prefix="R$"
+      mask={(/[^\d]/g, '')}
     />
   );
 }
 
-var ProdutoDetails = ({
+let ProdutoDetails = ({
   productsSelect,
   productList,
   addProduct,
   removeProduct,
   resetProduct,
   submitting,
-  history
+  history,
 }) => {
-  const [products, setProducts] = useState("");
-  const [value, setValue] = useState("");
-  const [qtd, setQtd] = useState("");
+  const [products, setProducts] = useState('');
+  const [value, setValue] = useState('');
+  const [qtd, setQtd] = useState('');
   const [errors, setErrors] = useState({});
 
-  const handleAdd = e => {
+  const handleAdd = (e) => {
     e.preventDefault();
 
     if (!products) {
       setErrors({
-        product: "Insira o produto!"
+        product: 'Insira o produto!',
       });
     } else if (!value) {
       if (Number.isInteger(value)) {
         setErrors({
-          value: "Insira um número!"
+          value: 'Insira um número!',
         });
       } else {
         setErrors({
-          value: "Insira um valor!"
+          value: 'Insira um valor!',
         });
       }
     } else if (!qtd) {
       setErrors({
-        value: "Insira a quantidade!"
+        value: 'Insira a quantidade!',
       });
     } else {
       setErrors({});
@@ -104,11 +106,11 @@ var ProdutoDetails = ({
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = () => {
     if (productList.length > 0) {
-      history.push(`/orderoptions`);
+      history.push('/orderoptions');
     } else {
-      message.error("Insira pelo menos um produto!");
+      message.error('Insira pelo menos um produto!');
     }
   };
 
@@ -122,16 +124,16 @@ var ProdutoDetails = ({
             <form onSubmit={handleAdd}>
               <WindowedSelect
                 options={productsSelect}
-                getOptionLabel={option => option.descricao}
-                onChange={changedItem => setProducts(changedItem)}
+                getOptionLabel={(option) => option.descricao}
+                onChange={(changedItem) => setProducts(changedItem)}
               />
               <TextField
                 label="Valor"
                 margin="normal"
                 fullWidth
-                onChange={e => setValue(e.target.value)}
+                onChange={(e) => setValue(e.target.value)}
                 InputProps={{
-                  inputComponent: NumberFormatCustom
+                  inputComponent: NumberFormatCustom,
                 }}
               />
               <TextField
@@ -139,7 +141,7 @@ var ProdutoDetails = ({
                 margin="normal"
                 fullWidth
                 type="number"
-                onChange={e => setQtd(e.target.value)}
+                onChange={(e) => setQtd(e.target.value)}
               />
               <Typography variant="overline" display="block" gutterBottom>
                 {errors.product}
@@ -166,15 +168,15 @@ var ProdutoDetails = ({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {productList.map(product => (
+                    {productList.map((product) => (
                       <TableRow key={product.id}>
                         <TableCell component="th" scope="row">
                           {product.product.descricao}
                         </TableCell>
                         <TableCell align="center">
-                          {product.value.toLocaleString("pt-br", {
-                            style: "currency",
-                            currency: "BRL"
+                          {product.value.toLocaleString('pt-br', {
+                            style: 'currency',
+                            currency: 'BRL',
                           })}
                         </TableCell>
                         <TableCell align="center">{product.qtd}</TableCell>
@@ -229,17 +231,16 @@ var ProdutoDetails = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   productsSelect: state.bd_selects.products,
-  productList: state.productList
+  productList: state.productList,
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(ProductActions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(ProductActions, dispatch);
 
 ProdutoDetails = connect(mapStateToProps, mapDispatchToProps)(ProdutoDetails);
 
 export default reduxForm({
-  form: "infoReduxForm",
-  destroyOnUnmount: false
+  form: 'infoReduxForm',
+  destroyOnUnmount: false,
 })(ProdutoDetails);

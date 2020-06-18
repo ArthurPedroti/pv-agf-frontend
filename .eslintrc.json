@@ -29,6 +29,7 @@
       "import/no-duplicates": "off",
       "camelcase": "off",
       "jsx-a11y/control-has-associated-label": "off",
+      "no-restricted-globals": "off",
       "react/jsx-filename-extension": [
         1,
         {

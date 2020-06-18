@@ -139,47 +139,6 @@ export default function PdfMakeDefault({
     return [...arr1, ...arr2];
   };
 
-  const paymentType = (input) => {
-    if (input === 'normal') {
-      return;
-    }
-    console.log(values.entrada.toLocaleString('pt-br', {
-      style: 'currency',
-      currency: 'BRL',
-    }));
-    paymentsFormat = () => [
-      [
-        {
-          text: 'FINANCEIRO',
-          alignment: 'center',
-          bold: true,
-          colSpan: 4,
-          fontSize: 9,
-          fillColor: '#dddddd',
-        },
-        {},
-        {},
-        {},
-      ],
-      [
-        {
-          text: [`Entrada de ${Number(values.entrada).toLocaleString('pt-br', {
-            style: 'currency',
-            currency: 'BRL',
-          })}, ${values.num_parcelas}x parcelas de ${values.valor_parcelas} DDL a cada ${values.int_parcelas} dias.\n`, values.info_ad_pagamentoAuto && `${values.info_ad_pagamentoAuto}`, values.entrada.toLocaleString('pt-br', {
-            style: 'currency',
-            currency: 'BRL',
-          })],
-          colSpan: 4,
-        },
-        {},
-        {},
-        {},
-      ],
-    ];
-  };
-
-  paymentType(values.parcelas_type);
 
   const mapProducts = produtos.map((produto) => produto.value * produto.qtd);
   const sumProducts = mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
@@ -189,7 +148,7 @@ export default function PdfMakeDefault({
   });
 
   const mapPayments = parcelas.map((parcela) => parcela.value);
-  const sumPayments = mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
+  let sumPayments = mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
   const sumPaymentsFormated = sumPayments.toLocaleString('pt-br', {
     style: 'currency',
     currency: 'BRL',
@@ -215,6 +174,45 @@ export default function PdfMakeDefault({
 
   const { vfs } = vfsFonts.pdfMake;
   pdfMake.vfs = vfs;
+
+  const paymentType = (input) => {
+    if (input === 'normal') {
+      return;
+    }
+    paymentsFormat = () => [
+      [
+        {
+          text: 'FINANCEIRO',
+          alignment: 'center',
+          bold: true,
+          colSpan: 4,
+          fontSize: 9,
+          fillColor: '#dddddd',
+        },
+        {},
+        {},
+        {},
+      ],
+      [
+        {
+          text: [values.entrada ? `Entrada de ${values.entrada.toLocaleString('pt-br', {
+            style: 'currency',
+            currency: 'BRL',
+          })}` : 'Sem entrada', values.valor_parcelas && ` / ${values.num_parcelas}x parcelas de ${values.valor_parcelas.toLocaleString('pt-br', {
+            style: 'currency',
+            currency: 'BRL',
+          })} (DDL) a cada ${values.int_parcelas} dias.`, values.info_ad_pagamentoAuto && `\n${values.info_ad_pagamentoAuto}`],
+          colSpan: 4,
+        },
+        {},
+        {},
+        {},
+      ],
+    ];
+    sumPayments = values.entrada + (values.num_parcelas * values.valor_parcelas);
+  };
+
+  paymentType(values.parcelas_type);
 
   const documentDefinition = {
     pageSize: 'A4',
@@ -482,7 +480,7 @@ export default function PdfMakeDefault({
                 bold: true,
               },
               '\n\n',
-              { text: 'Assinatura do Cliente', bold: true },
+              { text: 'Cliente', bold: true },
               '\n\n',
               { text: 'Data: ______ / ______ / ________', bold: true },
             ],
@@ -497,7 +495,7 @@ export default function PdfMakeDefault({
                 bold: true,
               },
               '\n\n',
-              { text: 'Assinatura - AGF Equipamentos', bold: true },
+              { text: 'AGF Equipamentos', bold: true },
               '\n\n',
               { text: 'Data: ______ / ______ / ________', bold: true },
             ],
@@ -600,7 +598,7 @@ export default function PdfMakeDefault({
     async function MakePdf() {
       handleOpen();
       await new Promise((resolve) => setTimeout(resolve, 500));
-      await pdfMake
+      pdfMake
         .createPdf(documentDefinition)
         .download(`${cliente.razao_social} - ${dataAtualFormatada(hoje)}`);
       handleClose();
