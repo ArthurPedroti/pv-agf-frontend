@@ -1,23 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { reduxForm, getFormValues } from "redux-form";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { reduxForm, getFormValues } from 'redux-form';
 
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 
-import { bindActionCreators } from "redux";
-import { Creators as OrderActions } from "../../store/ducks/orderList";
+import { bindActionCreators } from 'redux';
+import { Creators as OrderActions } from '../../store/ducks/orderList';
 
-import Menu from "../../components/Menu";
-import PdfMakeDefault from "../../components/PdfMakeDefault";
-import PdfMakeKit from "../../components/PdfMakeKit";
-import PdfMakeMonofio from "../../components/PdfMakeMonofio";
+import Menu from '../../components/Menu';
+import PdfMakeDefault from '../../components/PdfMakeDefault';
+import PdfMakeKit from '../../components/PdfMakeKit';
+import PdfMakeMonofio from '../../components/PdfMakeMonofio';
 
-var Confirm = ({ values, addOrder, cliente, produtos, parcelas }) => {
+let Confirm = ({
+  values, cliente, produtos, parcelas,
+}) => {
   function PdfMake() {
     if (values !== undefined) {
-      if (values.tipo_contrato === "Pedido para Kits Hidráulicos") {
+      if (values.tipo_contrato === 'Pedido para Kits Hidráulicos') {
         return (
           <PdfMakeKit
             cliente={cliente}
@@ -28,8 +30,7 @@ var Confirm = ({ values, addOrder, cliente, produtos, parcelas }) => {
         );
       }
     }
-    if (values.tipo_contrato === "Pedido para Monofio") {
-      console.log("mono");
+    if (values.tipo_contrato === 'Pedido para Monofio') {
       return (
         <PdfMakeMonofio
           cliente={cliente}
@@ -55,7 +56,7 @@ var Confirm = ({ values, addOrder, cliente, produtos, parcelas }) => {
       <Container maxWidth="md" component="main" align="center">
         <form>
           <Link to="/confirm">
-            <Button variant="contained" style={{ margin: 15 }}>
+            <Button type="button" variant="contained" style={{ margin: 15 }}>
               Voltar
             </Button>
           </Link>
@@ -66,11 +67,10 @@ var Confirm = ({ values, addOrder, cliente, produtos, parcelas }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(OrderActions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(OrderActions, dispatch);
 
 const mapStateToProps = (state) => ({
-  values: getFormValues("infoReduxForm")(state),
+  values: getFormValues('infoReduxForm')(state),
   vendedor: state.select_infos.vendedor,
   naturezaOperacao: state.select_infos.naturezaOperacao,
   cliente: state.select_infos.cliente,
@@ -81,6 +81,6 @@ const mapStateToProps = (state) => ({
 Confirm = connect(mapStateToProps, mapDispatchToProps)(Confirm);
 
 export default reduxForm({
-  form: "infoReduxForm",
+  form: 'infoReduxForm',
   destroyOnUnmount: false,
 })(Confirm);

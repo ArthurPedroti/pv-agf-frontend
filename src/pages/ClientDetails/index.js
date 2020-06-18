@@ -1,30 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { reduxForm, Field, getFormValues } from "redux-form";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { reduxForm, Field, getFormValues } from 'redux-form';
 
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 
-import { bindActionCreators } from "redux";
-import { Creators as SelectActions } from "../../store/ducks/select_infos";
+import { bindActionCreators } from 'redux';
 
-import WindowedSelect from "react-windowed-select";
-import { Form } from "antd";
-import { message } from "antd";
-import TextField from "@material-ui/core/TextField";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import WindowedSelect from 'react-windowed-select';
+import { Form } from 'antd';
+import { message } from 'antd';
+import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Creators as SelectActions } from '../../store/ducks/select_infos';
 
-import Menu from "../../components/Menu";
+import Menu from '../../components/Menu';
 
 const customStyles = {
-  menu: styles => ({ ...styles, zIndex: 999 }),
-  container: provided => ({
+  menu: (styles) => ({ ...styles, zIndex: 999 }),
+  container: (provided) => ({
     ...provided,
-    marginBottom: 10
-  })
+    marginBottom: 10,
+  }),
 };
 
 const renderInput = ({ input, label, placeholder }) => (
@@ -42,7 +42,7 @@ const renderInput = ({ input, label, placeholder }) => (
 );
 
 const radioButton = ({ input, ...rest }) => (
-  <RadioGroup {...input} {...rest} value={input.value || "system"}>
+  <RadioGroup {...input} {...rest} value={input.value || 'system'}>
     <FormControlLabel
       value="system"
       control={<Radio />}
@@ -56,7 +56,7 @@ const radioButton = ({ input, ...rest }) => (
   </RadioGroup>
 );
 
-var ClientDetails = ({
+let ClientDetails = ({
   values,
   cliente,
   clientList,
@@ -64,40 +64,40 @@ var ClientDetails = ({
   toggleClient,
   history,
   handleSubmit,
-  submitting
+  submitting,
 }) => {
   async function showResults() {
     if (!cliente) {
-      message.error("Selecione o cliente!");
+      message.error('Selecione o cliente!');
     } else {
-      history.push(`/productdetails`);
+      history.push('/productdetails');
     }
   }
 
   function ClientSelect(values) {
     if (values !== undefined) {
-      if (values.clientType === "seller") {
+      if (values.clientType === 'seller') {
         return (
           <WindowedSelect
             options={clientList}
             value={cliente}
             styles={customStyles}
-            theme={theme => ({
+            theme={(theme) => ({
               ...theme,
               colors: {
                 ...theme.colors,
-                primary25: "ambar",
-                primary: "black"
-              }
+                primary25: 'ambar',
+                primary: 'black',
+              },
             })}
             textFieldProps={{
-              InputLabelProps: { shrink: true }
+              InputLabelProps: { shrink: true },
             }}
-            isClearable={true}
+            isClearable
             windowThreshold="10"
-            placeholder={"Selecione um cliente"}
-            onChange={changedItem => toggleClient(changedItem)}
-            getOptionLabel={option => option.razao_social + " - " + option.cnpj}
+            placeholder="Selecione um cliente"
+            onChange={(changedItem) => toggleClient(changedItem)}
+            getOptionLabel={(option) => `${option.razao_social} - ${option.cnpj}`}
           />
         );
       }
@@ -107,22 +107,22 @@ var ClientDetails = ({
         options={system_clients}
         value={cliente}
         styles={customStyles}
-        theme={theme => ({
+        theme={(theme) => ({
           ...theme,
           colors: {
             ...theme.colors,
-            primary25: "ambar",
-            primary: "black"
-          }
+            primary25: 'ambar',
+            primary: 'black',
+          },
         })}
         textFieldProps={{
-          InputLabelProps: { shrink: true }
+          InputLabelProps: { shrink: true },
         }}
-        isClearable={true}
+        isClearable
         windowThreshold="10"
-        placeholder={"Selecione um cliente"}
-        onChange={changedItem => toggleClient(changedItem)}
-        getOptionLabel={option => option.razao_social + " - " + option.cnpj}
+        placeholder="Selecione um cliente"
+        onChange={(changedItem) => toggleClient(changedItem)}
+        getOptionLabel={(option) => `${option.razao_social} - ${option.cnpj}`}
       />
     );
   }
@@ -134,7 +134,7 @@ var ClientDetails = ({
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
-            <Field name="clientType" component={radioButton}></Field>
+            <Field name="clientType" component={radioButton} />
             <Form.Item
               label="Cliente *"
               style={{ fontWeight: 500, marginBottom: 0 }}
@@ -189,19 +189,18 @@ var ClientDetails = ({
   );
 };
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(SelectActions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(SelectActions, dispatch);
 
-const mapStateToProps = state => ({
-  values: getFormValues("infoReduxForm")(state),
+const mapStateToProps = (state) => ({
+  values: getFormValues('infoReduxForm')(state),
   system_clients: state.bd_selects.system_clients,
   cliente: state.select_infos.cliente,
-  clientList: state.clientList
+  clientList: state.clientList,
 });
 
 ClientDetails = connect(mapStateToProps, mapDispatchToProps)(ClientDetails);
 
 export default reduxForm({
-  form: "infoReduxForm",
-  destroyOnUnmount: false
+  form: 'infoReduxForm',
+  destroyOnUnmount: false,
 })(ClientDetails);

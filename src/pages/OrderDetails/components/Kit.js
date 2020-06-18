@@ -1,23 +1,23 @@
-import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { reduxForm, Field, getFormValues } from "redux-form";
+import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { reduxForm, Field, getFormValues } from 'redux-form';
 
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 
-import { bindActionCreators } from "redux";
-import { Creators as SelectActions } from "../../../store/ducks/select_infos";
+import { bindActionCreators } from 'redux';
 
-import TextField from "@material-ui/core/TextField";
+import TextField from '@material-ui/core/TextField';
 
-import NativeSelect from "@material-ui/core/NativeSelect";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
+import NativeSelect from '@material-ui/core/NativeSelect';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import { Creators as SelectActions } from '../../../store/ducks/select_infos';
 
-import Menu from "../../../components/Menu";
+import Menu from '../../../components/Menu';
 
 const renderInput = ({ input, label }) => (
   <div>
@@ -50,7 +50,7 @@ const renderSelect = ({ input, label, options }) => (
       <InputLabel>{label}</InputLabel>
       <NativeSelect required {...input}>
         <option value="" key={Math.random()} />
-        {options.map(option => (
+        {options.map((option) => (
           <option key={option.label}>{option.label}</option>
         ))}
       </NativeSelect>
@@ -61,15 +61,15 @@ const renderSelect = ({ input, label, options }) => (
 const renderSwitch = ({ input, label }) => (
   <div>
     <FormControlLabel
-      control={
+      control={(
         <Switch
           {...input}
-          checked={input.value ? true : false}
+          checked={!!input.value}
           onChange={input.onChange}
           value="checked"
           color="primary"
         />
-      }
+      )}
       labelPlacement="start"
       label={label}
     />
@@ -77,55 +77,57 @@ const renderSwitch = ({ input, label }) => (
 );
 
 const kits = [
-  { label: "Sem nenhum Kit" },
-  { label: "Kit Lubrificação" },
+  { label: 'Sem nenhum Kit' },
+  { label: 'Kit Lubrificação' },
   {
     label:
-      "Uma via unidirecional (Ex: Rompedor, Compactador, Vibro Ripper, Serra Rocha, Concha Britadora e etc)"
+      'Uma via unidirecional (Ex: Rompedor, Compactador, Vibro Ripper, Serra Rocha, Concha Britadora e etc)',
   },
   {
     label:
-      "Uma via bidirecional (Ex: Engate Rápido, Arrasador de Estacas e etc)"
+      'Uma via bidirecional (Ex: Engate Rápido, Arrasador de Estacas e etc)',
   },
-  { label: "Duas vias bidirecional (Ex: Tesoura, Pulverizador e etc)" }
+  { label: 'Duas vias bidirecional (Ex: Tesoura, Pulverizador e etc)' },
 ];
 
 const machines = [
-  { label: "Mini Escavadeira" },
-  { label: "Retro" },
-  { label: "Escavadeira" },
-  { label: "Outro" }
+  { label: 'Mini Escavadeira' },
+  { label: 'Retro' },
+  { label: 'Escavadeira' },
+  { label: 'Outro' },
 ];
 
 const relevant_infos = [
-  { label: "Sem nenhuma informação relevante" },
-  { label: "Sem o braço (TAB1 - Fig 1)" },
-  { label: "Braço Telescópico (TAB1- Fig 2)" },
-  { label: "Kit Original de Fábrica" },
-  { label: "Com filtro na linha de retorno" },
-  { label: "Sem predisposição no comando (TAB1- Fig 3)" },
-  { label: "Na Carregadeira (TAB1 - Fig 4)" }
+  { label: 'Sem nenhuma informação relevante' },
+  { label: 'Sem o braço (TAB1 - Fig 1)' },
+  { label: 'Braço Telescópico (TAB1- Fig 2)' },
+  { label: 'Kit Original de Fábrica' },
+  { label: 'Com filtro na linha de retorno' },
+  { label: 'Sem predisposição no comando (TAB1- Fig 3)' },
+  { label: 'Na Carregadeira (TAB1 - Fig 4)' },
 ];
 
 const conditions = [
-  { label: "Sem condição" },
+  { label: 'Sem condição' },
   {
     label:
-      "Condição Padrão: Uma Caixa Ferramenta Completa com Kit Nitrogênio, Um Cilindro de Gás, Um Par de Mangueiras, Um Manual de Peças, Um Manual de Operação e Uma Ponteira."
-  }
+      'Condição Padrão: Uma Caixa Ferramenta Completa com Kit Nitrogênio, Um Cilindro de Gás, Um Par de Mangueiras, Um Manual de Peças, Um Manual de Operação e Uma Ponteira.',
+  },
 ];
 
 const tool_types = [
-  { label: "Cego" },
-  { label: "Universal" },
-  { label: "Cunha H" },
-  { label: "Cunha V" },
-  { label: "Lapis" },
-  { label: "Pata de Elefante" },
-  { label: "Ponteiro Universal Longo" }
+  { label: 'Cego' },
+  { label: 'Universal' },
+  { label: 'Cunha H' },
+  { label: 'Cunha V' },
+  { label: 'Lapis' },
+  { label: 'Pata de Elefante' },
+  { label: 'Ponteiro Universal Longo' },
 ];
 
-var Kit = ({ values, history, handleSubmit, submitting }) => {
+let Kit = ({
+  values, history, handleSubmit, submitting,
+}) => {
   function ExtraToolOptions() {
     if (values.pont_extra) {
       return (
@@ -150,7 +152,7 @@ var Kit = ({ values, history, handleSubmit, submitting }) => {
   }
 
   async function showResults() {
-    history.push(`/paymentdetails`);
+    history.push('/paymentdetails');
   }
 
   return (
@@ -242,18 +244,17 @@ var Kit = ({ values, history, handleSubmit, submitting }) => {
   );
 };
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(SelectActions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(SelectActions, dispatch);
 
-const mapStateToProps = state => ({
-  values: getFormValues("infoReduxForm")(state)
+const mapStateToProps = (state) => ({
+  values: getFormValues('infoReduxForm')(state),
 });
 
 Kit = connect(mapStateToProps, mapDispatchToProps)(Kit);
 
 export default withRouter(
   reduxForm({
-    form: "infoReduxForm",
-    destroyOnUnmount: false
-  })(Kit)
+    form: 'infoReduxForm',
+    destroyOnUnmount: false,
+  })(Kit),
 );
