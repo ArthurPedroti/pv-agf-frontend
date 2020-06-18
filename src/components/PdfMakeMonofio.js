@@ -506,7 +506,7 @@ export default function PdfMakeDefault({
                 bold: true,
               },
               '\n\n',
-              { text: 'Assinatura do Cliente', bold: true },
+              { text: cliente.razao_social, bold: true },
               '\n\n',
               { text: 'Data: ______ / ______ / ________', bold: true },
             ],
@@ -521,7 +521,7 @@ export default function PdfMakeDefault({
                 bold: true,
               },
               '\n\n',
-              { text: 'Assinatura - AGF Equipamentos', bold: true },
+              { text: 'AGF Equipamentos', bold: true },
               '\n\n',
               { text: 'Data: ______ / ______ / ________', bold: true },
             ],
@@ -598,7 +598,7 @@ export default function PdfMakeDefault({
       }));
       errorCount += 1;
     }
-    if (parcelas.length <= 0) {
+    if (values.payment_type && parcelas.length <= 0) {
       setErrors((prevState) => ({
         ...prevState,
         produto: 'Preencha os dados de pagamento!',
