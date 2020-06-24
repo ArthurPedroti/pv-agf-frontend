@@ -1,20 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 
-import { bindActionCreators } from "redux";
-import { Creators as SelectActions } from "../../store/ducks/select_infos";
+import { bindActionCreators } from 'redux';
 
-import TextField from "@material-ui/core/TextField";
+import TextField from '@material-ui/core/TextField';
 
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import { Creators as SelectActions } from '../../store/ducks/select_infos';
 
-import Menu from "../../components/Menu";
+import Menu from '../../components/Menu';
 
 const renderDate = ({ input, label, type }) => (
   <div>
@@ -45,24 +45,24 @@ const renderInput = ({ input, label }) => (
 const renderSwitch = ({ input, label }) => (
   <div>
     <FormControlLabel
-      control={
+      control={(
         <Switch
           {...input}
-          checked={input.value ? true : false}
+          checked={!!input.value}
           onChange={input.onChange}
           value="checked"
           color="primary"
         />
-      }
+      )}
       labelPlacement="start"
       label={label}
     />
   </div>
 );
 
-var OtherDetails = ({ history, handleSubmit, submitting }) => {
+let OtherDetails = ({ history, handleSubmit, submitting }) => {
   async function showResults() {
-    history.push(`/confirm`);
+    history.push('/confirm');
   }
 
   return (
@@ -74,7 +74,7 @@ var OtherDetails = ({ history, handleSubmit, submitting }) => {
           <Container maxWidth="sm" align="left">
             <Field
               name="contrato"
-              label="Possui contrato?"
+              label="Com contrato?"
               type="text"
               component={renderSwitch}
             />
@@ -135,17 +135,16 @@ var OtherDetails = ({ history, handleSubmit, submitting }) => {
   );
 };
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(SelectActions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(SelectActions, dispatch);
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   kit: state.select_infos.kit,
-  maquina: state.select_infos.maquina
+  maquina: state.select_infos.maquina,
 });
 
 OtherDetails = connect(mapStateToProps, mapDispatchToProps)(OtherDetails);
 
 export default reduxForm({
-  form: "infoReduxForm",
-  destroyOnUnmount: false
+  form: 'infoReduxForm',
+  destroyOnUnmount: false,
 })(OtherDetails);
