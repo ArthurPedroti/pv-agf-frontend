@@ -52,7 +52,7 @@ let Confirm = ({
 
   return (
     <div>
-      <Menu title="Impressão" />
+      <Menu title="Gerar PDF" />
       <Container maxWidth="md" component="main" align="center">
         <form>
           <Link to="/confirm">

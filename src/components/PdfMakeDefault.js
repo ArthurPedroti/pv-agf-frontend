@@ -141,17 +141,9 @@ export default function PdfMakeDefault({
 
   const mapProducts = produtos.map((produto) => produto.value * produto.qtd);
   const sumProducts = mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
-  const sumProductsFormated = sumProducts.toLocaleString('pt-br', {
-    style: 'currency',
-    currency: 'BRL',
-  });
-
   const mapPayments = parcelas.map((parcela) => parcela.value);
   let sumPayments = mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
-  const sumPaymentsFormated = sumPayments.toLocaleString('pt-br', {
-    style: 'currency',
-    currency: 'BRL',
-  });
+
 
   const paymentType = (input) => {
     if (input) {
@@ -191,6 +183,15 @@ export default function PdfMakeDefault({
   };
 
   paymentType(values.payment_type);
+
+  const sumProductsFormated = sumProducts.toLocaleString('pt-br', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+  const sumPaymentsFormated = sumPayments.toLocaleString('pt-br', {
+    style: 'currency',
+    currency: 'BRL',
+  });
 
   const hoje = new Date();
   hoje.setDate(hoje.getDate() - 1);
@@ -617,7 +618,7 @@ export default function PdfMakeDefault({
         style={{ margin: 15 }}
         onClick={PdfGenerator}
       >
-        Imprimir
+        Gerar PDF
       </Button>
       {Object.values(errors).map((erro) => (
         <div key={erro}>{erro}</div>
