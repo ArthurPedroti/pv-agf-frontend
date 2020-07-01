@@ -1,15 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { reduxForm, change, getFormValues } from "redux-form";
-import { store } from "../../store";
-import pjson from "../../../package.json";
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { reduxForm, change, getFormValues } from 'redux-form';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { store } from '../../store';
+import pjson from '../../../package.json';
 
-import * as apiActions from "../../store/actions api/fetchBD";
-import logo from "../../assets/logo.svg";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import * as apiActions from '../../store/actions api/fetchBD';
+import logo from '../../assets/logo.svg';
 
-import { Container, LoginWrapper, TextField, Button } from "./styles";
+import {
+  Container, LoginWrapper, TextField, Button,
+} from './styles';
 
 import {
   // loadSellers,
@@ -24,29 +26,29 @@ import {
   // loadTool_types,
   // loadPayment_methods,
   // loadFreights
-} from "../../store/actions api/fetchBD";
+} from '../../store/actions api/fetchBD';
 
-store.dispatch(change("infoReduxForm", "login", false));
+store.dispatch(change('infoReduxForm', 'login', false));
 
-var Login = ({ history, values }) => {
-  const [password, setPassword] = React.useState("");
-  const [loading, setLoading] = React.useState("");
-  const [error, setError] = React.useState("");
+let Login = ({ history, values }) => {
+  const [password, setPassword] = React.useState('');
+  const [loading, setLoading] = React.useState('');
+  const [error, setError] = React.useState('');
 
   React.useEffect(() => {
     if (values.login === true) {
-      history.push(`/sellerdetails`);
+      history.push('/sellerdetails');
     }
   }, [history, values]);
 
   async function handleSubmit(e) {
-    if (password === "agf123") {
+    if (password === 'agf123') {
       if (values.login === true) {
-        history.push(`/sellerdetails`);
+        history.push('/sellerdetails');
       }
       if (values.sync_date) {
-        await store.dispatch(change("infoReduxForm", "login", true));
-        history.push(`/sellerdetails`);
+        await store.dispatch(change('infoReduxForm', 'login', true));
+        history.push('/sellerdetails');
       } else {
         setLoading(<CircularProgress />);
         // await store.dispatch(loadSellers());
@@ -61,13 +63,13 @@ var Login = ({ history, values }) => {
         // await store.dispatch(loadTool_types());
         // await store.dispatch(loadPayment_methods());
         // await store.dispatch(loadFreights());
-        await store.dispatch(change("infoReduxForm", "login", true));
-        await store.dispatch(change("infoReduxForm", "sync_date", new Date()));
+        await store.dispatch(change('infoReduxForm', 'login', true));
+        await store.dispatch(change('infoReduxForm', 'sync_date', new Date()));
 
-        history.push(`/sellerdetails`);
+        history.push('/sellerdetails');
       }
     } else {
-      setError("Senha incorreta!");
+      setError('Senha incorreta!');
     }
   }
 
@@ -92,15 +94,14 @@ var Login = ({ history, values }) => {
 };
 
 const mapStateToProps = (state) => ({
-  values: getFormValues("infoReduxForm")(state),
+  values: getFormValues('infoReduxForm')(state),
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(apiActions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(apiActions, dispatch);
 
 Login = connect(mapStateToProps, mapDispatchToProps)(Login);
 
 export default reduxForm({
-  form: "infoReduxForm",
+  form: 'infoReduxForm',
   destroyOnUnmount: false,
 })(Login);
