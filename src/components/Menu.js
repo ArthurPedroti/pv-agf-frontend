@@ -175,7 +175,7 @@ function Menu({
     handleOpen();
     // await store.dispatch(loadSellers());
     // await store.dispatch(loadOperation_natures());
-    // await store.dispatch(loadSystem_clients());
+    await store.dispatch(loadSystem_clients());
     // await store.dispatch(loadSeller_clients());
     await store.dispatch(loadProducts());
     // await store.dispatch(loadKits());

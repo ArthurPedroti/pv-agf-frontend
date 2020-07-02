@@ -37,7 +37,7 @@ export function fetchSystem_clients(system_clients) {
 }
 
 export function loadSystem_clients() {
-  return (dispatch) => api.get('/systemclients').then((response) => {
+  return (dispatch) => api.get('/clients').then((response) => {
     dispatch(fetchSystem_clients(response.data));
   });
 }
@@ -65,7 +65,13 @@ export function fetchProducts(products) {
 }
 
 export function loadProducts() {
-  return (dispatch) => api.get('/products').then((response) => {
+  return (dispatch) => api.get('/products', {
+    headers: {
+      filial: '01',
+      grupo:
+        "0010','0020','0030','0040','0050','0060','0070','0080','0090','0091','0092','0093','0094','0095','0097','0110','0120','0130','0200','0201','0202','0203','0204','0300','0301','0350','0360','0370','0375','0380','0390','0400','0401','0490','0500','0510','0520','0530','0540','0550','0560','0570', '9999",
+    },
+  }).then((response) => {
     dispatch(fetchProducts(response.data));
   });
 }
