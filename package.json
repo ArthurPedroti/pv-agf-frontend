@@ -1,6 +1,6 @@
 {
   "name": "pv-agf-frontend",
-  "version": "0.9.61",
+  "version": "0.9.6",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^2.4.0",

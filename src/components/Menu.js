@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getFormValues, change, destroy } from 'redux-form';
+
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -91,29 +92,33 @@ const App = styled(AppBar)({
   margin: '0 0 20px 0',
 });
 
-const AppItem = ({
-  address, label, icon, subtitle,
-}) => (
-  <ListItem button component={Link} to={address}>
-    <ListItemIcon>{icon}</ListItemIcon>
-    <ListItemText
-      primary={label}
-      secondary={subtitle}
-    />
-  </ListItem>
-);
+class AppItem extends Component {
+  render() {
+    return (
+      <ListItem button component={Link} to={this.props.address}>
+        <ListItemIcon>{this.props.icon}</ListItemIcon>
+        <ListItemText
+          primary={this.props.label}
+          secondary={this.props.subtitle}
+        />
+      </ListItem>
+    );
+  }
+}
 
-const AppItemAction = ({
-  label, action, icon, subtitle,
-}) => (
-  <ListItem button onClick={action}>
-    <ListItemIcon>{icon}</ListItemIcon>
-    <ListItemText
-      primary={label}
-      secondary={subtitle}
-    />
-  </ListItem>
-);
+class AppItemAction extends Component {
+  render() {
+    return (
+      <ListItem button onClick={this.props.action}>
+        <ListItemIcon>{this.props.icon}</ListItemIcon>
+        <ListItemText
+          primary={this.props.label}
+          secondary={this.props.subtitle}
+        />
+      </ListItem>
+    );
+  }
+}
 
 function Menu({
   title, values, dispatch, history,
@@ -136,58 +141,6 @@ function Menu({
 
     setState({ ...state, [side]: open });
   };
-
-  function dataAtualFormatada(input) {
-    const data = new Date(input);
-    const dia = data.getDate().toString().padStart(2, '0');
-    const mes = (data.getMonth() + 1).toString().padStart(2, '0'); // +1 pois no getMonth Janeiro começa com zero.
-    const ano = data.getFullYear();
-    return `${dia}/${mes}/${ano}`;
-  }
-
-  async function logout() {
-    await store.dispatch(change('infoReduxForm', 'login', false));
-    await history.push('/');
-  }
-
-  async function clearAll() {
-    await history.push('/');
-    const { sync_date } = values;
-    await dispatch(destroy('infoReduxForm'));
-    await store.dispatch(change('infoReduxForm', 'login', true));
-    await store.dispatch(change('infoReduxForm', 'sync_date', sync_date));
-    await store.dispatch(ProductCreators.resetProduct());
-    await store.dispatch(PaymentCreators.resetPayment());
-    await store.dispatch(SelectCreators.resetSelect());
-  }
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  async function SyncData() {
-    handleOpen();
-    // await store.dispatch(loadSellers());
-    // await store.dispatch(loadOperation_natures());
-    await store.dispatch(loadSystem_clients());
-    // await store.dispatch(loadSeller_clients());
-    await store.dispatch(loadProducts());
-    // await store.dispatch(loadKits());
-    // await store.dispatch(loadMachines());
-    // await store.dispatch(loadImportant_infos());
-    // await store.dispatch(loadConditions());
-    // await store.dispatch(loadTool_types());
-    // await store.dispatch(loadPayment_methods());
-    // await store.dispatch(loadFreights());
-    values.sync_date = new Date();
-    handleClose();
-  }
 
   const sideList = (side) => (
     <div
@@ -269,6 +222,58 @@ function Menu({
       />
     </div>
   );
+
+  function dataAtualFormatada(input) {
+    const data = new Date(input);
+    const dia = data.getDate().toString().padStart(2, '0');
+    const mes = (data.getMonth() + 1).toString().padStart(2, '0'); // +1 pois no getMonth Janeiro começa com zero.
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  }
+
+  async function logout() {
+    await store.dispatch(change('infoReduxForm', 'login', false));
+    await history.push('/');
+  }
+
+  async function clearAll() {
+    await history.push('/');
+    const { sync_date } = values;
+    await dispatch(destroy('infoReduxForm'));
+    await store.dispatch(change('infoReduxForm', 'login', true));
+    await store.dispatch(change('infoReduxForm', 'sync_date', sync_date));
+    await store.dispatch(ProductCreators.resetProduct());
+    await store.dispatch(PaymentCreators.resetPayment());
+    await store.dispatch(SelectCreators.resetSelect());
+  }
+
+  async function SyncData() {
+    handleOpen();
+    // await store.dispatch(loadSellers());
+    // await store.dispatch(loadOperation_natures());
+    await store.dispatch(loadSystem_clients());
+    // await store.dispatch(loadSeller_clients());
+    await store.dispatch(loadProducts());
+    // await store.dispatch(loadKits());
+    // await store.dispatch(loadMachines());
+    // await store.dispatch(loadImportant_infos());
+    // await store.dispatch(loadConditions());
+    // await store.dispatch(loadTool_types());
+    // await store.dispatch(loadPayment_methods());
+    // await store.dispatch(loadFreights());
+    values.sync_date = new Date();
+    handleClose();
+  }
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>

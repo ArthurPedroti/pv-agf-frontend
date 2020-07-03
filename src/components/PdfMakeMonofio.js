@@ -144,9 +144,6 @@ export default function PdfMakeDefault({
   const mapPayments = parcelas.map((parcela) => parcela.value);
   let sumPayments = mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
 
-  const infoAdd01 = infoAdd(values.info_ad_produtos);
-  const infoAdd03 = values.payment_type ? infoAdd(values.info_ad_pagamento) : '';
-
   const paymentType = (input) => {
     if (input) {
       return;
@@ -209,6 +206,8 @@ export default function PdfMakeDefault({
       .concat(values.data_pc.slice(0, 4))
     : null;
 
+  const infoAdd01 = infoAdd(values.info_ad_produtos);
+  const infoAdd03 = infoAdd(values.info_ad_pagamento);
   const contrato = values.contrato === true ? 'SIM' : 'NÃO';
   const kit_instalacao = values.kit_instalacao === true ? 'SIM' : 'NÃO';
   const formattedProducts = productsFormat(produtos);
@@ -353,6 +352,9 @@ export default function PdfMakeDefault({
                   '\n',
                   { text: 'Telefone: ', bold: true },
                   cliente.telefone,
+                  '\n',
+                  { text: 'Celular: ', bold: true },
+                  cliente.celular,
                 ],
               },
             ],
