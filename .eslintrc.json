@@ -30,6 +30,7 @@
       "camelcase": "off",
       "jsx-a11y/control-has-associated-label": "off",
       "no-restricted-globals": "off",
+      "no-param-reassign": "off",
       "react/jsx-filename-extension": [
         1,
         {
