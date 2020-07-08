@@ -207,7 +207,7 @@ export default function PdfMakeDefault({
       .concat(values.data_pc.slice(0, 4))
     : null;
 
-  const contrato = values.contrato === true ? 'SIM' : 'NÃO';
+  const contrato = values.contrato === 'sim' ? 'SIM' : 'NÃO';
   const formattedProducts = productsFormat(produtos);
   const formattedPayments = paymentsFormat(parcelas);
 

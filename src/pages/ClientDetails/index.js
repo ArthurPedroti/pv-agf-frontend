@@ -74,9 +74,9 @@ let ClientDetails = ({
     }
   }
 
-  function ClientSelect(values) {
-    if (values !== undefined) {
-      if (values.clientType === 'seller') {
+  function ClientSelect(clientValues) {
+    if (clientValues !== undefined) {
+      if (clientValues.clientType === 'seller') {
         return (
           <WindowedSelect
             options={clientList}

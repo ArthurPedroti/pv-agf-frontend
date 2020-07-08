@@ -8,62 +8,68 @@ import Button from '@material-ui/core/Button';
 
 import { bindActionCreators } from 'redux';
 
+import { Form } from 'antd';
 import TextField from '@material-ui/core/TextField';
-
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import { useCallback } from 'react';
 import { Creators as SelectActions } from '../../store/ducks/select_infos';
 
 import Menu from '../../components/Menu';
 
-const renderDate = ({ input, label, type }) => (
-  <div>
-    <TextField
-      {...input}
-      label={label}
-      fullWidth
-      type={type}
-      InputLabelProps={{ shrink: true }}
-      margin="normal"
-      size="small"
-    />
-  </div>
-);
-
-const renderInput = ({ input, label }) => (
-  <div>
-    <TextField
-      {...input}
-      label={label}
-      fullWidth
-      margin="normal"
-      size="small"
-    />
-  </div>
-);
-
-const renderSwitch = ({ input, label }) => (
-  <div>
-    <FormControlLabel
-      control={(
-        <Switch
-          {...input}
-          checked={!!input.value}
-          onChange={input.onChange}
-          value="checked"
-          color="primary"
-        />
-      )}
-      labelPlacement="start"
-      label={label}
-    />
-  </div>
-);
-
 let OtherDetails = ({ history, handleSubmit, submitting }) => {
-  async function showResults() {
-    history.push('/confirm');
-  }
+  const showResults = useCallback(
+    () => {
+      history.push('/confirm');
+    },
+    [history],
+  );
+
+  const renderDate = useCallback(
+    ({ input, label, type }) => (
+      <div>
+        <TextField
+          {...input}
+          label={label}
+          fullWidth
+          type={type}
+          InputLabelProps={{ shrink: true }}
+          margin="normal"
+          size="small"
+        />
+      </div>
+    ),
+    [],
+  );
+
+  const renderInput = useCallback(({ input, label }) => (
+    <div>
+      <TextField
+        {...input}
+        label={label}
+        fullWidth
+        margin="normal"
+        size="small"
+      />
+    </div>
+  ),
+  []);
+
+  const radioButton = useCallback(({ input, ...rest }) => (
+    <RadioGroup row {...input} {...rest} value={input.value || 'não'}>
+      <FormControlLabel
+        value="nao"
+        control={<Radio />}
+        label="Não"
+      />
+      <FormControlLabel
+        value="sim"
+        control={<Radio />}
+        label="Sim"
+      />
+    </RadioGroup>
+  ), []);
 
   return (
     <div>
@@ -72,12 +78,11 @@ let OtherDetails = ({ history, handleSubmit, submitting }) => {
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
-            <Field
-              name="contrato"
+            <Form.Item
               label="Com contrato?"
-              type="text"
-              component={renderSwitch}
+              style={{ fontWeight: 500, marginBottom: 0 }}
             />
+            <Field name="contrato" component={radioButton} />
             <Field
               name="num_contrato"
               label="Nº Contrato:"

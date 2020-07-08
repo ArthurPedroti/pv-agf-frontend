@@ -223,7 +223,7 @@ export default function PdfMakeKit({
     : null;
 
   const engate = values.engate === true ? 'SIM' : 'NÃO';
-  const contrato = values.contrato === true ? 'SIM' : 'NÃO';
+  const contrato = values.contrato === 'sim' ? 'SIM' : 'NÃO';
   const pontExtraFormated = pontExtraFormat();
   const formattedProducts = productsFormat(produtos);
   const formattedPayments = paymentsFormat(parcelas);
