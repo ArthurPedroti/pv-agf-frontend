@@ -1,68 +1,97 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center">
+  <img alt="Go Barber" src="./src/assets/logo-readme.png" width="400px" style="border-radius:16px;"/>
+</h1>
 
-## Available Scripts
+<h3 align="center" >
+  An app to make pdf orders
+</h3>
 
-In the project directory, you can run:
+<p align="center">
+  <img alt="Languagues" src="https://img.shields.io/github/languages/count/ArthurPedroti/pv-agf-frontend">
+  <img alt="Top Languague" src="https://img.shields.io/github/languages/top/ArthurPedroti/pv-agf-frontend">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/ArthurPedroti/pv-agf-frontend">
+  <a href="https://github.com/ArthurPedroti/pv-agf-frontend/commits/master">
+    <img alt="Last commit date" src="https://img.shields.io/github/last-commit/ArthurPedroti/pv-agf-frontend">
+  </a>
+   <a href="https://github.com/ArthurPedroti/pv-agf-frontend/issues">
+    <img alt="Repository issues" src="https://img.shields.io/github/issues/ArthurPedroti/pv-agf-frontend">
+  </a>
+  <img alt="License" src="https://img.shields.io/github/license/ArthurPedroti/pv-agf-frontend">
+</p>
+<p align="center">
 
-### `yarn start`
+  <a href="https://github.com/ArthurPedroti" target="_blank">
+    <img alt="Made by Arthur Pedroti" src="https://img.shields.io/badge/made%20by-Arthur_Pedroti-informational">
+  </a>
+  <a href="https://github.com/ArthurPedroti" target="_blank" >
+    <img alt="Github - Arthur Pedroti" src="https://img.shields.io/badge/Github--%23F8952D?style=social&logo=github">
+  </a>
+  <a href="https://www.linkedin.com/in/arthurpedroti/" target="_blank" >
+    <img alt="Linkedin - Arthur Pedroti" src="https://img.shields.io/badge/Linkedin--%23F8952D?style=social&logo=linkedin">
+  </a>
+  <a href="mailto:arthurpedroti@gmail.com" target="_blank" >
+    <img alt="Email - Arthur Pedroti" src="https://img.shields.io/badge/Email--%23F8952D?style=social&logo=gmail">
+  </a>
+  <a href="https://api.whatsapp.com/send?phone=5519991830454"
+        target="_blank" >
+    <img alt="Fale comigo no whatsapp - Arthur Pedroti" src="https://img.shields.io/badge/Whatsapp--%23F8952D?style=social&logo=whatsapp">
+  </a>
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+</p>
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<p align="center">
+  <a href="#computer-languages">Languages</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#books-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#install">Install</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#books-usage">Usage</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#memo-license">License</a>
+</p>
 
-### `yarn test`
+## :computer: Languages
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **#JavaScript**
 
-### `yarn build`
+## :books: Technologies
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **#React**
+- **#ESLint**
+- **#Prettier**
+- **#Styled-Components**
+- **#Unform**
+- **#Yup**
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```sh
+yarn install
+```
 
-### `yarn eject`
+## Usage
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```sh
+yarn start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Author
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+👤 **Arthur Pedroti**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* Github: [@ArthurPedroti](https://github.com/ArthurPedroti)
+* Linkedin: [@ArthurPedroti](https://www.linkedin.com/in/arthurpedroti)
 
-## Learn More
+## 🤝 Contributing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/ArthurPedroit/pv-agf-frontend/issues). You can also take a look at the [contributing guide](https://github.com/ArthurPedroit/pv-agf-frontend/blob/master/CONTRIBUTING.md).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Show your support
 
-### Code Splitting
+Give a ⭐️ if this project helped you!
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## 📝 License
 
-### Analyzing the Bundle Size
+Copyright © 2020 [Arthur Pedroti](https://github.com/ArthurPedroti).<br />
+This project is [MIT](https://github.com/ArthurPedroit/pv-agf-frontend/blob/master/LICENSE) licensed.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+---
 
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Made by :blue_heart: by [Arthur Pedroti](https://github.com/ArthurPedroti)
