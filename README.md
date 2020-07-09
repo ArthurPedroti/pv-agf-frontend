@@ -65,15 +65,15 @@
 ## Roadmap
 
 ### Bugs
-- [ ] Payment calculation with non-integer values
-- [ ] Only down payment on payment option
+- [x] Payment calculation with non-integer values
+- [x] Only down payment on payment option
 
 ### Features
+- [x] Place on top input order date
+- [x] Column "item" at products
+- [x] Show the payment calculation errors at payment page
 - [ ] Create an input of delivery date
-- [ ] Place on top input order date
 - [ ] File explorer to save the pdf on mobile
-- [ ] Show the payment calculation errors at payment page
-- [ ] Column "item" at products
 - [ ] Select the group before the products
 
 ## Install

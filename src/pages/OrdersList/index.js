@@ -1,34 +1,34 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { reduxForm, getFormValues } from "redux-form";
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { reduxForm, getFormValues } from 'redux-form';
 
-import { bindActionCreators } from "redux";
-import { Creators as OrderActions } from "../../store/ducks/orderList";
-import { Creators as SelectActions } from "../../store/ducks/select_infos";
-import { Creators as ProductActions } from "../../store/ducks/productList";
-import { Creators as PaymentActions } from "../../store/ducks/paymentList";
+import { bindActionCreators } from 'redux';
 
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
 
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import PublishIcon from "@material-ui/icons/Publish";
-import IconButton from "@material-ui/core/IconButton";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import PublishIcon from '@material-ui/icons/Publish';
+import IconButton from '@material-ui/core/IconButton';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import { Creators as PaymentActions } from '../../store/ducks/paymentList';
+import { Creators as ProductActions } from '../../store/ducks/productList';
+import { Creators as SelectActions } from '../../store/ducks/select_infos';
+import { Creators as OrderActions } from '../../store/ducks/orderList';
 
-import Menu from "../../components/Menu";
+import Menu from '../../components/Menu';
 
-var OrderDetails = ({
+let OrderDetails = ({
   values,
   addOrder,
   cliente,
@@ -42,7 +42,7 @@ var OrderDetails = ({
   toggleClient,
   initialize,
 }) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [errors, setErrors] = useState({});
 
   const loadOrder = (cliente, values, produtos, parcelas) => {
@@ -57,7 +57,7 @@ var OrderDetails = ({
 
     if (!value) {
       setErrors({
-        name: "Insira o nome do pedido!",
+        name: 'Insira o nome do pedido!',
       });
     } else {
       setErrors({});
@@ -75,7 +75,7 @@ var OrderDetails = ({
 
   return (
     <div>
-      <Menu title="Detalhes do Pagamento" />
+      <Menu title="Pedidos" />
 
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleAdd}>
@@ -114,14 +114,12 @@ var OrderDetails = ({
                     <Tooltip title="Carregar">
                       <IconButton
                         aria-label="load"
-                        onClick={() =>
-                          loadOrder(
-                            order.cliente,
-                            order.values,
-                            order.produtos,
-                            order.parcelas
-                          )
-                        }
+                        onClick={() => loadOrder(
+                          order.cliente,
+                          order.values,
+                          order.produtos,
+                          order.parcelas,
+                        )}
                       >
                         <PublishIcon />
                       </IconButton>
@@ -154,23 +152,24 @@ var OrderDetails = ({
 };
 
 const mapStateToProps = (state) => ({
-  values: getFormValues("infoReduxForm")(state),
+  values: getFormValues('infoReduxForm')(state),
   orderList: state.orderList,
   cliente: state.select_infos.cliente,
   produtos: state.productList,
   parcelas: state.paymentList,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    { ...OrderActions, ...SelectActions, ...ProductActions, ...PaymentActions },
-    dispatch
-  );
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    ...OrderActions, ...SelectActions, ...ProductActions, ...PaymentActions,
+  },
+  dispatch,
+);
 
 OrderDetails = connect(mapStateToProps, mapDispatchToProps)(OrderDetails);
 
 export default reduxForm({
-  form: "infoReduxForm",
+  form: 'infoReduxForm',
   destroyOnUnmount: false,
   enableReinitialize: true,
 })(OrderDetails);

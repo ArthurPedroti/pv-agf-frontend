@@ -39,28 +39,6 @@ const renderInput = ({ input, label, placeholder }) => (
   </div>
 );
 
-function NumberFormatCustom(props) {
-  const { inputRef, onChange, ...other } = props;
-
-  return (
-    <NumberFormat
-      {...other}
-      getInputRef={inputRef}
-      onValueChange={(values) => {
-        onChange({
-          target: {
-            value: values.value,
-          },
-        });
-      }}
-      type="tel"
-      isNumericString
-      thousandSeparator
-      prefix="R$"
-    />
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -205,15 +183,21 @@ let ManualPayment = ({
               InputLabelProps={{ shrink: true }}
               type="date"
             />
-            <TextField
+            <NumberFormat
               label="Valor da entrada"
               margin="normal"
               fullWidth
               className={classes.form}
-              onChange={(e) => setValueEntrada(e.target.value)}
-              InputProps={{
-                inputComponent: NumberFormatCustom,
-              }}
+              onValueChange={(e) => setValueEntrada(e.value)}
+              type="tel"
+              defaultValue={value}
+              decimalSeparator=","
+              thousandSeparator="."
+              thousandsGroupStyle="thousand"
+              isNumericString
+              prefix="R$"
+              allowedDecimalSeparators={false}
+              customInput={TextField}
             />
             <FormControl fullWidth className={classes.form}>
               <InputLabel>Condição da parcela</InputLabel>
@@ -263,15 +247,21 @@ let ManualPayment = ({
               onChange={(e) => setInter(e.target.value)}
               type="number"
             />
-            <TextField
+            <NumberFormat
               label="Valor de cada parcela"
               margin="normal"
               fullWidth
               className={classes.form}
-              onChange={(e) => setValue(e.target.value)}
-              InputProps={{
-                inputComponent: NumberFormatCustom,
-              }}
+              onValueChange={(e) => setValue(e.value)}
+              type="tel"
+              defaultValue={value}
+              decimalSeparator=","
+              thousandSeparator="."
+              thousandsGroupStyle="thousand"
+              isNumericString
+              prefix="R$"
+              allowedDecimalSeparators={false}
+              customInput={TextField}
             />
             <FormControl fullWidth className={classes.form}>
               <InputLabel>Condição das parcelas</InputLabel>

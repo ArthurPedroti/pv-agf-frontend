@@ -195,7 +195,11 @@ export default function PdfMakeKit({
         {},
       ],
     ];
-    sumPayments = values.entrada + (values.num_parcelas * values.valor_parcelas);
+    if (values.num_parcelas && values.valor_parcelas) {
+      sumPayments = values.entrada + (values.num_parcelas * values.valor_parcelas);
+    } else {
+      sumPayments = values.entrada;
+    }
   };
 
   paymentType(values.payment_type);

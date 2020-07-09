@@ -87,15 +87,6 @@ let AutomaticPayment = () => {
           component={renderInput}
         />
         <Field
-          name="valor_parcelas"
-          label="Valor das parcelas"
-          type="number"
-          parse={(value) => (isNaN(parseInt(value, 10)) ? null : parseInt(value, 10))}
-          component={NumberFormatCustom}
-          fullWidth
-          customInput={TextField}
-        />
-        <Field
           name="int_parcelas"
           label="Intervalo das parcelas"
           type="number"

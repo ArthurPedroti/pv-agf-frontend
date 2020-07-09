@@ -161,7 +161,8 @@ let ProdutoDetails = ({
                 <Table aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Produto</TableCell>
+                      <TableCell align="center">Item</TableCell>
+                      <TableCell align="center">Produto</TableCell>
                       <TableCell align="center">Preço</TableCell>
                       <TableCell align="center">Quantidade</TableCell>
                       <TableCell align="center">Ações</TableCell>
@@ -170,6 +171,9 @@ let ProdutoDetails = ({
                   <TableBody>
                     {productList.map((product) => (
                       <TableRow key={product.id}>
+                        <TableCell align="center">
+                          {productList.indexOf(product) + 1}
+                        </TableCell>
                         <TableCell component="th" scope="row">
                           {product.product.descricao}
                         </TableCell>

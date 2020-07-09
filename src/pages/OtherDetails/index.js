@@ -84,6 +84,12 @@ let OtherDetails = ({ history, handleSubmit, submitting }) => {
             />
             <Field name="contrato" component={radioButton} />
             <Field
+              name="data_pc"
+              label="Data do Pedido:"
+              type="date"
+              component={renderDate}
+            />
+            <Field
               name="num_contrato"
               label="Nº Contrato:"
               type="text"
@@ -106,12 +112,6 @@ let OtherDetails = ({ history, handleSubmit, submitting }) => {
               label="Nº do Pedido:"
               type="text"
               component={renderInput}
-            />
-            <Field
-              name="data_pc"
-              label="Data do Pedido:"
-              type="date"
-              component={renderDate}
             />
             <Field
               name="ns"
