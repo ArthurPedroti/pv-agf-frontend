@@ -5,7 +5,8 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "plugin:prettier/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -31,6 +32,7 @@
       "jsx-a11y/control-has-associated-label": "off",
       "no-restricted-globals": "off",
       "no-param-reassign": "off",
+      "react/jsx-wrap-multilines": "off",
       "react/jsx-filename-extension": [
         1,
         {

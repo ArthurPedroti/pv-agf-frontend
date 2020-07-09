@@ -142,7 +142,7 @@ export default function PdfMakeDefault({
   const mapProducts = produtos.map((produto) => produto.value * produto.qtd);
   const sumProducts = mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
   const mapPayments = parcelas.map((parcela) => parcela.value);
-  let sumPayments = mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
+  let sumPayments = mapPayments.length > 0 ? Math.round(mapPayments.reduce((a, b) => a + b)) : 0;
 
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd03 = values.payment_type ? infoAdd(values.info_ad_pagamento) : '';
@@ -170,7 +170,7 @@ export default function PdfMakeDefault({
           text: [values.entrada ? `Entrada de ${values.entrada.toLocaleString('pt-br', {
             style: 'currency',
             currency: 'BRL',
-          })}` : 'Sem entrada', values.valor_parcelas && ` / ${values.num_parcelas}x parcelas de ${values.valor_parcelas.toLocaleString('pt-br', {
+          })}` : 'Sem entrada', values.num_parcelas && ` / ${values.num_parcelas}x parcelas de ${((sumProducts - values.entrada) / values.num_parcelas).toLocaleString('pt-br', {
             style: 'currency',
             currency: 'BRL',
           })} `, values.parcelas_type === 'ddl' ? '(DDL) ' : '', values.int_parcelas && `a cada ${values.int_parcelas} dias.`, values.info_ad_pagamentoAuto && `\n${values.info_ad_pagamentoAuto}`],
@@ -185,7 +185,7 @@ export default function PdfMakeDefault({
     if (values.num_parcelas && values.valor_parcelas) {
       sumPayments = values.entrada + (values.num_parcelas * values.valor_parcelas);
     } else {
-      sumPayments = values.entrada;
+      sumPayments = sumProducts;
     }
   };
 
