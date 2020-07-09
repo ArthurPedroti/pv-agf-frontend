@@ -1,9 +1,9 @@
 <h1 align="center">
-  <img alt="Go Barber" src="./src/assets/logo-readme.png" width="400px" style="border-radius:16px;"/>
+  <img alt="ASA" src="./src/assets/logo-readme.png" width="400px" style="border-radius:16px;"/>
 </h1>
 
 <h3 align="center" >
-  An app to make pdf orders
+  A PWA and Offline-first application to make PDFs orders
 </h3>
 
 <p align="center">
@@ -40,25 +40,41 @@
 </p>
 
 <p align="center">
-  <a href="#computer-languages">Languages</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#books-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#languages">Languages</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#roadmap">Roadmap</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#install">Install</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#books-usage">Usage</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#memo-license">License</a>
+  <a href="#usage">Usage</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#license">License</a>
 </p>
 
-## :computer: Languages
+## Languages
 
 - **#JavaScript**
 
-## :books: Technologies
+## Technologies
 
 - **#React**
-- **#ESLint**
-- **#Prettier**
-- **#Styled-Components**
-- **#Unform**
-- **#Yup**
+- **#Axios**
+- **#Redux**
+- **#Redux-Form**
+- **#Redux-Persist**
+- **#Redux-Thunk**
+- **#Redux-Sauce**
+
+## Roadmap
+
+### Bugs
+- [ ] Payment calculation with non-integer values
+- [ ] Only down payment on payment option
+
+### Features
+- [ ] Create an input of delivery date
+- [ ] Place on top input order date
+- [ ] File explorer to save the pdf on mobile
+- [ ] Show the payment calculation errors at payment page
+- [ ] Column "item" at products
+- [ ] Select the group before the products
 
 ## Install
 
@@ -79,15 +95,15 @@ yarn start
 * Github: [@ArthurPedroti](https://github.com/ArthurPedroti)
 * Linkedin: [@ArthurPedroti](https://www.linkedin.com/in/arthurpedroti)
 
-## 🤝 Contributing
+## Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/ArthurPedroit/pv-agf-frontend/issues). You can also take a look at the [contributing guide](https://github.com/ArthurPedroit/pv-agf-frontend/blob/master/CONTRIBUTING.md).
+Contributions, issues and feature requests are welcome!
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
 
-## 📝 License
+## License
 
 Copyright © 2020 [Arthur Pedroti](https://github.com/ArthurPedroti).<br />
 This project is [MIT](https://github.com/ArthurPedroit/pv-agf-frontend/blob/master/LICENSE) licensed.
