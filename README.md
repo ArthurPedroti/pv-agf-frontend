@@ -69,11 +69,11 @@
 - [ ] Only down payment on payment option
 
 ### Features
-- [ ] Create an input of delivery date
 - [x] Place on top input order date
+- [x] Column "item" at products
+- [ ] Create an input of delivery date
 - [ ] File explorer to save the pdf on mobile
 - [ ] Show the payment calculation errors at payment page
-- [x] Column "item" at products
 - [ ] Select the group before the products
 
 ## Install
