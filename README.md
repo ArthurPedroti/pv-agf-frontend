@@ -70,7 +70,7 @@
 
 ### Features
 - [ ] Create an input of delivery date
-- [ ] Place on top input order date
+- [x] Place on top input order date
 - [ ] File explorer to save the pdf on mobile
 - [ ] Show the payment calculation errors at payment page
 - [ ] Column "item" at products
