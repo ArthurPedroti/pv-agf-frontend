@@ -73,7 +73,7 @@
 - [x] Place on top input order date
 - [ ] File explorer to save the pdf on mobile
 - [ ] Show the payment calculation errors at payment page
-- [ ] Column "item" at products
+- [x] Column "item" at products
 - [ ] Select the group before the products
 
 ## Install
