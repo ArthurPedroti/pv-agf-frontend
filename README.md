@@ -67,6 +67,7 @@
 ### Bugs
 - [x] Payment calculation with non-integer values
 - [x] Only down payment on payment option
+- [ ] Pushing groups from CDE
 
 ### Features
 - [x] Place on top input order date
