@@ -58,17 +58,16 @@ let PaymentDetails = ({
     let sumPayments;
     if (!values.payment_type) {
       if (!values.entrada) {
-        return setErrors({ error: 'Preencha o método de pagamento!' });
+        return setErrors({ error: 'Preencha o método de pagamento' });
       }
-      if (values.num_parcelas && values.int_parcelas) {
-        return history.push('/freightdetails');
-      }
-      if (sumProducts === sumPayments) {
+      if (
+        (values.num_parcelas && values.int_parcelas) ||
+        (!values.num_parcelas && !values.int_parcelas)
+      ) {
         return history.push('/freightdetails');
       }
       return setErrors({
-        error:
-          'O valor total dos produtos não coincide com o valor total das parcelas!',
+        error: 'Preenchar o numero e o intervalo das parcelas',
       });
     }
     if (paymentList.length > 0) {

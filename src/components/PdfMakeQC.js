@@ -40,12 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function PdfMakeDefault({
-  cliente,
-  values,
-  produtos,
-  parcelas,
-}) {
+export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
   function dataAtualFormatada(input) {
     const data = new Date(input);
     data.setDate(data.getDate() + 1);
@@ -147,6 +142,7 @@ export default function PdfMakeDefault({
     mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
 
   const infoAdd01 = infoAdd(values.info_ad_produtos);
+  const infoAdd02 = infoAdd(values.info_ad_qc);
   const infoAdd03 = values.payment_type
     ? infoAdd(values.info_ad_pagamento)
     : '';
@@ -179,6 +175,7 @@ export default function PdfMakeDefault({
                 })}`
               : 'Sem entrada',
             values.valor_parcelas &&
+              values.valor_parcelas > 0 &&
               ` / ${
                 values.num_parcelas
               }x parcelas de ${values.valor_parcelas.toLocaleString('pt-br', {
@@ -230,7 +227,6 @@ export default function PdfMakeDefault({
       : null;
 
   const contrato = values.contrato === 'sim' ? 'SIM' : 'NÃO';
-  const kit_instalacao = values.kit_instalacao === true ? 'SIM' : 'NÃO';
   const formattedProducts = productsFormat(produtos);
   const formattedPayments = paymentsFormat(parcelas);
 
@@ -427,24 +423,37 @@ export default function PdfMakeDefault({
           body: [
             [
               {
-                text: 'ACOMPANHA KIT DE INSTALAÇÃO (CE25P10001):',
-                style: 'centerHeader',
+                text: 'ENGATE RÁPIDO',
+                alignment: 'center',
+                colSpan: 3,
+                bold: true,
+                fontSize: 9,
+                fillColor: '#dddddd',
               },
-              { text: 'COMPRIMENTO CIRCUITO FIO', style: 'centerHeader' },
+              {},
+              {},
             ],
             [
               {
-                text: kit_instalacao,
-                alignment: 'center',
-              },
-              {
-                text: values.comprimento_circuito,
-                alignment: 'center',
+                text: [
+                  { text: 'SOBRE A MÁQUINA: ', bold: true },
+                  values.maquina,
+                  '\n',
+                  { text: 'MODELO: ', bold: true },
+                  values.modelo,
+                  '\n',
+                  { text: 'ANO: ', bold: true },
+                  values.ano,
+                  '\n',
+                ],
+                colSpan: 3,
               },
             ],
           ],
+          align: 'center',
         },
       },
+      ...infoAdd02,
       '\n',
       {
         table: {
@@ -488,6 +497,9 @@ export default function PdfMakeDefault({
                   '\n',
                   { text: 'DATA PREVISÃO DE ENTREGA: ', bold: true },
                   'A COMBINAR',
+                  '\n',
+                  { text: 'DATA PREVISTA DE INSTALAÇÃO: ', bold: true },
+                  '3 a 10 dias após a chegada do equipamento',
                   '\n',
                 ],
               },
@@ -655,7 +667,6 @@ export default function PdfMakeDefault({
     }
     errorCount = 0;
   };
-
   return (
     <>
       <Button

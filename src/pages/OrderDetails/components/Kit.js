@@ -50,7 +50,7 @@ const renderSelect = ({ input, label, options }) => (
       <InputLabel>{label}</InputLabel>
       <NativeSelect required {...input}>
         <option value="" key={Math.random()} />
-        {options.map((option) => (
+        {options.map(option => (
           <option key={option.label}>{option.label}</option>
         ))}
       </NativeSelect>
@@ -61,7 +61,7 @@ const renderSelect = ({ input, label, options }) => (
 const renderSwitch = ({ input, label }) => (
   <div>
     <FormControlLabel
-      control={(
+      control={
         <Switch
           {...input}
           checked={!!input.value}
@@ -69,7 +69,7 @@ const renderSwitch = ({ input, label }) => (
           value="checked"
           color="primary"
         />
-      )}
+      }
       labelPlacement="start"
       label={label}
     />
@@ -125,9 +125,7 @@ const tool_types = [
   { label: 'Ponteiro Universal Longo' },
 ];
 
-let Kit = ({
-  values, history, handleSubmit, submitting,
-}) => {
+let Kit = ({ values, history, handleSubmit, submitting }) => {
   function ExtraToolOptions() {
     if (values.pont_extra) {
       return (
@@ -244,9 +242,10 @@ let Kit = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(SelectActions, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(SelectActions, dispatch);
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   values: getFormValues('infoReduxForm')(state),
 });
 
