@@ -39,7 +39,7 @@ const renderInput = ({ input, label, placeholder }) => (
   </div>
 );
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
@@ -96,7 +96,7 @@ let ManualPayment = ({
     return data;
   }
 
-  const handleAddEntrada = (e) => {
+  const handleAddEntrada = e => {
     e.preventDefault();
 
     if (!dateEntrada) {
@@ -128,7 +128,7 @@ let ManualPayment = ({
     }
   };
 
-  const handleAdd = (e) => {
+  const handleAdd = e => {
     e.preventDefault();
 
     if (!num) {
@@ -179,7 +179,7 @@ let ManualPayment = ({
               margin="normal"
               fullWidth
               className={classes.form}
-              onChange={(e) => setdateEntrada(e.target.value)}
+              onChange={e => setdateEntrada(e.target.value)}
               InputLabelProps={{ shrink: true }}
               type="date"
             />
@@ -188,7 +188,7 @@ let ManualPayment = ({
               margin="normal"
               fullWidth
               className={classes.form}
-              onValueChange={(e) => setValueEntrada(e.value)}
+              onValueChange={e => setValueEntrada(e.value)}
               type="tel"
               defaultValue={value}
               decimalSeparator=","
@@ -203,10 +203,10 @@ let ManualPayment = ({
               <InputLabel>Condição da parcela</InputLabel>
               <NativeSelect
                 required
-                onChange={(e) => setConditionEntrada(e.target.value)}
+                onChange={e => setConditionEntrada(e.target.value)}
               >
                 <option value="" />
-                {payments.map((option) => (
+                {payments.map(option => (
                   <option key={option.label}>{option.label}</option>
                 ))}
               </NativeSelect>
@@ -218,11 +218,7 @@ let ManualPayment = ({
               {errorsEntrada.condition}
             </Typography>
 
-            <Button
-              type="button"
-              variant="outlined"
-              onClick={handleAddEntrada}
-            >
+            <Button type="button" variant="outlined" onClick={handleAddEntrada}>
               Adicionar Entrada
             </Button>
           </form>
@@ -236,7 +232,7 @@ let ManualPayment = ({
               margin="normal"
               fullWidth
               className={classes.form}
-              onChange={(e) => setNum(e.target.value)}
+              onChange={e => setNum(e.target.value)}
               type="number"
             />
             <TextField
@@ -244,7 +240,7 @@ let ManualPayment = ({
               margin="normal"
               fullWidth
               className={classes.form}
-              onChange={(e) => setInter(e.target.value)}
+              onChange={e => setInter(e.target.value)}
               type="number"
             />
             <NumberFormat
@@ -252,7 +248,7 @@ let ManualPayment = ({
               margin="normal"
               fullWidth
               className={classes.form}
-              onValueChange={(e) => setValue(e.value)}
+              onValueChange={e => setValue(e.value)}
               type="tel"
               defaultValue={value}
               decimalSeparator=","
@@ -267,10 +263,10 @@ let ManualPayment = ({
               <InputLabel>Condição das parcelas</InputLabel>
               <NativeSelect
                 required
-                onChange={(e) => setCondition(e.target.value)}
+                onChange={e => setCondition(e.target.value)}
               >
                 <option value="" />
-                {payments.map((option) => (
+                {payments.map(option => (
                   <option key={option.label}>{option.label}</option>
                 ))}
               </NativeSelect>
@@ -301,7 +297,7 @@ let ManualPayment = ({
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {paymentList.map((payment) => (
+                  {paymentList.map(payment => (
                     <TableRow key={payment.id}>
                       <TableCell align="center">
                         {paymentList.indexOf(payment) + 1}
@@ -315,9 +311,7 @@ let ManualPayment = ({
                           currency: 'BRL',
                         })}
                       </TableCell>
-                      <TableCell align="center">
-                        {payment.condition}
-                      </TableCell>
+                      <TableCell align="center">{payment.condition}</TableCell>
                       <TableCell align="center">
                         <IconButton
                           aria-label="delete"
@@ -353,12 +347,13 @@ let ManualPayment = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   values: getFormValues('infoReduxForm')(state),
   paymentList: state.paymentList,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(PaymentActions, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(PaymentActions, dispatch);
 
 ManualPayment = connect(mapStateToProps, mapDispatchToProps)(ManualPayment);
 

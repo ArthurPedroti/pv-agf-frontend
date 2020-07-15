@@ -56,7 +56,7 @@ import {
 import pjson from '../../package.json';
 import { store } from '../store';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   list: {
     width: 250,
   },
@@ -91,33 +91,21 @@ const App = styled(AppBar)({
   margin: '0 0 20px 0',
 });
 
-const AppItem = ({
-  address, label, icon, subtitle,
-}) => (
+const AppItem = ({ address, label, icon, subtitle }) => (
   <ListItem button component={Link} to={address}>
     <ListItemIcon>{icon}</ListItemIcon>
-    <ListItemText
-      primary={label}
-      secondary={subtitle}
-    />
+    <ListItemText primary={label} secondary={subtitle} />
   </ListItem>
 );
 
-const AppItemAction = ({
-  label, action, icon, subtitle,
-}) => (
+const AppItemAction = ({ label, action, icon, subtitle }) => (
   <ListItem button onClick={action}>
     <ListItemIcon>{icon}</ListItemIcon>
-    <ListItemText
-      primary={label}
-      secondary={subtitle}
-    />
+    <ListItemText primary={label} secondary={subtitle} />
   </ListItem>
 );
 
-function Menu({
-  title, values, dispatch, history,
-}) {
+function Menu({ title, values, dispatch, history }) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -126,10 +114,10 @@ function Menu({
     right: false,
   });
 
-  const toggleDrawer = (side, open) => (event) => {
+  const toggleDrawer = (side, open) => event => {
     if (
-      event.type === 'keydown'
-      && (event.key === 'Tab' || event.key === 'Shift')
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
     ) {
       return;
     }
@@ -189,7 +177,15 @@ function Menu({
     handleClose();
   }
 
-  const sideList = (side) => (
+  async function UpdateServiceWorker() {
+    handleOpen();
+    await navigator.serviceWorker.register('/sw.js').then(reg => {
+      reg.update();
+    });
+    handleClose();
+  }
+
+  const sideList = side => (
     <div
       className={classes.list}
       role="presentation"
@@ -248,7 +244,7 @@ function Menu({
       <Divider />
       <List>
         <AppItemAction
-          label="Sincronizar Dados "
+          label="Sincronizar Dados"
           subtitle={dataAtualFormatada(
             values === undefined ? null : values.sync_date,
           )}
@@ -262,9 +258,10 @@ function Menu({
         />
         <AppItemAction label="Sair" icon={<ExitToAppIcon />} action={logout} />
       </List>
-      <AppItem
+      <AppItemAction
         icon={<SettingsApplicationsIcon />}
         subtitle={`v${pjson.version}`}
+        action={UpdateServiceWorker}
         address={() => {}}
       />
     </div>
@@ -325,7 +322,7 @@ function Menu({
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   values: getFormValues('infoReduxForm')(state),
 });
 

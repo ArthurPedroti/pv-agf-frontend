@@ -188,7 +188,8 @@ export default function PdfMakeDefault({
                 style: 'currency',
                 currency: 'BRL',
               })} `,
-            values.parcelas_type === 'ddl' ? '(DDL) ' : '',
+            values.num_parcelas &&
+              (values.parcelas_type === 'ddl' ? ' (DDL) ' : ''),
             values.int_parcelas && `a cada ${values.int_parcelas} dias.`,
             values.info_ad_pagamentoAuto && `\n${values.info_ad_pagamentoAuto}`,
           ],

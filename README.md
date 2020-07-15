@@ -65,17 +65,18 @@
 ## Roadmap
 
 ### Bugs
-- [x] Payment calculation with non-integer values
-- [x] Only down payment on payment option
+- [x] Loading "Imprimindo..." to "Gerando PDF"
+- [x] Don't show coupler if coupler isn't selected
+- [x] Put order date on the first item to appear(on confirmation)
 - [ ] Pushing groups from CDE
 
 ### Features
-- [x] Place on top input order date
-- [x] Column "item" at products
-- [x] Show the payment calculation errors at payment page
+- [x] Page for quick coupler orders
+- [x] Today order default value
 - [ ] Create an input of delivery date
 - [ ] File explorer to save the pdf on mobile
 - [ ] Select the group before the products
+- [ ] Warranty field
 
 ## Install
 

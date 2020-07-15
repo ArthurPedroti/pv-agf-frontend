@@ -174,16 +174,17 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
                   currency: 'BRL',
                 })}`
               : 'Sem entrada',
-            values.valor_parcelas &&
-              values.valor_parcelas > 0 &&
-              ` / ${
+            values.num_parcelas &&
+              ` / ${values.num_parcelas}x parcelas de ${(
+                (sumProducts - values.entrada) /
                 values.num_parcelas
-              }x parcelas de ${values.valor_parcelas.toLocaleString('pt-br', {
+              ).toLocaleString('pt-br', {
                 style: 'currency',
                 currency: 'BRL',
               })} `,
-            values.parcelas_type === 'ddl' ? '(DDL) ' : null,
-            `a cada ${values.int_parcelas} dias.`,
+            values.num_parcelas &&
+              (values.parcelas_type === 'ddl' ? ' (DDL) ' : ''),
+            values.int_parcelas && `a cada ${values.int_parcelas} dias.`,
             values.info_ad_pagamentoAuto && `\n${values.info_ad_pagamentoAuto}`,
           ],
           colSpan: 4,
@@ -197,7 +198,7 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
       sumPayments =
         values.entrada + values.num_parcelas * values.valor_parcelas;
     } else {
-      sumPayments = values.entrada;
+      sumPayments = sumProducts;
     }
   };
 

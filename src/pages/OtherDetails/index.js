@@ -19,12 +19,9 @@ import { Creators as SelectActions } from '../../store/ducks/select_infos';
 import Menu from '../../components/Menu';
 
 let OtherDetails = ({ history, handleSubmit, submitting }) => {
-  const showResults = useCallback(
-    () => {
-      history.push('/confirm');
-    },
-    [history],
-  );
+  const showResults = useCallback(() => {
+    history.push('/confirm');
+  }, [history]);
 
   const renderDate = useCallback(
     ({ input, label, type }) => (
@@ -43,33 +40,30 @@ let OtherDetails = ({ history, handleSubmit, submitting }) => {
     [],
   );
 
-  const renderInput = useCallback(({ input, label }) => (
-    <div>
-      <TextField
-        {...input}
-        label={label}
-        fullWidth
-        margin="normal"
-        size="small"
-      />
-    </div>
-  ),
-  []);
+  const renderInput = useCallback(
+    ({ input, label }) => (
+      <div>
+        <TextField
+          {...input}
+          label={label}
+          fullWidth
+          margin="normal"
+          size="small"
+        />
+      </div>
+    ),
+    [],
+  );
 
-  const radioButton = useCallback(({ input, ...rest }) => (
-    <RadioGroup row {...input} {...rest} value={input.value || 'não'}>
-      <FormControlLabel
-        value="nao"
-        control={<Radio />}
-        label="Não"
-      />
-      <FormControlLabel
-        value="sim"
-        control={<Radio />}
-        label="Sim"
-      />
-    </RadioGroup>
-  ), []);
+  const radioButton = useCallback(
+    ({ input, ...rest }) => (
+      <RadioGroup row {...input} {...rest} value={input.value || 'não'}>
+        <FormControlLabel value="nao" control={<Radio />} label="Não" />
+        <FormControlLabel value="sim" control={<Radio />} label="Sim" />
+      </RadioGroup>
+    ),
+    [],
+  );
 
   return (
     <div>
@@ -140,9 +134,10 @@ let OtherDetails = ({ history, handleSubmit, submitting }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(SelectActions, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(SelectActions, dispatch);
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   kit: state.select_infos.kit,
   maquina: state.select_infos.maquina,
 });
