@@ -1,40 +1,40 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { reduxForm, getFormValues } from "redux-form";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { reduxForm, getFormValues } from 'redux-form';
 
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import TableHead from "@material-ui/core/TableHead";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import TableHead from '@material-ui/core/TableHead';
 
-import Menu from "../../components/Menu";
+import Menu from '../../components/Menu';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
+    width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   inline: {
-    display: "inline",
-    textAlign: "right",
+    display: 'inline',
+    textAlign: 'right',
   },
 }));
 
-var Confirm = ({
+let Confirm = ({
   values,
   cliente,
   produtos,
@@ -105,11 +105,15 @@ var Confirm = ({
   }
 
   function dataAtualFormatada(input) {
-    var data = new Date(input);
+    const data = new Date(input);
     data.setDate(data.getDate() + 1);
-    const options = { year: "numeric", month: "numeric", day: "numeric" };
-    return data.toLocaleDateString("pt-BR", options);
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    return data.toLocaleDateString('pt-BR', options);
   }
+
+  const mapProducts = produtos.map(produto => produto.value * produto.qtd);
+  const sumProducts =
+    mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
 
   return (
     <div>
@@ -118,7 +122,7 @@ var Confirm = ({
       <Container maxWidth="md" component="main" align="center">
         <form onSubmit={handleSubmit(showResults)}>
           <Container maxWidth="sm" align="left">
-            <ExpansionPanel key={"Vendedor"}>
+            <ExpansionPanel key="Vendedor">
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
@@ -139,7 +143,7 @@ var Confirm = ({
               </ExpansionPanelDetails>
             </ExpansionPanel>
 
-            <ExpansionPanel key={"Cliente"}>
+            <ExpansionPanel key="Cliente">
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"
@@ -171,8 +175,12 @@ var Confirm = ({
                   {cliente.cep} <br />
                   <strong>Telefone: </strong>
                   {cliente.telefone} <br />
-                  <strong>Celular: </strong>
-                  {cliente.celular} <br />
+                  {cliente.celular && (
+                    <span>
+                      <strong>Engate: </strong>
+                      {cliente.celular} <br />
+                    </span>
+                  )}
                   <strong>Cargo do contato: </strong>
                   {values.cargo_contato} <br />
                   <strong>Nome do contato: </strong>
@@ -183,7 +191,7 @@ var Confirm = ({
               </ExpansionPanelDetails>
             </ExpansionPanel>
 
-            <ExpansionPanel key={"Produtos"}>
+            <ExpansionPanel key="Produtos">
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"
@@ -205,15 +213,15 @@ var Confirm = ({
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {produtos.map((product) => (
+                      {produtos.map(product => (
                         <TableRow key={product.product.descricao}>
                           <TableCell component="th" scope="row">
                             {product.product.descricao}
                           </TableCell>
                           <TableCell align="center">
-                            {product.value.toLocaleString("pt-br", {
-                              style: "currency",
-                              currency: "BRL",
+                            {product.value.toLocaleString('pt-br', {
+                              style: 'currency',
+                              currency: 'BRL',
                             })}
                           </TableCell>
                           <TableCell align="center">{product.qtd}</TableCell>
@@ -225,7 +233,7 @@ var Confirm = ({
               </ExpansionPanelDetails>
             </ExpansionPanel>
 
-            <ExpansionPanel key={"Pedido"}>
+            <ExpansionPanel key="Pedido">
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"
@@ -242,7 +250,7 @@ var Confirm = ({
                 </p>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-            {values.tipo_contrato === "Pedido para Kits Hidráulicos" ? (
+            {values.tipo_contrato === 'Pedido para Kit Hidráulico' ? (
               <ExpansionPanel>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -263,8 +271,12 @@ var Confirm = ({
                     {values.modelo} <br />
                     <strong>Ano: </strong>
                     {values.ano} <br />
-                    <strong>Engate: </strong>
-                    {values.engate} <br />
+                    {values.engate && (
+                      <span>
+                        <strong>Engate: </strong>
+                        Sim <br />
+                      </span>
+                    )}
                     <strong>Informações relevantes: </strong>
                     {values.informacoes_relevantes} <br />
                     <strong>Condição: </strong>
@@ -278,7 +290,7 @@ var Confirm = ({
                 </ExpansionPanelDetails>
               </ExpansionPanel>
             ) : null}
-            {values.tipo_contrato === "Pedido para Monofio" ? (
+            {values.tipo_contrato === 'Pedido para Monofio' ? (
               <ExpansionPanel>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -299,56 +311,96 @@ var Confirm = ({
                 </ExpansionPanelDetails>
               </ExpansionPanel>
             ) : null}
-
-            <ExpansionPanel key={"Pagamento"}>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Typography className={classes.heading}>
-                  Informações do Pagamento
-                </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <TableContainer component={Paper}>
-                  <Table aria-label="caption table">
-                    <InfoAdPag />
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center">Parcela</TableCell>
-                        <TableCell align="center">Data</TableCell>
-                        <TableCell align="center">Valor</TableCell>
-                        <TableCell align="center">Tipo de Pagamento</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {parcelas.map((payment) => (
-                        <TableRow key={parcelas.indexOf(payment) + 1}>
+            {values.payment_type === true ? (
+              <ExpansionPanel key="Pagamento">
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel2a-content"
+                  id="panel2a-header"
+                >
+                  <Typography className={classes.heading}>
+                    Informações do Pagamento
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <TableContainer component={Paper}>
+                    <Table aria-label="caption table">
+                      <InfoAdPag />
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="center">Parcela</TableCell>
+                          <TableCell align="center">Data</TableCell>
+                          <TableCell align="center">Valor</TableCell>
                           <TableCell align="center">
-                            {parcelas.indexOf(payment) + 1}
-                          </TableCell>
-                          <TableCell align="center">
-                            {dataAtualFormatada(payment.date)}
-                          </TableCell>
-                          <TableCell align="center">
-                            {payment.value.toLocaleString("pt-br", {
-                              style: "currency",
-                              currency: "BRL",
-                            })}
-                          </TableCell>
-                          <TableCell align="center">
-                            {payment.condition}
+                            Tipo de Pagamento
                           </TableCell>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-
-            <ExpansionPanel key={"Frete"}>
+                      </TableHead>
+                      <TableBody>
+                        {parcelas.map(payment => (
+                          <TableRow key={parcelas.indexOf(payment) + 1}>
+                            <TableCell align="center">
+                              {parcelas.indexOf(payment) + 1}
+                            </TableCell>
+                            <TableCell align="center">
+                              {dataAtualFormatada(payment.date)}
+                            </TableCell>
+                            <TableCell align="center">
+                              {payment.value.toLocaleString('pt-br', {
+                                style: 'currency',
+                                currency: 'BRL',
+                              })}
+                            </TableCell>
+                            <TableCell align="center">
+                              {payment.condition}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            ) : (
+              <ExpansionPanel key="Frete">
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel2a-content"
+                  id="panel2a-header"
+                >
+                  <Typography className={classes.heading}>
+                    Informações do Pagamento
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <p>
+                    {values.entrada
+                      ? `Entrada de ${values.entrada.toLocaleString('pt-br', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        })}`
+                      : 'Sem entrada'}
+                    {values.num_parcelas &&
+                      ` / ${values.num_parcelas}x parcelas de ${(
+                        (sumProducts - values.entrada) /
+                        values.num_parcelas
+                      ).toLocaleString('pt-br', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      })} `}
+                    {values.num_parcelas &&
+                      (values.parcelas_type === 'ddl' ? ' (DDL) ' : '')}
+                    {values.int_parcelas &&
+                      `a cada ${values.int_parcelas} dias.`}
+                    <br />
+                    <br />
+                    <strong>Informações adicionais: </strong>
+                    {values.info_ad_pagamentoAuto} <br />
+                  </p>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            )}
+            <ExpansionPanel key="Frete">
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"
@@ -366,7 +418,7 @@ var Confirm = ({
               </ExpansionPanelDetails>
             </ExpansionPanel>
 
-            <ExpansionPanel key={"Outros"}>
+            <ExpansionPanel key="Outros">
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"
@@ -378,6 +430,8 @@ var Confirm = ({
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <p>
+                  <strong>Data do pedido de compra: </strong>
+                  {dataAtualFormatada(values.data_pc)} <br />
                   <Contrato />
                   <strong>Nº do Pedido: </strong>
                   {values.num_pedido} <br />
@@ -385,8 +439,6 @@ var Confirm = ({
                   {values.num_nf} <br />
                   <strong>Nº do pedido de compra: </strong>
                   {values.num_pc} <br />
-                  <strong>Data do pedido de compra: </strong>
-                  {values.data_pc} <br />
                   <strong>Nº de Serie: </strong>
                   {values.ns}
                 </p>
@@ -413,8 +465,8 @@ var Confirm = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  values: getFormValues("infoReduxForm")(state),
+const mapStateToProps = state => ({
+  values: getFormValues('infoReduxForm')(state),
   cliente: state.select_infos.cliente,
   produtos: state.productList,
   parcelas: state.paymentList,
@@ -423,6 +475,6 @@ const mapStateToProps = (state) => ({
 Confirm = connect(mapStateToProps)(Confirm);
 
 export default reduxForm({
-  form: "infoReduxForm",
+  form: 'infoReduxForm',
   destroyOnUnmount: false,
 })(Confirm);

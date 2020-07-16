@@ -13,13 +13,21 @@ import Menu from '../../components/Menu';
 import PdfMakeDefault from '../../components/PdfMakeDefault';
 import PdfMakeKit from '../../components/PdfMakeKit';
 import PdfMakeMonofio from '../../components/PdfMakeMonofio';
+import PdfMakeQC from '../../components/PdfMakeQC';
 
-let Confirm = ({
-  values, cliente, produtos, parcelas,
-}) => {
+let Confirm = ({ values, cliente, produtos, parcelas }) => {
   function PdfMake() {
-    if (values !== undefined) {
-      if (values.tipo_contrato === 'Pedido para Kits Hidráulicos') {
+    switch (values.tipo_contrato) {
+      case 'Pedido para Monofio':
+        return (
+          <PdfMakeMonofio
+            cliente={cliente}
+            values={values}
+            produtos={produtos}
+            parcelas={parcelas}
+          />
+        );
+      case 'Pedido para Kit Hidráulico':
         return (
           <PdfMakeKit
             cliente={cliente}
@@ -28,26 +36,25 @@ let Confirm = ({
             parcelas={parcelas}
           />
         );
-      }
+      case 'Pedido para Engate Rápido':
+        return (
+          <PdfMakeQC
+            cliente={cliente}
+            values={values}
+            produtos={produtos}
+            parcelas={parcelas}
+          />
+        );
+      default:
+        return (
+          <PdfMakeDefault
+            cliente={cliente}
+            values={values}
+            produtos={produtos}
+            parcelas={parcelas}
+          />
+        );
     }
-    if (values.tipo_contrato === 'Pedido para Monofio') {
-      return (
-        <PdfMakeMonofio
-          cliente={cliente}
-          values={values}
-          produtos={produtos}
-          parcelas={parcelas}
-        />
-      );
-    }
-    return (
-      <PdfMakeDefault
-        cliente={cliente}
-        values={values}
-        produtos={produtos}
-        parcelas={parcelas}
-      />
-    );
   }
 
   return (
@@ -67,9 +74,10 @@ let Confirm = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(OrderActions, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(OrderActions, dispatch);
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   values: getFormValues('infoReduxForm')(state),
   vendedor: state.select_infos.vendedor,
   naturezaOperacao: state.select_infos.naturezaOperacao,

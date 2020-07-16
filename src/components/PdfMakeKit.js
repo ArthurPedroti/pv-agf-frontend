@@ -9,7 +9,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   list: {
     width: 250,
   },
@@ -40,9 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PdfMakeKit({
-  cliente, values, produtos, parcelas,
-}) {
+export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
   function dataAtualFormatada(input) {
     const data = new Date(input);
     data.setDate(data.getDate() + 1);
@@ -50,28 +48,29 @@ export default function PdfMakeKit({
     return data.toLocaleDateString('pt-BR', options);
   }
 
-  const productsFormat = (produtoParams) => produtoParams.map((produto) => [
-    { text: produto.product.codigo, style: 'centerLine' },
-    { text: produto.product.descricao, style: 'centerLine' },
-    { text: produto.product.desc_grupo, style: 'centerLine' },
-    { text: produto.qtd, style: 'centerLine' },
-    {
-      text: produto.value.toLocaleString('pt-br', {
-        style: 'currency',
-        currency: 'BRL',
-      }),
-      style: 'centerLine',
-    },
-    {
-      text: (produto.value * produto.qtd).toLocaleString('pt-br', {
-        style: 'currency',
-        currency: 'BRL',
-      }),
-      style: 'centerLine',
-    },
-  ]);
+  const productsFormat = produtoParams =>
+    produtoParams.map(produto => [
+      { text: produto.product.codigo, style: 'centerLine' },
+      { text: produto.product.descricao, style: 'centerLine' },
+      { text: produto.product.desc_grupo, style: 'centerLine' },
+      { text: produto.qtd, style: 'centerLine' },
+      {
+        text: produto.value.toLocaleString('pt-br', {
+          style: 'currency',
+          currency: 'BRL',
+        }),
+        style: 'centerLine',
+      },
+      {
+        text: (produto.value * produto.qtd).toLocaleString('pt-br', {
+          style: 'currency',
+          currency: 'BRL',
+        }),
+        style: 'centerLine',
+      },
+    ]);
 
-  let paymentsFormat = (parcelasParams) => {
+  let paymentsFormat = parcelasParams => {
     const arr1 = [
       [
         {
@@ -93,7 +92,7 @@ export default function PdfMakeKit({
         { text: 'VALOR', style: 'centerHeader' },
       ],
     ];
-    const arr2 = parcelasParams.map((parcela) => [
+    const arr2 = parcelasParams.map(parcela => [
       { text: parcelasParams.indexOf(parcela) + 1, style: 'centerLine' },
       { text: dataAtualFormatada(parcela.date), style: 'centerLine' },
       { text: parcela.condition, style: 'centerLine' },
@@ -125,7 +124,7 @@ export default function PdfMakeKit({
     return [];
   };
 
-  const infoAdd = (input) => {
+  const infoAdd = input => {
     if (input) {
       return [
         {
@@ -152,16 +151,20 @@ export default function PdfMakeKit({
     return [];
   };
 
-  const mapProducts = produtos.map((produto) => produto.value * produto.qtd);
-  const sumProducts = mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
-  const mapPayments = parcelas.map((parcela) => parcela.value);
-  let sumPayments = mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
+  const mapProducts = produtos.map(produto => produto.value * produto.qtd);
+  const sumProducts =
+    mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
+  const mapPayments = parcelas.map(parcela => parcela.value);
+  let sumPayments =
+    mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
 
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd02 = infoAdd(values.info_ad_hidraulico);
-  const infoAdd03 = values.payment_type ? infoAdd(values.info_ad_pagamento) : '';
+  const infoAdd03 = values.payment_type
+    ? infoAdd(values.info_ad_pagamento)
+    : '';
 
-  const paymentType = (input) => {
+  const paymentType = input => {
     if (input) {
       return;
     }
@@ -181,13 +184,26 @@ export default function PdfMakeKit({
       ],
       [
         {
-          text: [values.entrada ? `Entrada de ${values.entrada.toLocaleString('pt-br', {
-            style: 'currency',
-            currency: 'BRL',
-          })}` : 'Sem entrada', values.valor_parcelas && ` / ${values.num_parcelas}x parcelas de ${values.valor_parcelas.toLocaleString('pt-br', {
-            style: 'currency',
-            currency: 'BRL',
-          })} `, values.parcelas_type === 'ddl' ? '(DDL) ' : null, `a cada ${values.int_parcelas} dias.`, values.info_ad_pagamentoAuto && `\n${values.info_ad_pagamentoAuto}`],
+          text: [
+            values.entrada
+              ? `Entrada de ${values.entrada.toLocaleString('pt-br', {
+                  style: 'currency',
+                  currency: 'BRL',
+                })}`
+              : 'Sem entrada',
+            values.num_parcelas &&
+              ` / ${values.num_parcelas}x parcelas de ${(
+                (sumProducts - values.entrada) /
+                values.num_parcelas
+              ).toLocaleString('pt-br', {
+                style: 'currency',
+                currency: 'BRL',
+              })} `,
+            values.num_parcelas &&
+              (values.parcelas_type === 'ddl' ? ' (DDL) ' : ''),
+            values.int_parcelas && `a cada ${values.int_parcelas} dias.`,
+            values.info_ad_pagamentoAuto && `\n${values.info_ad_pagamentoAuto}`,
+          ],
           colSpan: 4,
         },
         {},
@@ -196,9 +212,10 @@ export default function PdfMakeKit({
       ],
     ];
     if (values.num_parcelas && values.valor_parcelas) {
-      sumPayments = values.entrada + (values.num_parcelas * values.valor_parcelas);
+      sumPayments =
+        values.entrada + values.num_parcelas * values.valor_parcelas;
     } else {
-      sumPayments = values.entrada;
+      sumPayments = sumProducts;
     }
   };
 
@@ -217,14 +234,15 @@ export default function PdfMakeKit({
   const hoje = new Date();
   hoje.setDate(hoje.getDate() - 1);
 
-  const data_pc = values.data_pc !== undefined
-    ? values.data_pc
-      .slice(-2)
-      .concat('/')
-      .concat(values.data_pc.slice(5, 7))
-      .concat('/')
-      .concat(values.data_pc.slice(0, 4))
-    : null;
+  const data_pc =
+    values.data_pc !== undefined
+      ? values.data_pc
+          .slice(-2)
+          .concat('/')
+          .concat(values.data_pc.slice(5, 7))
+          .concat('/')
+          .concat(values.data_pc.slice(0, 4))
+      : null;
 
   const engate = values.engate === true ? 'SIM' : 'NÃO';
   const contrato = values.contrato === 'sim' ? 'SIM' : 'NÃO';
@@ -522,8 +540,10 @@ export default function PdfMakeKit({
                   { text: 'FRETE: ', bold: true },
                   values.frete,
                   '\n',
-                  { text: 'DATA PREVISÃO DE ENTREGA: ', bold: true },
-                  'A COMBINAR',
+                  { text: 'PREVISÃO DE ENTREGA: ', bold: true },
+                  values.delivery_date
+                    ? dataAtualFormatada(values.delivery_date)
+                    : 'A COMBINAR',
                   '\n',
                   { text: 'DATA PREVISTA DE INSTALAÇÃO: ', bold: true },
                   '3 a 10 dias após a chegada do equipamento',
@@ -631,47 +651,47 @@ export default function PdfMakeKit({
       errorCount += 1;
     }
     if (
-      !cliente
-      || !values.nome_contato
-      || !values.cargo_contato
-      || !values.email_contato
+      !cliente ||
+      !values.nome_contato ||
+      !values.cargo_contato ||
+      !values.email_contato
     ) {
-      setErrors((prevState) => ({
+      setErrors(prevState => ({
         ...prevState,
         cliente: 'Preencha todos os dados obrigatórios do cliente!',
       }));
       errorCount += 1;
     }
     if (produtos.length <= 0) {
-      setErrors((prevState) => ({
+      setErrors(prevState => ({
         ...prevState,
         produto: 'Preencha os produtos!',
       }));
       errorCount += 1;
     }
     if (!values.tipo_contrato) {
-      setErrors((prevState) => ({
+      setErrors(prevState => ({
         ...prevState,
         contrato: 'Selecione o tipo de contrato!',
       }));
       errorCount += 1;
     }
     if (values.payment_type && parcelas.length <= 0) {
-      setErrors((prevState) => ({
+      setErrors(prevState => ({
         ...prevState,
         produto: 'Preencha os dados de pagamento!',
       }));
       errorCount += 1;
     }
     if (!values.frete) {
-      setErrors((prevState) => ({
+      setErrors(prevState => ({
         ...prevState,
         contrato: 'Selecione o tipo de frete!',
       }));
       errorCount += 1;
     }
     if (sumProducts !== sumPayments) {
-      setErrors((prevState) => ({
+      setErrors(prevState => ({
         ...prevState,
         contrato:
           'O valor total dos produtos não coincide com o valor total das parcelas!',
@@ -681,7 +701,7 @@ export default function PdfMakeKit({
 
     async function MakePdf() {
       handleOpen();
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 500));
       pdfMake
         .createPdf(documentDefinition)
         .download(`${cliente.razao_social} - ${dataAtualFormatada(hoje)}`);
@@ -704,7 +724,7 @@ export default function PdfMakeKit({
       >
         Gerar PDF
       </Button>
-      {Object.values(errors).map((erro) => (
+      {Object.values(errors).map(erro => (
         <div key={erro}>{erro}</div>
       ))}
       <Modal
@@ -721,7 +741,7 @@ export default function PdfMakeKit({
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2>Imprimindo...</h2>
+            <h2>Gerando PDF...</h2>
             <div>
               <CircularProgress style={{ margin: 15 }} />
             </div>

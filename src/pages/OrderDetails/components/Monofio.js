@@ -1,21 +1,21 @@
-import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { reduxForm, Field, getFormValues } from "redux-form";
+import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { reduxForm, Field, getFormValues } from 'redux-form';
 
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 
-import { bindActionCreators } from "redux";
-import { Creators as SelectActions } from "../../../store/ducks/select_infos";
+import { bindActionCreators } from 'redux';
 
-import NativeSelect from "@material-ui/core/NativeSelect";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
+import NativeSelect from '@material-ui/core/NativeSelect';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import { Creators as SelectActions } from '../../../store/ducks/select_infos';
 
-import Menu from "../../../components/Menu";
+import Menu from '../../../components/Menu';
 
 const renderSelect = ({ input, label, options }) => (
   <div>
@@ -37,7 +37,7 @@ const renderSwitch = ({ input, label }) => (
       control={
         <Switch
           {...input}
-          checked={input.value ? true : false}
+          checked={!!input.value}
           onChange={input.onChange}
           value="checked"
           color="primary"
@@ -49,9 +49,9 @@ const renderSwitch = ({ input, label }) => (
   </div>
 );
 
-const circuit_length = [{ label: "18 M" }, { label: "24,5 M" }];
+const circuit_length = [{ label: '18 M' }, { label: '24,5 M' }];
 
-var Monofio = ({ values, history, handleSubmit, submitting }) => {
+let Monofio = ({ history, handleSubmit, submitting }) => {
   async function showResults() {
     history.push(`/paymentdetails`);
   }
@@ -101,16 +101,16 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(SelectActions, dispatch);
 
 const mapStateToProps = state => ({
-  values: getFormValues("infoReduxForm")(state),
+  values: getFormValues('infoReduxForm')(state),
   kit: state.select_infos.kit,
-  maquina: state.select_infos.maquina
+  maquina: state.select_infos.maquina,
 });
 
 Monofio = connect(mapStateToProps, mapDispatchToProps)(Monofio);
 
 export default withRouter(
   reduxForm({
-    form: "infoReduxForm",
-    destroyOnUnmount: false
-  })(Monofio)
+    form: 'infoReduxForm',
+    destroyOnUnmount: false,
+  })(Monofio),
 );

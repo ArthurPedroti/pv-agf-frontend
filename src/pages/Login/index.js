@@ -9,9 +9,7 @@ import pjson from '../../../package.json';
 import * as apiActions from '../../store/actions api/fetchBD';
 import logo from '../../assets/logo.svg';
 
-import {
-  Container, LoginWrapper, TextField, Button,
-} from './styles';
+import { Container, LoginWrapper, TextField, Button } from './styles';
 
 import {
   // loadSellers,
@@ -41,7 +39,7 @@ let Login = ({ history, values }) => {
     }
   }, [history, values]);
 
-  async function handleSubmit(e) {
+  async function handleSubmit() {
     if (password === 'agf123') {
       if (values.login === true) {
         history.push('/sellerdetails');
@@ -64,7 +62,16 @@ let Login = ({ history, values }) => {
         // await store.dispatch(loadPayment_methods());
         // await store.dispatch(loadFreights());
         await store.dispatch(change('infoReduxForm', 'login', true));
+        await store.dispatch(change('infoReduxForm', 'payment_type', false));
+        await store.dispatch(change('infoReduxForm', 'contrato', 'nao'));
         await store.dispatch(change('infoReduxForm', 'sync_date', new Date()));
+        await store.dispatch(
+          change(
+            'infoReduxForm',
+            'data_pc',
+            new Date().toISOString().substring(0, 10),
+          ),
+        );
 
         history.push('/sellerdetails');
       }
@@ -81,7 +88,7 @@ let Login = ({ history, values }) => {
           <TextField
             type="password"
             placeholder="Digite a senha"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
           />
           <span>{error}</span>
           <Button onClick={handleSubmit}>Login</Button>
@@ -93,11 +100,11 @@ let Login = ({ history, values }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   values: getFormValues('infoReduxForm')(state),
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(apiActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(apiActions, dispatch);
 
 Login = connect(mapStateToProps, mapDispatchToProps)(Login);
 
