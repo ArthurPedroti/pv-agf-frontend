@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { getFormValues, change, destroy } from 'redux-form';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -186,11 +186,29 @@ function Menu({ title, values, dispatch, history }) {
     handleClose();
   }
 
+  // const isServiceWorkerInitialized = useSelector(
+  //   state => state.serviceWorkerInitialized,
+  // );
+  // const isServiceWorkerUpdated = useSelector(
+  //   state => state.serviceWorkerUpdated,
+  // );
+  const serviceWorkerRegistration = useSelector(
+    swState => swState.serviceWorkerRegistration,
+  );
+
   async function UpdateServiceWorker() {
     handleOpen();
-    await navigator.serviceWorker.register('/sw.js').then(reg => {
-      reg.update();
-    });
+    const registrationWaiting = serviceWorkerRegistration.waiting;
+
+    if (registrationWaiting) {
+      registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
+
+      registrationWaiting.addEventListener('statechange', e => {
+        if (e.target.state === 'activated') {
+          window.location.reload();
+        }
+      });
+    }
     handleClose();
   }
 
