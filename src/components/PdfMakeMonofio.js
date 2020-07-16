@@ -488,8 +488,10 @@ export default function PdfMakeDefault({
                   { text: 'FRETE: ', bold: true },
                   values.frete,
                   '\n',
-                  { text: 'DATA PREVISÃO DE ENTREGA: ', bold: true },
-                  'A COMBINAR',
+                  { text: 'PREVISÃO DE ENTREGA: ', bold: true },
+                  values.delivery_date
+                    ? dataAtualFormatada(values.delivery_date)
+                    : 'A COMBINAR',
                   '\n',
                 ],
               },

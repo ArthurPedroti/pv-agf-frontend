@@ -84,6 +84,12 @@ let OtherDetails = ({ history, handleSubmit, submitting }) => {
               component={renderDate}
             />
             <Field
+              name="delivery_date"
+              label="Data de entrega:"
+              type="date"
+              component={renderDate}
+            />
+            <Field
               name="num_contrato"
               label="Nº Contrato:"
               type="text"

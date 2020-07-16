@@ -65,18 +65,17 @@
 ## Roadmap
 
 ### Bugs
-- [x] Loading "Imprimindo..." to "Gerando PDF"
+- [x] Loading text from "Imprimindo..." to "Gerando PDF"
 - [x] Don't show coupler if coupler isn't selected
 - [x] Put order date on the first item to appear(on confirmation)
-- [ ] Pushing groups from CDE
+- [x] Pushing groups from CDE
 
 ### Features
 - [x] Page for quick coupler orders
 - [x] Today order default value
-- [ ] Create an input of delivery date
+- [x] Create an input of delivery date
 - [ ] File explorer to save the pdf on mobile
 - [ ] Select the group before the products
-- [ ] Warranty field
 
 ## Install
 

@@ -144,6 +144,15 @@ function Menu({ title, values, dispatch, history }) {
     await dispatch(destroy('infoReduxForm'));
     await store.dispatch(change('infoReduxForm', 'login', true));
     await store.dispatch(change('infoReduxForm', 'sync_date', sync_date));
+    await store.dispatch(change('infoReduxForm', 'payment_type', false));
+    await store.dispatch(change('infoReduxForm', 'contrato', 'nao'));
+    await store.dispatch(
+      change(
+        'infoReduxForm',
+        'data_pc',
+        new Date().toISOString().substring(0, 10),
+      ),
+    );
     await store.dispatch(ProductCreators.resetProduct());
     await store.dispatch(PaymentCreators.resetPayment());
     await store.dispatch(SelectCreators.resetSelect());

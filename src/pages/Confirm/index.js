@@ -111,6 +111,10 @@ let Confirm = ({
     return data.toLocaleDateString('pt-BR', options);
   }
 
+  const mapProducts = produtos.map(produto => produto.value * produto.qtd);
+  const sumProducts =
+    mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
+
   return (
     <div>
       <Menu title="Confirme as informações" />
@@ -307,7 +311,7 @@ let Confirm = ({
                 </ExpansionPanelDetails>
               </ExpansionPanel>
             ) : null}
-            {values.payment_type === false ? (
+            {values.payment_type === true ? (
               <ExpansionPanel key="Pagamento">
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -357,7 +361,45 @@ let Confirm = ({
                   </TableContainer>
                 </ExpansionPanelDetails>
               </ExpansionPanel>
-            ) : null}
+            ) : (
+              <ExpansionPanel key="Frete">
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel2a-content"
+                  id="panel2a-header"
+                >
+                  <Typography className={classes.heading}>
+                    Informações do Pagamento
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <p>
+                    {values.entrada
+                      ? `Entrada de ${values.entrada.toLocaleString('pt-br', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        })}`
+                      : 'Sem entrada'}
+                    {values.num_parcelas &&
+                      ` / ${values.num_parcelas}x parcelas de ${(
+                        (sumProducts - values.entrada) /
+                        values.num_parcelas
+                      ).toLocaleString('pt-br', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      })} `}
+                    {values.num_parcelas &&
+                      (values.parcelas_type === 'ddl' ? ' (DDL) ' : '')}
+                    {values.int_parcelas &&
+                      `a cada ${values.int_parcelas} dias.`}
+                    <br />
+                    <br />
+                    <strong>Informações adicionais: </strong>
+                    {values.info_ad_pagamentoAuto} <br />
+                  </p>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            )}
             <ExpansionPanel key="Frete">
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
