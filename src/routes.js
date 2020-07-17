@@ -1,21 +1,21 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Login from "./pages/Login";
-import SellerDetails from "./pages/SellerDetails";
-import ClientDetails from "./pages/ClientDetails";
-import ClientRegister from "./pages/ClientRegister";
-import ProductDetails from "./pages/ProductDetails";
-import OrderOptions from "./pages/OrderOptions";
-import OrderDetails from "./pages/OrderDetails";
-import PaymentDetails from "./pages/PaymentDetails";
-import FreightDetails from "./pages/FreightDetails";
-import OtherDetails from "./pages/OtherDetails";
-import OrdersList from "./pages/OrdersList";
-import Confirm from "./pages/Confirm";
-import Success from "./pages/Success";
+import Login from './pages/Login';
+import SellerDetails from './pages/SellerDetails';
+import ClientDetails from './pages/ClientDetails';
+import ClientRegister from './pages/ClientRegister';
+import ProductDetails from './pages/ProductDetails';
+import OrderOptions from './pages/OrderOptions';
+import OrderDetails from './pages/OrderDetails';
+import PaymentDetails from './pages/PaymentDetails';
+import FreightDetails from './pages/FreightDetails';
+import OtherDetails from './pages/OtherDetails';
+import OrdersList from './pages/OrdersList';
+import Confirm from './pages/Confirm';
+import Success from './pages/Success';
 
-import AsyncNoMatch from "./pages/NoMatch";
+import AsyncNoMatch from './pages/NoMatch';
 
 function App() {
   return (
