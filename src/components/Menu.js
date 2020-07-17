@@ -200,8 +200,8 @@ function Menu({ title, values, dispatch, history }) {
 
   async function UpdateServiceWorker() {
     handleOpen();
-    serviceWorker.unregister();
-    serviceWorker.register();
+    await serviceWorker.unregister();
+    await serviceWorker.register();
     handleClose();
   }
 
