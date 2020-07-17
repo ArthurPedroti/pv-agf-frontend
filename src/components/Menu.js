@@ -36,6 +36,8 @@ import Fade from '@material-ui/core/Fade';
 import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import Button from '@material-ui/core/Button';
+import * as serviceWorker from '../serviceWorker';
+
 import { Creators as SelectCreators } from '../store/ducks/select_infos';
 import { Creators as PaymentCreators } from '../store/ducks/paymentList';
 import { Creators as ProductCreators } from '../store/ducks/productList';
@@ -192,23 +194,13 @@ function Menu({ title, values, dispatch, history }) {
   // const isServiceWorkerUpdated = useSelector(
   //   state => state.serviceWorkerUpdated,
   // );
-  const serviceWorkerRegistration = useSelector(
-    swState => swState.serviceWorkerRegistration,
-  );
+  // const serviceWorkerRegistration = useSelector(
+  //   swState => swState.serviceWorkerRegistration,
+  // );
 
   async function UpdateServiceWorker() {
     handleOpen();
-    const registrationWaiting = serviceWorkerRegistration.waiting;
-
-    if (registrationWaiting) {
-      registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
-
-      registrationWaiting.addEventListener('statechange', e => {
-        if (e.target.state === 'activated') {
-          window.location.reload();
-        }
-      });
-    }
+    serviceWorker.register();
     handleClose();
   }
 
