@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { getFormValues, change, destroy } from 'redux-form';
 
 import AppBar from '@material-ui/core/AppBar';
