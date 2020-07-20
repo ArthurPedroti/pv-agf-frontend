@@ -202,6 +202,7 @@ function Menu({ title, values, dispatch, history }) {
     handleOpen();
     await serviceWorker.unregister();
     await serviceWorker.register();
+    window.location.reload(false);
     handleClose();
   }
 
