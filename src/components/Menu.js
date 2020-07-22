@@ -287,15 +287,15 @@ function Menu({ title, values, dispatch, history }) {
       </List>
       <AppItemAction
         icon={<SettingsApplicationsIcon />}
-        subtitle={`v${pjson.version}`}
-        action={UpdateServiceWorker}
+        label="Modo Local"
+        subtitle={localStorage.getItem('@ASA')}
+        action={localMode}
         address={() => {}}
       />
       <AppItemAction
         icon={<SettingsApplicationsIcon />}
-        label="Modo Local"
-        subtitle={localStorage.getItem('@ASA')}
-        action={localMode}
+        subtitle={`v${pjson.version}`}
+        action={UpdateServiceWorker}
         address={() => {}}
       />
     </div>
