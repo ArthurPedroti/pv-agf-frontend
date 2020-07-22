@@ -160,6 +160,12 @@ function Menu({ title, values, dispatch, history }) {
     await store.dispatch(SelectCreators.resetSelect());
   }
 
+  const localMode = () => {
+    const currentMode = localStorage.getItem('@ASA');
+    localStorage.setItem('@ASA', currentMode === 'on' ? 'off' : 'on');
+    window.location.reload();
+  };
+
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -283,6 +289,13 @@ function Menu({ title, values, dispatch, history }) {
         icon={<SettingsApplicationsIcon />}
         subtitle={`v${pjson.version}`}
         action={UpdateServiceWorker}
+        address={() => {}}
+      />
+      <AppItemAction
+        icon={<SettingsApplicationsIcon />}
+        label="Modo Local"
+        subtitle={localStorage.getItem('@ASA')}
+        action={localMode}
         address={() => {}}
       />
     </div>
