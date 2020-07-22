@@ -14,6 +14,7 @@ import OtherDetails from './pages/OtherDetails';
 import OrdersList from './pages/OrdersList';
 import Confirm from './pages/Confirm';
 import Success from './pages/Success';
+import DifferentialRateCalculator from './pages/DifferentialRateCalculator';
 
 import AsyncNoMatch from './pages/NoMatch';
 
@@ -35,6 +36,11 @@ function App() {
           <Route exact path="/orderslist" component={OrdersList} />
           <Route exact path="/confirm" component={Confirm} />
           <Route exact path="/success" component={Success} />
+          <Route
+            exact
+            path="/differential-rate-calculator"
+            component={DifferentialRateCalculator}
+          />
           <Route component={AsyncNoMatch} />
         </Switch>
       </div>
