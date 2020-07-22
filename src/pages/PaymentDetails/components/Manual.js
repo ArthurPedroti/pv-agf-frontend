@@ -61,6 +61,7 @@ const payments = [
   { label: 'Cartão de Crédito' },
   { label: 'Cheque' },
   { label: 'Financiamento Bancário' },
+  { label: 'Outros' },
 ];
 
 let ManualPayment = ({
