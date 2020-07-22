@@ -135,6 +135,12 @@ function Menu({ title, values, dispatch, history }) {
     return `${dia}/${mes}/${ano}`;
   }
 
+  const localMode = () => {
+    const currentMode = localStorage.getItem('@ASA');
+    localStorage.setItem('@ASA', currentMode === 'on' ? 'off' : 'on');
+    window.location.reload();
+  };
+
   async function logout() {
     await store.dispatch(change('infoReduxForm', 'login', false));
     await history.push('/');
@@ -283,6 +289,13 @@ function Menu({ title, values, dispatch, history }) {
         icon={<SettingsApplicationsIcon />}
         subtitle={`v${pjson.version}`}
         action={UpdateServiceWorker}
+        address={() => {}}
+      />
+      <AppItemAction
+        icon={<SettingsApplicationsIcon />}
+        label="Modo Local"
+        subtitle={localStorage.getItem('@ASA')}
+        action={localMode}
         address={() => {}}
       />
     </div>
