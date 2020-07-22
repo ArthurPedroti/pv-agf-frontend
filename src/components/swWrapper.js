@@ -24,12 +24,12 @@ const ServiceWorkerWrapper = () => {
   return (
     <Snackbar
       open={showReload}
-      message="A new version is available!"
+      message="Uma nova versão está disponível!"
       onClick={reloadPage}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       action={
         <Button color="inherit" size="small" onClick={reloadPage}>
-          Reload
+          Recarregar
         </Button>
       }
     />
