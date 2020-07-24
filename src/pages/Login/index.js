@@ -34,33 +34,49 @@ let Login = ({ history, values }) => {
   const [error, setError] = React.useState('');
 
   React.useEffect(() => {
-    if (values.login === true) {
-      history.push('/sellerdetails');
+    if (values) {
+      if (values.login === true) {
+        history.push('/sellerdetails');
+      }
     }
   }, [history, values]);
 
   async function handleSubmit() {
-    if (password === 'agf123') {
-      if (values.login === true) {
+    if (password === 'modolocal') {
+      if (values && values.login === true) {
         history.push('/sellerdetails');
       }
-      if (values.sync_date) {
+      if (values && values.sync_date) {
         await store.dispatch(change('infoReduxForm', 'login', true));
         history.push('/sellerdetails');
       } else {
         setLoading(<CircularProgress />);
-        // await store.dispatch(loadSellers());
-        // await store.dispatch(loadOperation_natures());
+        await store.dispatch(change('infoReduxForm', 'login', true));
+        await store.dispatch(change('infoReduxForm', 'payment_type', false));
+        await store.dispatch(change('infoReduxForm', 'contrato', 'nao'));
+        await store.dispatch(change('infoReduxForm', 'sync_date', new Date()));
+        await store.dispatch(
+          change(
+            'infoReduxForm',
+            'data_pc',
+            new Date().toISOString().substring(0, 10),
+          ),
+        );
+
+        history.push('/sellerdetails');
+      }
+    }
+    if (password === 'agf123') {
+      if (values && values.login === true) {
+        history.push('/sellerdetails');
+      }
+      if (values && values.sync_date) {
+        await store.dispatch(change('infoReduxForm', 'login', true));
+        history.push('/sellerdetails');
+      } else {
+        setLoading(<CircularProgress />);
         await store.dispatch(loadSystem_clients());
-        // await store.dispatch(loadSeller_clients());
         await store.dispatch(loadProducts());
-        // await store.dispatch(loadKits());
-        // await store.dispatch(loadMachines());
-        // await store.dispatch(loadImportant_infos());
-        // await store.dispatch(loadConditions());
-        // await store.dispatch(loadTool_types());
-        // await store.dispatch(loadPayment_methods());
-        // await store.dispatch(loadFreights());
         await store.dispatch(change('infoReduxForm', 'login', true));
         await store.dispatch(change('infoReduxForm', 'payment_type', false));
         await store.dispatch(change('infoReduxForm', 'contrato', 'nao'));
