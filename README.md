@@ -64,16 +64,10 @@
 
 ## Roadmap
 
-### Bugs
-- [x] Loading text from "Imprimindo..." to "Gerando PDF"
-- [x] Don't show coupler if coupler isn't selected
-- [x] Put order date on the first item to appear(on confirmation)
-- [x] Pushing groups from CDE
-
 ### Features
-- [x] Page for quick coupler orders
-- [x] Today order default value
-- [x] Create an input of delivery date
+- [x] Local mode to be used at AGF local network
+- [x] Rate Differential Calculator
+- [x] Message to advise when an updated was be launched
 - [ ] File explorer to save the pdf on mobile
 - [ ] Select the group before the products
 
