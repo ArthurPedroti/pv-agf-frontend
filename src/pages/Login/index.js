@@ -44,6 +44,8 @@ let Login = ({ history, values }) => {
   async function handleSubmit() {
     if (password === 'modolocal') {
       if (values && values.login === true) {
+        const currentMode = localStorage.getItem('@ASA');
+        localStorage.setItem('@ASA', currentMode === 'on' ? 'off' : 'on');
         history.push('/sellerdetails');
       }
       if (values && values.sync_date) {
