@@ -193,7 +193,7 @@ let DifferentialRateCalculator = ({ submitting }) => {
 
   return (
     <div>
-      <Menu title="Informações dos Produtos" />
+      <Menu title="Calculadora de Diferencial de Alíquota" />
 
       <Container maxWidth="md" component="main" align="center">
         <Container>
@@ -269,7 +269,7 @@ let DifferentialRateCalculator = ({ submitting }) => {
               <Typography variant="h5" component="h2">
                 <p>
                   <strong>Diferencial de alíquota: </strong>
-                  {icmsDestiny - icmsOrigin}%
+                  {(icmsDestiny - icmsOrigin).toFixed(2)}%
                 </p>
                 <p>
                   <strong>Valor do diferencial: </strong>
