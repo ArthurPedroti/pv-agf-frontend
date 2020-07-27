@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
@@ -8,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import NumberFormat from 'react-number-format';
 
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -71,7 +69,7 @@ const ufs = [
   { label: 'TO' },
 ];
 
-let DifferentialRateCalculator = ({ submitting }) => {
+let DifferentialRateCalculator = () => {
   const classes = useStyles();
 
   const [value, setValue] = useState('');
@@ -189,8 +187,6 @@ let DifferentialRateCalculator = ({ submitting }) => {
     setProductInfo(productFound);
   }, [product]);
 
-  const handleSubmit = () => {};
-
   return (
     <div>
       <Menu title="Calculadora de Diferencial de Alíquota" />
@@ -228,7 +224,7 @@ let DifferentialRateCalculator = ({ submitting }) => {
             </NativeSelect>
           </FormControl>
           <NumberFormat
-            label="Valor da entrada"
+            label="Valor do produto"
             margin="normal"
             fullWidth
             onValueChange={e => setValue(e.value)}
@@ -299,31 +295,15 @@ let DifferentialRateCalculator = ({ submitting }) => {
                   {icmsDestiny}%
                 </p>
                 <p style={{ margin: 0 }}>
-                  QUEM PAGA?
+                  <h3>Quem paga?</h3>
+                  Se o que cliente for contribuinte: CLIENTE
                   <br />
-                  CLIENTE CONTRIBUINTE: CLIENTE
-                  <br />
-                  CLIENTE NÃO CONTRIBUINTE: AGF
+                  Se o que cliente <strong>não</strong> for contribuinte: AGF
                 </p>
               </Typography>
             </CardContent>
           </Card>
         </Container>
-
-        <Link to="/clientdetails">
-          <Button variant="contained" style={{ margin: 15 }}>
-            Voltar
-          </Button>
-        </Link>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit}
-          style={{ margin: 15 }}
-          disabled={submitting}
-        >
-          Continuar
-        </Button>
       </Container>
     </div>
   );
