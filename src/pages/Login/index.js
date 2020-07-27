@@ -43,10 +43,10 @@ let Login = ({ history, values }) => {
 
   async function handleSubmit() {
     if (password === 'modolocal') {
+      localStorage.setItem('@ASA', 'on');
       if (values && values.login === true) {
-        const currentMode = localStorage.getItem('@ASA');
-        localStorage.setItem('@ASA', currentMode === 'on' ? 'off' : 'on');
         history.push('/sellerdetails');
+        window.location.reload();
       }
       if (values && values.sync_date) {
         await store.dispatch(change('infoReduxForm', 'login', true));
@@ -66,6 +66,7 @@ let Login = ({ history, values }) => {
         );
 
         history.push('/sellerdetails');
+        window.location.reload();
       }
     }
     if (password === 'agf123') {
