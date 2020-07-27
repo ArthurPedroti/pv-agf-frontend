@@ -62,15 +62,6 @@
 - **#Redux-Thunk**
 - **#Redux-Sauce**
 
-## Roadmap
-
-### Features
-- [x] Local mode to be used at AGF local network
-- [x] Rate Differential Calculator
-- [x] Message to advise when an updated was be launched
-- [ ] File explorer to save the pdf on mobile
-- [ ] Select the group before the products
-
 ## Install
 
 ```sh
