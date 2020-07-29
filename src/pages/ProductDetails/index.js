@@ -23,6 +23,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import IconButton from '@material-ui/core/IconButton';
 
 import { message } from 'antd';
+import { useEffect } from 'react';
 import Menu from '../../components/Menu';
 
 import { Creators as ProductActions } from '../../store/ducks/productList';
@@ -47,7 +48,7 @@ function NumberFormatCustom(props) {
     <NumberFormat
       {...other}
       getInputRef={inputRef}
-      onValueChange={(values) => {
+      onValueChange={values => {
         onChange({
           target: {
             value: values.value,
@@ -78,8 +79,20 @@ let ProdutoDetails = ({
   const [value, setValue] = useState('');
   const [qtd, setQtd] = useState('');
   const [errors, setErrors] = useState({});
+  const [totalSum, setTotalSum] = useState('');
 
-  const handleAdd = (e) => {
+  useEffect(() => {
+    if (productList) {
+      const mapProducts = productList.map(
+        produto => produto.value * produto.qtd,
+      );
+      const sumProducts =
+        mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
+      setTotalSum(sumProducts);
+    }
+  }, [productList]);
+
+  const handleAdd = e => {
     e.preventDefault();
 
     if (!products) {
@@ -124,14 +137,14 @@ let ProdutoDetails = ({
             <form onSubmit={handleAdd}>
               <WindowedSelect
                 options={productsSelect}
-                getOptionLabel={(option) => option.descricao}
-                onChange={(changedItem) => setProducts(changedItem)}
+                getOptionLabel={option => option.descricao}
+                onChange={changedItem => setProducts(changedItem)}
               />
               <TextField
                 label="Valor"
                 margin="normal"
                 fullWidth
-                onChange={(e) => setValue(e.target.value)}
+                onChange={e => setValue(e.target.value)}
                 InputProps={{
                   inputComponent: NumberFormatCustom,
                 }}
@@ -141,7 +154,7 @@ let ProdutoDetails = ({
                 margin="normal"
                 fullWidth
                 type="number"
-                onChange={(e) => setQtd(e.target.value)}
+                onChange={e => setQtd(e.target.value)}
               />
               <Typography variant="overline" display="block" gutterBottom>
                 {errors.product}
@@ -169,7 +182,7 @@ let ProdutoDetails = ({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {productList.map((product) => (
+                    {productList.map(product => (
                       <TableRow key={product.id}>
                         <TableCell align="center">
                           {productList.indexOf(product) + 1}
@@ -197,6 +210,20 @@ let ProdutoDetails = ({
                   </TableBody>
                 </Table>
               </TableContainer>
+              <Typography
+                variant="overline"
+                display="block"
+                align="right"
+                gutterBottom
+              >
+                <strong>
+                  Valor total:{' '}
+                  {totalSum.toLocaleString('pt-br', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  })}
+                </strong>
+              </Typography>
               <Field
                 name="info_ad_produtos"
                 label="Informações adicionais:"
@@ -235,12 +262,13 @@ let ProdutoDetails = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   productsSelect: state.bd_selects.products,
   productList: state.productList,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(ProductActions, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(ProductActions, dispatch);
 
 ProdutoDetails = connect(mapStateToProps, mapDispatchToProps)(ProdutoDetails);
 

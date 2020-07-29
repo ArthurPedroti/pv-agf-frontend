@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import NumberFormat from 'react-number-format';
@@ -83,6 +83,16 @@ let ManualPayment = ({
   const [value, setValue] = useState('');
   const [condition, setCondition] = useState('');
   const [errors, setErrors] = useState({});
+  const [totalSum, setTotalSum] = useState('');
+
+  useEffect(() => {
+    if (paymentList) {
+      const mapProducts = paymentList.map(produto => produto.value);
+      const sumProducts =
+        mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
+      setTotalSum(sumProducts);
+    }
+  }, [paymentList]);
 
   function dataAtualFormatada(input) {
     const data = new Date(input);
@@ -326,6 +336,20 @@ let ManualPayment = ({
                 </TableBody>
               </Table>
             </TableContainer>
+            <Typography
+              variant="overline"
+              display="block"
+              align="right"
+              gutterBottom
+            >
+              <strong>
+                Valor total:{' '}
+                {totalSum.toLocaleString('pt-br', {
+                  style: 'currency',
+                  currency: 'BRL',
+                })}
+              </strong>
+            </Typography>
           </Container>
         </section>
         <Field
