@@ -189,7 +189,7 @@ let DifferentialRateCalculator = () => {
 
   return (
     <div>
-      <Menu title="Calculadora de Diferencial de Alíquota" />
+      <Menu title="Diferencial de Alíquota" />
 
       <Container maxWidth="md" component="main" align="center">
         <Container>

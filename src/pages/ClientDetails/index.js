@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm, Field, getFormValues } from 'redux-form';
+import { reduxForm, Field, getFormValues, change } from 'redux-form';
 
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -16,12 +16,13 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Creators as SelectActions } from '../../store/ducks/select_infos';
+import { store } from '../../store';
 
 import Menu from '../../components/Menu';
 
 const customStyles = {
-  menu: (styles) => ({ ...styles, zIndex: 999 }),
-  container: (provided) => ({
+  menu: styles => ({ ...styles, zIndex: 999 }),
+  container: provided => ({
     ...provided,
     marginBottom: 10,
   }),
@@ -32,6 +33,19 @@ const renderInput = ({ input, label, placeholder }) => (
     <TextField
       {...input}
       required
+      label={label}
+      placeholder={placeholder}
+      fullWidth
+      margin="normal"
+      size="small"
+    />
+  </div>
+);
+
+const renderInputNoReq = ({ input, label, placeholder }) => (
+  <div>
+    <TextField
+      {...input}
       label={label}
       placeholder={placeholder}
       fullWidth
@@ -66,6 +80,19 @@ let ClientDetails = ({
   handleSubmit,
   submitting,
 }) => {
+  const handleClientChange = useCallback(
+    changedItem => {
+      toggleClient(changedItem);
+      store.dispatch(
+        change('infoReduxForm', 'nome_contato', changedItem.contato),
+      );
+      store.dispatch(
+        change('infoReduxForm', 'email_contato', changedItem.email),
+      );
+    },
+    [toggleClient],
+  );
+
   async function showResults() {
     if (!cliente) {
       message.error('Selecione o cliente!');
@@ -82,7 +109,7 @@ let ClientDetails = ({
             options={clientList}
             value={cliente}
             styles={customStyles}
-            theme={(theme) => ({
+            theme={theme => ({
               ...theme,
               colors: {
                 ...theme.colors,
@@ -96,8 +123,8 @@ let ClientDetails = ({
             isClearable
             windowThreshold="10"
             placeholder="Selecione um cliente"
-            onChange={(changedItem) => toggleClient(changedItem)}
-            getOptionLabel={(option) => `${option.razao_social} - ${option.cnpj}`}
+            onChange={changedItem => toggleClient(changedItem)}
+            getOptionLabel={option => `${option.razao_social} - ${option.cnpj}`}
           />
         );
       }
@@ -107,7 +134,7 @@ let ClientDetails = ({
         options={system_clients}
         value={cliente}
         styles={customStyles}
-        theme={(theme) => ({
+        theme={theme => ({
           ...theme,
           colors: {
             ...theme.colors,
@@ -121,8 +148,8 @@ let ClientDetails = ({
         isClearable
         windowThreshold="10"
         placeholder="Selecione um cliente"
-        onChange={(changedItem) => toggleClient(changedItem)}
-        getOptionLabel={(option) => `${option.razao_social} - ${option.cnpj}`}
+        onChange={changedItem => handleClientChange(changedItem)}
+        getOptionLabel={option => `${option.razao_social} - ${option.cnpj}`}
       />
     );
   }
@@ -151,7 +178,7 @@ let ClientDetails = ({
               name="cargo_contato"
               label="Cargo do contato"
               type="text"
-              component={renderInput}
+              component={renderInputNoReq}
             />
             <Field
               name="email_contato"
@@ -189,9 +216,10 @@ let ClientDetails = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(SelectActions, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(SelectActions, dispatch);
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   values: getFormValues('infoReduxForm')(state),
   system_clients: state.bd_selects.system_clients,
   cliente: state.select_infos.cliente,
