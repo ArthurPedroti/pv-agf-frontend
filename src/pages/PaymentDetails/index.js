@@ -74,7 +74,7 @@ let PaymentDetails = ({
       const mapPayments = parcelas.map(parcela => parcela.value);
       sumPayments =
         mapPayments.length > 0
-          ? Math.round(mapPayments.reduce((a, b) => a + b))
+          ? Number(parseFloat(mapPayments.reduce((a, b) => a + b)).toFixed(2))
           : 0;
       if (sumProducts === sumPayments) {
         return history.push('/freightdetails');
