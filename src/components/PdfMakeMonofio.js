@@ -144,7 +144,9 @@ export default function PdfMakeDefault({
     mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
   const mapPayments = parcelas.map(parcela => parcela.value);
   let sumPayments =
-    mapPayments.length > 0 ? mapPayments.reduce((a, b) => a + b) : 0;
+    mapPayments.length > 0
+      ? Number(parseFloat(mapPayments.reduce((a, b) => a + b)).toFixed(2))
+      : 0;
 
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd03 = values.payment_type
@@ -595,12 +597,7 @@ export default function PdfMakeDefault({
       });
       errorCount += 1;
     }
-    if (
-      !cliente ||
-      !values.nome_contato ||
-      !values.cargo_contato ||
-      !values.email_contato
-    ) {
+    if (!cliente || !values.nome_contato || !values.email_contato) {
       setErrors(prevState => ({
         ...prevState,
         cliente: 'Preencha todos os dados obrigatórios do cliente!',
