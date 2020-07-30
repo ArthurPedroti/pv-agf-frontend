@@ -650,12 +650,7 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
       });
       errorCount += 1;
     }
-    if (
-      !cliente ||
-      !values.nome_contato ||
-      !values.cargo_contato ||
-      !values.email_contato
-    ) {
+    if (!cliente || !values.nome_contato || !values.email_contato) {
       setErrors(prevState => ({
         ...prevState,
         cliente: 'Preencha todos os dados obrigatórios do cliente!',
