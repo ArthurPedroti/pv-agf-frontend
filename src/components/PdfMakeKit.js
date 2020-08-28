@@ -166,6 +166,19 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
     ? infoAdd(values.info_ad_pagamento)
     : '';
 
+  const ponteira = pont => {
+    if (pont) {
+      return [
+        { text: 'TIPO DE PONTEIRA: ', bold: true },
+        values.tipo_ponteira,
+        '\n\n',
+      ];
+    }
+    return [];
+  };
+
+  const ponteiraValue = ponteira(values.tipo_ponteira);
+
   const paymentType = input => {
     if (input) {
       return;
@@ -479,9 +492,7 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
                   { text: 'INFORMAÇÕES RELEVANTES: ', bold: true },
                   values.informacoes_relevantes,
                   '\n',
-                  { text: 'TIPO DE PONTEIRA: ', bold: true },
-                  values.tipo_ponteira,
-                  '\n\n',
+                  ...ponteiraValue,
                   ...pontExtraFormated,
                 ],
               },
