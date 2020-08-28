@@ -58,6 +58,20 @@ const renderSelect = ({ input, label, options }) => (
   </div>
 );
 
+const renderSelectNoReq = ({ input, label, options }) => (
+  <div>
+    <FormControl fullWidth margin="normal">
+      <InputLabel>{label}</InputLabel>
+      <NativeSelect {...input}>
+        <option value="" key={Math.random()} />
+        {options.map(option => (
+          <option key={option.label}>{option.label}</option>
+        ))}
+      </NativeSelect>
+    </FormControl>
+  </div>
+);
+
 const renderSwitch = ({ input, label }) => (
   <div>
     <FormControlLabel
@@ -206,7 +220,7 @@ let Kit = ({ values, history, handleSubmit, submitting }) => {
               label="Tipo de ponteira:"
               options={tool_types}
               type="text"
-              component={renderSelect}
+              component={renderSelectNoReq}
             />
             <Field
               name="pont_extra"
