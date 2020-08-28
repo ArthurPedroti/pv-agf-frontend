@@ -9,9 +9,10 @@ export function fetchSellers(sellers) {
 }
 
 export function loadSellers() {
-  return (dispatch) => api.get('/sellers').then((response) => {
-    dispatch(fetchSellers(response.data));
-  });
+  return dispatch =>
+    api.get('/sellers').then(response => {
+      dispatch(fetchSellers(response.data));
+    });
 }
 
 // FETCH_OPERATION_NATURES
@@ -23,9 +24,10 @@ export function fetchOperation_natures(operation_natures) {
 }
 
 export function loadOperation_natures() {
-  return (dispatch) => api.get('/ons').then((response) => {
-    dispatch(fetchOperation_natures(response.data));
-  });
+  return dispatch =>
+    api.get('/ons').then(response => {
+      dispatch(fetchOperation_natures(response.data));
+    });
 }
 
 // FETCH_SYSTEM_CLIENTS
@@ -37,9 +39,10 @@ export function fetchSystem_clients(system_clients) {
 }
 
 export function loadSystem_clients() {
-  return (dispatch) => api.get('/clients').then((response) => {
-    dispatch(fetchSystem_clients(response.data));
-  });
+  return dispatch =>
+    api.get('/clients').then(response => {
+      dispatch(fetchSystem_clients(response.data));
+    });
 }
 
 // FETCH_SELLER_CLIENTS
@@ -51,9 +54,10 @@ export function fetchSeller_clients(seller_clients) {
 }
 
 export function loadSeller_clients() {
-  return (dispatch) => api.get('/sellerclients').then((response) => {
-    dispatch(fetchSeller_clients(response.data));
-  });
+  return dispatch =>
+    api.get('/sellerclients').then(response => {
+      dispatch(fetchSeller_clients(response.data));
+    });
 }
 
 // FETCH_PRODUCTS
@@ -65,15 +69,18 @@ export function fetchProducts(products) {
 }
 
 export function loadProducts() {
-  return (dispatch) => api.get('/products', {
-    headers: {
-      filial: '01',
-      grupo:
-        "0010','0020','0030','0040','0050','0060','0070','0080','0090','0091','0092','0093','0094','0095','0097','0110','0120','0130','0200','0201','0202','0203','0204','0300','0301','0350','0360','0370','0375','0380','0390','0400','0401','0490','0500','0510','0520','0530','0540','0550','0560','0570', '9999",
-    },
-  }).then((response) => {
-    dispatch(fetchProducts(response.data));
-  });
+  return dispatch =>
+    api
+      .get('/products', {
+        headers: {
+          filial: '01',
+          grupo:
+            "0010','0020','0030','0040','0050','0060','0070','0080','0090','0091','0092','0093','0094','0095','0097','0110','0120','0130','0200','0201','0202','0203','0204','0300','0301','0350','0360','0370','0375','0380','0390','0400','0401','0490','0500','0501','0502','0503','0510','0520','0530','0540','0550','0560','0570', '9999",
+        },
+      })
+      .then(response => {
+        dispatch(fetchProducts(response.data));
+      });
 }
 
 // FETCH_KITS
@@ -85,9 +92,10 @@ export function fetchKits(kits) {
 }
 
 export function loadKits() {
-  return (dispatch) => api.get('/kits').then((response) => {
-    dispatch(fetchKits(response.data));
-  });
+  return dispatch =>
+    api.get('/kits').then(response => {
+      dispatch(fetchKits(response.data));
+    });
 }
 
 // FETCH_MACHINES
@@ -99,9 +107,10 @@ export function fetchMachines(machines) {
 }
 
 export function loadMachines() {
-  return (dispatch) => api.get('/machines').then((response) => {
-    dispatch(fetchMachines(response.data));
-  });
+  return dispatch =>
+    api.get('/machines').then(response => {
+      dispatch(fetchMachines(response.data));
+    });
 }
 
 // FETCH_IMPORTANT_INFOS
@@ -113,9 +122,10 @@ export function fetchImportant_infos(important_infos) {
 }
 
 export function loadImportant_infos() {
-  return (dispatch) => api.get('/importantinfos').then((response) => {
-    dispatch(fetchImportant_infos(response.data));
-  });
+  return dispatch =>
+    api.get('/importantinfos').then(response => {
+      dispatch(fetchImportant_infos(response.data));
+    });
 }
 
 // FETCH_CONDITIONS
@@ -127,9 +137,10 @@ export function fetchConditions(conditions) {
 }
 
 export function loadConditions() {
-  return (dispatch) => api.get('/conditions').then((response) => {
-    dispatch(fetchConditions(response.data));
-  });
+  return dispatch =>
+    api.get('/conditions').then(response => {
+      dispatch(fetchConditions(response.data));
+    });
 }
 
 // FETCH_TOOL_TYPES
@@ -141,9 +152,10 @@ export function fetchTool_types(tool_types) {
 }
 
 export function loadTool_types() {
-  return (dispatch) => api.get('/tooltypes').then((response) => {
-    dispatch(fetchTool_types(response.data));
-  });
+  return dispatch =>
+    api.get('/tooltypes').then(response => {
+      dispatch(fetchTool_types(response.data));
+    });
 }
 
 // FETCH_PAYMENT_METHODS
@@ -155,9 +167,10 @@ export function fetchPayment_methods(payment_methods) {
 }
 
 export function loadPayment_methods() {
-  return (dispatch) => api.get('/paymentmethods').then((response) => {
-    dispatch(fetchPayment_methods(response.data));
-  });
+  return dispatch =>
+    api.get('/paymentmethods').then(response => {
+      dispatch(fetchPayment_methods(response.data));
+    });
 }
 
 // FETCH_FREIGHTS
@@ -169,7 +182,8 @@ export function fetchFreights(freights) {
 }
 
 export function loadFreights() {
-  return (dispatch) => api.get('/freights').then((response) => {
-    dispatch(fetchFreights(response.data));
-  });
+  return dispatch =>
+    api.get('/freights').then(response => {
+      dispatch(fetchFreights(response.data));
+    });
 }
