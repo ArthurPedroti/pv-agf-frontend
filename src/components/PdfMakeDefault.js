@@ -620,7 +620,11 @@ export default function PdfMakeDefault({
       await new Promise(resolve => setTimeout(resolve, 500));
       pdfMake
         .createPdf(documentDefinition)
-        .download(`${cliente.razao_social} - ${dataAtualFormatada(hoje)}`);
+        .download(
+          `${cliente.razao_social.replace(/\./g, '')} - ${dataAtualFormatada(
+            hoje,
+          )}`,
+        );
       handleClose();
     }
 
