@@ -78,8 +78,14 @@ let Login = ({ history, values }) => {
         history.push('/sellerdetails');
       } else {
         setLoading(<CircularProgress />);
-        await store.dispatch(loadSystem_clients());
-        await store.dispatch(loadProducts());
+        try {
+          await store.dispatch(loadSystem_clients());
+          await store.dispatch(loadProducts());
+        } catch (err) {
+          setLoading('');
+          setError('Houve um erro, por favor tente novamente');
+          throw new Error(err);
+        }
         await store.dispatch(change('infoReduxForm', 'login', true));
         await store.dispatch(change('infoReduxForm', 'payment_type', false));
         await store.dispatch(change('infoReduxForm', 'contrato', 'nao'));

@@ -166,8 +166,15 @@ function Menu({ title, values, dispatch, history }) {
 
   async function SyncData() {
     handleOpen();
-    await store.dispatch(loadSystem_clients());
-    await store.dispatch(loadProducts());
+    try {
+      await store.dispatch(loadSystem_clients());
+      await store.dispatch(loadProducts());
+    } catch (err) {
+      handleClose();
+      // eslint-disable-next-line no-alert
+      window.alert('Houve um erro, por favor tente novamente');
+    }
+
     values.sync_date = new Date();
     handleClose();
   }
