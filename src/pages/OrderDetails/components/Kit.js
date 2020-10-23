@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
@@ -140,7 +140,7 @@ const tool_types = [
 ];
 
 let Kit = ({ values, history, handleSubmit, submitting }) => {
-  function ExtraToolOptions() {
+  const ExtraToolOptions = useCallback(() => {
     if (values.pont_extra) {
       return (
         <>
@@ -161,7 +161,7 @@ let Kit = ({ values, history, handleSubmit, submitting }) => {
       );
     }
     return null;
-  }
+  }, [values.pont_extra]);
 
   async function showResults() {
     history.push('/paymentdetails');
