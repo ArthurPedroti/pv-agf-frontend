@@ -139,6 +139,35 @@ export default function PdfMakeDefault({
     return [...arr1, ...arr2];
   };
 
+  const differentFreghtLocation = () => {
+    if (values.freight_options) {
+      return [
+        '\n',
+        { text: 'ENDEREÇO DE ENTREGA: ', bold: true },
+        '\n',
+        { text: 'Endereço: ', bold: true },
+        values.freight_address,
+        '\n',
+        { text: 'Bairro: ', bold: true },
+        values.freight_neighborhood,
+        '\n',
+        { text: 'Cidade: ', bold: true },
+        values.freight_city,
+        '\n',
+        { text: 'UF: ', bold: true },
+        values.freight_uf,
+        '\n',
+        { text: 'CEP: ', bold: true },
+        values.freight_cep,
+        '\n',
+        values.freight_tel && { text: 'Telefone: ', bold: true },
+        values.freight_tel && values.freight_tel,
+        values.freight_tel && '\n',
+      ];
+    }
+    return [];
+  };
+
   const mapProducts = produtos.map(produto => produto.value * produto.qtd);
   const sumProducts =
     mapProducts.length > 0 ? mapProducts.reduce((a, b) => a + b) : 0;
@@ -233,6 +262,7 @@ export default function PdfMakeDefault({
           .concat(values.data_pc.slice(0, 4))
       : null;
 
+  const differentFreghtDetails = differentFreghtLocation();
   const contrato = values.contrato === 'sim' ? 'SIM' : 'NÃO';
   const formattedProducts = productsFormat(produtos);
   const formattedPayments = paymentsFormat(parcelas);
@@ -469,6 +499,7 @@ export default function PdfMakeDefault({
                     ? dataAtualFormatada(values.delivery_date)
                     : 'A COMBINAR',
                   '\n',
+                  ...differentFreghtDetails,
                 ],
               },
               {
