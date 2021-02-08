@@ -172,6 +172,15 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
       ? Number(parseFloat(mapPayments.reduce((a, b) => a + b)).toFixed(2))
       : 0;
 
+  let contribuinteInfo;
+  if (cliente.contribuinte === undefined || cliente.contribuinte === '') {
+    contribuinteInfo = [];
+  } else if (cliente.contribuinte === '1') {
+    contribuinteInfo = [{ text: 'Contribuinte: ', bold: true }, 'Sim', '\n'];
+  } else {
+    contribuinteInfo = [{ text: 'Contribuinte: ', bold: true }, 'Não', '\n'];
+  }
+
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd02 = infoAdd(values.info_ad_qc);
   const infoAdd03 = values.payment_type
@@ -367,6 +376,7 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
                   { text: 'Inscrição Estadual: ', bold: true },
                   cliente.inscricao_estadual,
                   '\n',
+                  ...contribuinteInfo,
                   { text: 'Telefone: ', bold: true },
                   cliente.telefone,
                   '\n',

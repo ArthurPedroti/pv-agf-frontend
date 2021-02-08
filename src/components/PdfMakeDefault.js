@@ -177,6 +177,15 @@ export default function PdfMakeDefault({
       ? Number(parseFloat(mapPayments.reduce((a, b) => a + b)).toFixed(2))
       : 0;
 
+  let contribuinteInfo;
+  if (cliente.contribuinte === undefined || cliente.contribuinte === '') {
+    contribuinteInfo = [];
+  } else if (cliente.contribuinte === '1') {
+    contribuinteInfo = [{ text: 'Contribuinte: ', bold: true }, 'Sim', '\n'];
+  } else {
+    contribuinteInfo = [{ text: 'Contribuinte: ', bold: true }, 'Não', '\n'];
+  }
+
   const infoAdd01 = infoAdd(values.info_ad_produtos);
   const infoAdd03 = values.payment_type
     ? infoAdd(values.info_ad_pagamento)
@@ -371,6 +380,7 @@ export default function PdfMakeDefault({
                   { text: 'Inscrição Estadual: ', bold: true },
                   cliente.inscricao_estadual,
                   '\n',
+                  ...contribuinteInfo,
                   { text: 'Telefone: ', bold: true },
                   cliente.telefone,
                   '\n',
