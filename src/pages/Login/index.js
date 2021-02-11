@@ -40,18 +40,18 @@ let Login = ({ history, values }) => {
           history.push('/sellerdetails');
         }
       }
-      const reponse = await fetch('https://api.ipify.org')
-        .then(res => res.text())
-        .then(data => data);
-      localStorage.setItem('@ASA', reponse);
+      const response = await fetch('https://api.ipify.org').then(res =>
+        res.text(),
+      );
+      localStorage.setItem('@ASA', response);
     };
     test();
   }, [history, values]);
 
   async function handleSubmit() {
-    const reponse = await fetch('https://api.ipify.org')
-      .then(res => res.text())
-      .then(data => data);
+    const reponse = await fetch('https://api.ipify.org').then(res =>
+      res.text(),
+    );
     localStorage.setItem('@ASA', reponse);
     if (reponse === '186.193.142.154') {
       if (values && values.login === true) {
