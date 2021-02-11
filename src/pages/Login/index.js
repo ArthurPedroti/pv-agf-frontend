@@ -34,16 +34,26 @@ let Login = ({ history, values }) => {
   const [error, setError] = React.useState('');
 
   React.useEffect(() => {
-    if (values) {
-      if (values.login === true) {
-        history.push('/sellerdetails');
+    const test = async () => {
+      if (values) {
+        if (values.login === true) {
+          history.push('/sellerdetails');
+        }
       }
-    }
+      const reponse = await fetch('https://api.ipify.org')
+        .then(res => res.text())
+        .then(data => data);
+      localStorage.setItem('@ASA', reponse);
+    };
+    test();
   }, [history, values]);
 
   async function handleSubmit() {
-    if (password === 'modolocal') {
-      localStorage.setItem('@ASA', 'on');
+    const reponse = await fetch('https://api.ipify.org')
+      .then(res => res.text())
+      .then(data => data);
+    localStorage.setItem('@ASA', reponse);
+    if (reponse === '186.193.142.154') {
       if (values && values.login === true) {
         history.push('/sellerdetails');
         window.location.reload();
