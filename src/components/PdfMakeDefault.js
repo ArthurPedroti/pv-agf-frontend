@@ -497,6 +497,8 @@ export default function PdfMakeDefault({
                   '\n',
                   { text: 'C/C: 34963-0' },
                   '\n',
+                  { text: 'PIX: 11.681.470/0001-84' },
+                  '\n',
                 ],
               },
               {
