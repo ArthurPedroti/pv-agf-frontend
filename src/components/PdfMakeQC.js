@@ -52,7 +52,6 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
     produtoParams.map(produto => [
       { text: produto.product.codigo, style: 'centerLine' },
       { text: produto.product.descricao, style: 'centerLine' },
-      { text: produto.product.desc_grupo, style: 'centerLine' },
       { text: produto.qtd, style: 'centerLine' },
       {
         text: produto.value.toLocaleString('pt-br', {
@@ -422,14 +421,14 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
       '\n',
       {
         table: {
-          widths: [60, '*', 60, 30, 80, 80],
+          widths: [60, '*', 30, 80, 80],
           body: [
             [
               {
                 text: 'PRODUTOS',
                 alignment: 'center',
                 bold: true,
-                colSpan: 6,
+                colSpan: 5,
                 fontSize: 9,
                 fillColor: '#dddddd',
               },
@@ -437,12 +436,10 @@ export default function PdfMakeKit({ cliente, values, produtos, parcelas }) {
               {},
               {},
               {},
-              {},
             ],
             [
               { text: 'CÓDIGO', style: 'centerHeader' },
-              { text: 'PRODUTO', style: 'centerHeader' },
-              { text: 'GRUPO', style: 'centerHeader' },
+              { text: 'DESCRIÇÃO DO PRODUTO', style: 'centerHeader' },
               { text: 'QTD', style: 'centerHeader' },
               { text: 'PREÇO UNIT', style: 'centerHeader' },
               { text: 'TOTAL', style: 'centerHeader' },
